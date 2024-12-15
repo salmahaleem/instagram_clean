@@ -1,0 +1,40 @@
+{
+  "Authentication":{
+  "email": "البريد الإلكتروني",
+  "password": "كلمة المرور",
+  "login": "تسجيل الدخول",
+  "register": " سجل الآن.",
+  "Do not have an email?": "ليس لديك بريد إلكتروني؟",
+  "phone": "التليفون",
+  "usernames": "الاسم",
+  "Gender": "جنس",
+  "already_have_account": "هل لديك حساب بالفعل؟"
+  },
+
+  "time_9_41": "٩:٤١",
+  "sponsored": "برعاية",
+  "rating": "تصنيف",
+  "likes": " إعجاب",
+  "post_description": "لوريم إيبسوم دولور سيت أميت، كونسيكتيتور أديبيسينغ إليت، سيد دو إياسمود تيمبور... المزيد",
+  "view_comments": "عرض جميع ١٦ تعليقًا",
+  "add_comment": "أضف تعليقًا...",
+  "time_elapsed": "منذ ٣٠ دقيقة",
+  "stats": {
+    "posts": "١٬٢٣٤",
+    "followers": "٥٬٦٧٨",
+    "following": "٩٬١٠١"
+  },
+  "category": "النص الخاص بالفئة/النوع",
+  "hashtag": "#هاشتاج",
+  "link_placeholder": "الرابط هنا",
+  "followed_by": "متبوع بواسطة اسم المستخدم، اسم المستخدم و١٠٠ آخرين",
+  "actions": {
+    "follow": "متابعة",
+    "message": "رسالة",
+    "subscribe": "اشتراك",
+    "contact": "تواصل"
+  },
+  "cta": "نص الدعوة هنا",
+  "shop_now": "تسوق الآن",
+  "website_link": "انتقل إلى www.websitehere.com"
+}

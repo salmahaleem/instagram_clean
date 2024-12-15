@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "578862938675",
+    "project_id": "instagram-cleanarcth",
+    "storage_bucket": "instagram-cleanarcth.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:578862938675:android:5da3729a8622ee57048146",
+        "android_client_info": {
+          "package_name": "com.example.instagram_clean"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuL4irmm6R60nLWBSFVlmDEB8Oivpvs-o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
