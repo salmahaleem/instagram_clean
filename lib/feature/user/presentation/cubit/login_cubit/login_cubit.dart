@@ -17,21 +17,21 @@ class LoginCubit extends Cubit<LoginState> {
   
   LoginCubit({required this.loginUseCase,required this.isLoginUseCase,required this.getCurrentUserIdUseCase}) : super(LoginInitial());
 
-  Future<void> checkIsLogin()async{
-    try {
-      bool isSignIn = await isLoginUseCase.call();
-      if (isSignIn == true) {
-
-        final uid = await getCurrentUserIdUseCase.call();
-        emit(LoginSuccess(uid: uid));
-      } else {
-        emit(LoginFailed("this user not login"));
-      }
-    } catch(_) {
-      emit(LoginFailed("error in checkIsLogin func"));
-    }
-
-  }
+  // Future<void> checkIsLogin()async{
+  //   try {
+  //     bool isSignIn = await isLoginUseCase.call();
+  //     if (isSignIn == true) {
+  //
+  //       final uid = await getCurrentUserIdUseCase.call();
+  //       emit(LoginSuccess(uid: uid));
+  //     } else {
+  //       emit(LoginFailed("this user not login"));
+  //     }
+  //   } catch(_) {
+  //     emit(LoginFailed("error in checkIsLogin func"));
+  //   }
+  //
+  // }
 
   Future<void> login(UserEntity user) async {
     if (!Constant.reformKey.currentState!.validate()) {
@@ -41,7 +41,7 @@ class LoginCubit extends Cubit<LoginState> {
     emit(LoginLoading());
     try {
       await loginUseCase.call(user);
-      emit(LoginSuccess(uid: ''));
+      emit(LoginSuccess(uid: user.uid!));
     } catch (error) {
       emit(LoginFailed("$error is error"));
     }

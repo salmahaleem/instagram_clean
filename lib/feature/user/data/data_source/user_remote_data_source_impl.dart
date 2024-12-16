@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:instagram_clean/core/utils/constant.dart';
+import 'package:instagram_clean/feature/user/data/models/user_model.dart';
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 import 'package:instagram_clean/feature/user/domain/repository/user_firebase_repo.dart';
 
@@ -16,36 +18,36 @@ class UserRemoteDataSourceImpl implements UserFirebaseRepo {
   });
 
   @override
-  // Future<void> createUser(UserEntity user) async{
-  //   final userCollection = firebaseFirestore.collection(Constant.users);
-  //
-  //   final uid = await getCurrentUserId();
-  //
-  //   userCollection.doc(uid).get().then((userDoc) {
-  //     final newUser = UserModel(
-  //         uid: uid,
-  //         name: user.name,
-  //         email: user.email,
-  //         bio: user.bio,
-  //         following: user.following,
-  //         website: user.website,
-  //         profileUrl: user.profileUrl,
-  //         username: user.username,
-  //         totalFollowers: user.totalFollowers,
-  //         followers: user.followers,
-  //         totalFollowing: user.totalFollowing,
-  //         totalPosts: user.totalPosts
-  //     ).toJson();
-  //
-  //     if (!userDoc.exists) {
-  //       userCollection.doc(uid).set(newUser);
-  //     } else {
-  //       userCollection.doc(uid).update(newUser);
-  //     }
-  //   }).catchError((error) {
-  //     print("error in createUser ");
-  //   });
-  // }
+  Future<void> createUser(UserEntity user) async{
+    final userCollection = firebaseFirestore.collection(Constant.users);
+
+    final uid = await getCurrentUserId();
+
+    userCollection.doc(uid).get().then((userDoc) {
+      final newUser = UserModel(
+          uid: uid,
+          name: user.name,
+          email: user.email,
+          bio: user.bio,
+          following: user.following,
+          website: user.website,
+          profileUrl: user.profileUrl,
+          username: user.username,
+          totalFollowers: user.totalFollowers,
+          followers: user.followers,
+          totalFollowing: user.totalFollowing,
+          totalPosts: user.totalPosts
+      ).toJson();
+
+      if (!userDoc.exists) {
+        userCollection.doc(uid).set(newUser);
+      } else {
+        userCollection.doc(uid).update(newUser);
+      }
+    }).catchError((error) {
+      print("error in createUser ");
+    });
+  }
 
   @override
   Future<String> getCurrentUserId()async => await firebaseAuth.currentUser!.uid;
@@ -53,15 +55,13 @@ class UserRemoteDataSourceImpl implements UserFirebaseRepo {
   @override
   Future<void> signup(UserEntity user) async{
     try{
-      final credential = await firebaseAuth.createUserWithEmailAndPassword(email: user.email!, password: user.password!);
-      User? userCreate = credential.user;
-      if(userCreate != null){
-        await createUser(user);
-      }
-      //     .then((value)
-      // {
-      //   if(value.)
-      // });
+       await firebaseAuth.createUserWithEmailAndPassword(email: user.email!, password: user.password!)
+          .then((value) async
+      {
+        if(value.user?.uid != null){
+          await createUser(user);
+        }
+      });
     } on FirebaseAuthException catch (e) {
       if (e.code == "email-already-in-use") {
         print("email is already exist");
@@ -131,9 +131,5 @@ class UserRemoteDataSourceImpl implements UserFirebaseRepo {
     throw UnimplementedError();
   }
 
-  @override
-  Future<void> createUser(UserEntity user) {
-    // TODO: implement createUser
-    throw UnimplementedError();
-  }
+
 }

@@ -9,16 +9,11 @@ import 'package:instagram_clean/generated/assets.dart';
 
 
 class LoginLogo extends StatelessWidget{
-  checkTheme(){
-    if(ThemeData == AppTheme.lightTheme){
-      return Image(
-          image:AssetImage(Assets.imagesLightLogo)
-      );
-    }
-    else if(ThemeData == AppTheme.darkTheme){
-      return Image(
-          image:AssetImage(Assets.imagesInstagramLogo)
-      );
+  Widget checkTheme(BuildContext context) {
+    if (Theme.of(context).brightness == Brightness.light) {
+      return Image.asset(Assets.imagesLightLogo);
+    } else {
+      return Image.asset(Assets.imagesInstagramLogo);
     }
   }
   @override
@@ -26,7 +21,7 @@ class LoginLogo extends StatelessWidget{
     return SizedBox(
       height: 68.h,
       width: 244.w,
-      child: checkTheme()
+      child: checkTheme(context)
     );
   }
 }

@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
                 ? languageState.locale
                 : const Locale('en');
             return ScreenUtilInit(
-                designSize: const Size(375, 812),
+                designSize: const Size(360, 690),
                 minTextAdapt: true,
                 builder: (context, child) {
                   return MaterialApp.router(

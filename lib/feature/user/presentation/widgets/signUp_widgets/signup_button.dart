@@ -43,7 +43,17 @@ class SignupButton extends StatelessWidget {
             return InstagramButton(
                 text: "${LocaleKeys.authenticationRegister.tr()}",
                 onPressed: () {
-                  context.read<SignUpCubit>().signup(userEntity!);
+    if (userEntity != null) {
+    context.read<SignUpCubit>().signup(userEntity!);
+    } else {
+    ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+    content: Text("User data is missing"),
+    backgroundColor: Color(0xFFEF5350),
+    ),
+    );
+    }
+
                 });
           },
         ),

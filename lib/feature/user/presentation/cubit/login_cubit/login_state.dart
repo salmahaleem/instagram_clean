@@ -9,7 +9,6 @@ final class LoginLoading extends LoginState {}
 
 final class LoginSuccess extends LoginState {
   final String uid;
-
   LoginSuccess({required this.uid});
 }
 

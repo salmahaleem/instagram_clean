@@ -9,7 +9,12 @@ import 'package:instagram_clean/core/widgets/instagramTextField.dart';
 import 'package:instagram_clean/generated/locale_keys.dart';
 
 
-class SignupForm extends StatelessWidget {
+class SignupForm extends StatefulWidget {
+  @override
+  State<SignupForm> createState() => _SignupFormState();
+}
+
+class _SignupFormState extends State<SignupForm> {
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -34,7 +39,9 @@ class SignupForm extends StatelessWidget {
             isObscureText: Constant.isPassVis,
             suffixIcon: GestureDetector(
               onTap: (){
-                Constant.isPassVis = !Constant.isPassVis;
+                setState(() {
+                  Constant.isPassVis = !Constant.isPassVis;
+                });
               },
               child: Icon(Constant.isPassVis? Icons.visibility : Icons.visibility_off)
             ),
@@ -85,7 +92,4 @@ class SignupForm extends StatelessWidget {
       ),
     );
   }
-
-
-
 }

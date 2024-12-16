@@ -12,6 +12,7 @@ class LoginForm extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Form(
+      key: Constant.reformKey,
       child: Column(
         children: [
           InstagramTextField(
