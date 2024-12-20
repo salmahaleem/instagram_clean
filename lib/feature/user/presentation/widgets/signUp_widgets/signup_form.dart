@@ -32,7 +32,7 @@ class _SignupFormState extends State<SignupForm> {
               return null;
             },
           ),
-          verticalSpace(20.h),
+          verticalSpace(8.h),
           InstagramTextField(
             hintText: LocaleKeys.authenticationPassword.tr(),
             controller: Constant.password,
@@ -43,7 +43,7 @@ class _SignupFormState extends State<SignupForm> {
                   Constant.isPassVis = !Constant.isPassVis;
                 });
               },
-              child: Icon(Constant.isPassVis? Icons.visibility : Icons.visibility_off)
+              child: Icon(Constant.isPassVis? Icons.visibility_off : Icons.visibility)
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -52,19 +52,19 @@ class _SignupFormState extends State<SignupForm> {
               return null;
             },
           ),
-          verticalSpace(20.h),
+          verticalSpace(8.h),
           InstagramTextField(
-            hintText: LocaleKeys.authenticationUsernames.tr(),
+            hintText: LocaleKeys.authenticationUsername.tr(),
             controller: Constant.username,
             isObscureText: false,
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return LocaleKeys.authenticationUsernames.tr();
+                return LocaleKeys.authenticationUsername.tr();
               }
               return null;
             },
           ),
-          verticalSpace(20.h),
+          verticalSpace(8.h),
           InstagramTextField(
             hintText: LocaleKeys.authenticationGender.tr(),
             controller: Constant.gender,
@@ -76,7 +76,7 @@ class _SignupFormState extends State<SignupForm> {
               return null;
             },
           ),
-          verticalSpace(20.h),
+          verticalSpace(8.h),
           InstagramTextField(
             hintText: LocaleKeys.authenticationPhone.tr(),
             controller: Constant.phone,

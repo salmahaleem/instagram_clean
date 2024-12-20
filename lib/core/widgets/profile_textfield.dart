@@ -2,8 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class InstagramTextField extends StatelessWidget{
-
+class ProfileTextField extends StatelessWidget{
   final String hintText;
   final TextEditingController? controller;
   final bool? isObscureText;
@@ -13,7 +12,7 @@ class InstagramTextField extends StatelessWidget{
 
   final String? Function(String?)? validator;
 
-  const InstagramTextField({
+  const ProfileTextField({
     Key? key,
     required this.hintText,
     required this.controller,
@@ -23,28 +22,24 @@ class InstagramTextField extends StatelessWidget{
     this.decoration
 
   }): super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.r),
-        ),
-        contentPadding: EdgeInsets.symmetric(
-          vertical: 20.h,
-          horizontal: 16.w,
-        ),
-        hintText: hintText,
-        hintStyle: Theme.of(context).textTheme.titleLarge,
-        suffixIcon: suffixIcon,
-        filled: true,
-        fillColor: Theme.of(context).inputDecorationTheme.fillColor
+          border: UnderlineInputBorder(),
+          contentPadding: EdgeInsets.symmetric(
+            vertical: 15.h,
+            horizontal: 5.w
+          ),
+          hintText: hintText,
+          hintStyle: Theme.of(context).textTheme.titleSmall,
+          suffixIcon: suffixIcon,
       ),
       controller: controller,
       validator: validator,
       obscureText: isObscureText!,
     );
+
   }
 
 }

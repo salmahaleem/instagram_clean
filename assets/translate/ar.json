@@ -6,10 +6,30 @@
   "register": " سجل الآن.",
   "Do not have an email?": "ليس لديك بريد إلكتروني؟",
   "phone": "التليفون",
-  "usernames": "الاسم",
+  "username": "الاسم",
   "Gender": "جنس",
   "already_have_account": "هل لديك حساب بالفعل؟"
   },
+  "Profile": {
+    "posts": "منشورات",
+    "followers": "متابعين",
+    "following": "متابعة",
+    "edit_profile": "تعديل الملف الشخصى",
+    "follow": "متابعة",
+    "done": "تم",
+    "cancel":"الغاء",
+    "bio": "سيرة ذاتية",
+    "website": "موقع الكترونى",
+    "private_information":"معلومات خاصة",
+    "female": "أنثى",
+    "male": "ذكر"
+  },
+  "Settings":{
+  "language": "اللغة",
+  "mode": "وضع",
+  "logOut": "تسجيل الخروج",
+  "saved": "العناصر المحفوظة"
+},
 
   "time_9_41": "٩:٤١",
   "sponsored": "برعاية",
@@ -19,17 +39,12 @@
   "view_comments": "عرض جميع ١٦ تعليقًا",
   "add_comment": "أضف تعليقًا...",
   "time_elapsed": "منذ ٣٠ دقيقة",
-  "stats": {
-    "posts": "١٬٢٣٤",
-    "followers": "٥٬٦٧٨",
-    "following": "٩٬١٠١"
-  },
   "category": "النص الخاص بالفئة/النوع",
   "hashtag": "#هاشتاج",
   "link_placeholder": "الرابط هنا",
   "followed_by": "متبوع بواسطة اسم المستخدم، اسم المستخدم و١٠٠ آخرين",
   "actions": {
-    "follow": "متابعة",
+
     "message": "رسالة",
     "subscribe": "اشتراك",
     "contact": "تواصل"

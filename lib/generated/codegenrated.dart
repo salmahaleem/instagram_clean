@@ -15,10 +15,32 @@ class CodeGenerated extends AssetLoader{
       "register": "Register.",
       "do_not_have_an_email?": "Do not have an email?",
       "phone": "Phone",
-      "usernames": "Usernames",
+      "username": "Username",
       "Gender": "Gender",
       "already_have_account": "Already have an Account"
-    }
+    },
+    "Profile": {
+      "posts": "posts",
+      "followers": "followers",
+      "following": "following",
+      "edit_profile": "Edit Profile",
+      "follow": "Follow",
+      "done":"Done",
+      "cancel":"Cancel",
+      "bio": "Bio",
+      "website": "Website",
+      "private_information":"Private Information",
+      "female": "Female",
+      "male": "Male"
+    },
+    "Settings":{
+      "language": "Language",
+      "mode": "Mode",
+      "logOut": "LogOut",
+      "saved": "Saved"
+
+    },
+
   };
 
   static const Map<String, dynamic> ar = {
@@ -29,10 +51,30 @@ class CodeGenerated extends AssetLoader{
       "register": "سجل.",
       "do_not_have_an_email?": "هل ليس لديك بريد إلكتروني؟",
       "phone": "الهاتف",
-      "usernames": "أسماء المستخدمين",
+      "username": "أسماء المستخدمين",
       "Gender": "الجنس",
        "already_have_account": "هل لديك حساب بالفعل؟",
-    }
+    },
+    "Profile": {
+      "posts": "منشورات",
+      "followers": "متابعين",
+      "following": "متابعة",
+      "edit_profile": "تعديل الملف الشخصى",
+      "follow": "متابعة",
+      "done": "تم",
+      "cancel":"الغاء",
+      "bio": "سيرة ذاتية",
+      "website": "موقع الكترونى",
+      "private_information":"معلومات خاصة",
+      "female": "أنثى",
+      "male": "ذكر"
+    },
+    "Settings":{
+      "language": "اللغة",
+      "mode": "وضع",
+      "logOut": "تسجيل الخروج",
+      "saved": "العناصر المحفوظة"
+    },
   };
 
   static const Map<String, Map<String, dynamic>> mapLocales = {

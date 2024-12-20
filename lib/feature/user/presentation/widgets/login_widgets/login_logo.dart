@@ -18,10 +18,13 @@ class LoginLogo extends StatelessWidget{
   }
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 68.h,
-      width: 244.w,
-      child: checkTheme(context)
+    return Align(
+      alignment: AlignmentDirectional.topStart,
+      child: SizedBox(
+        height: 68.h,
+        width: 200.w,
+        child: checkTheme(context)
+      ),
     );
   }
 }

@@ -4,7 +4,6 @@ import 'dart:io';
 class UserEntity  {
   final String? uid;
   final String? username;
-  final String? name;
   final String? bio;
   final String? phone;
   final String? gender;
@@ -26,7 +25,6 @@ class UserEntity  {
     this.imageFile,
     this.uid,
     this.username,
-    this.name,
     this.bio,
     this.website,
     this.email,

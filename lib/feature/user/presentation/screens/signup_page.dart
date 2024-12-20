@@ -19,16 +19,18 @@ class SignupPage extends StatelessWidget {
           .scaffoldBackgroundColor,
       body: Padding(
         padding: const EdgeInsets.all(12.0),
-        child: Column(
-          children: [
-            SignupLogo(),
-            verticalSpace(50.h),
-            SignupPhoto(onImagePicked: (String value) {},),
-            verticalSpace(20.h),
-            SignupForm(),
-            verticalSpace(30.h),
-            SignupButton(),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SignupLogo(),
+              verticalSpace(20.h),
+              SignupPhoto(),
+              verticalSpace(20.h),
+              SignupForm(),
+              verticalSpace(10.h),
+              SignupButton(),
+            ],
+          ),
         ),
       ),
     );

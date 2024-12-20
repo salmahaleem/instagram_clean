@@ -12,12 +12,10 @@ import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/signup_cubit/sign_up_cubit.dart';
 import 'package:instagram_clean/generated/locale_keys.dart';
 
-
-
 class SignupButton extends StatelessWidget {
   final UserEntity? userEntity;
 
-  SignupButton({super.key, this.userEntity});
+  SignupButton({this.userEntity});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -31,6 +29,7 @@ class SignupButton extends StatelessWidget {
                   backgroundColor: Color(0xFFA5D6A7),
                 ),
               );
+              context.go('/profile');
             } else if (state is SignUpFailed) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
@@ -40,24 +39,17 @@ class SignupButton extends StatelessWidget {
             }
           },
           builder: (context, state) {
+            if (state is SignUpLoading) {
+              return Center(child: CircularProgressIndicator());
+            }
             return InstagramButton(
                 text: "${LocaleKeys.authenticationRegister.tr()}",
                 onPressed: () {
-    if (userEntity != null) {
-    context.read<SignUpCubit>().signup(userEntity!);
-    } else {
-    ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-    content: Text("User data is missing"),
-    backgroundColor: Color(0xFFEF5350),
-    ),
-    );
-    }
-
+                  context.read<SignUpCubit>().signup();
                 });
           },
         ),
-        verticalSpace(20.h),
+        verticalSpace(8.h),
         RichText(
           textAlign: TextAlign.center,
           text: TextSpan(

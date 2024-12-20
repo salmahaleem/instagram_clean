@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:instagram_clean/core/utils/styles.dart';
 import 'package:instagram_clean/generated/assets.dart';
 
 
@@ -16,10 +15,13 @@ class SignupLogo extends StatelessWidget{
   }
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 68.h,
-      width: 244.w,
-      child: checkTheme(context),
+    return Align(
+      alignment: AlignmentDirectional.topStart,
+      child: SizedBox(
+        height: 68.h,
+        width: 200.w,
+        child: checkTheme(context),
+      ),
     );
   }
 }

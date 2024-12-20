@@ -7,6 +7,9 @@ class LoginUseCase {
   LoginUseCase({required this.userFirebaseRepo});
 
   Future<void> call(UserEntity userEntity) async{
+    if (userEntity.email == null || userEntity.password == null) {
+      throw ArgumentError("Email and Password cannot be null");
+    }
     return await userFirebaseRepo.login(userEntity);
   }
 }

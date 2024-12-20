@@ -10,13 +10,19 @@ part 'sign_up_state.dart';
 class SignUpCubit extends Cubit<SignUpState> {
    SignupUseCase signupUseCase;
 
-
   SignUpCubit({required this.signupUseCase})
       : super(SignUpInitial());
 
-  Future<void> signup(UserEntity user) async {
-    if (!Constant.reformKey.currentState!.validate()) {
-      emit(SignUpFailed("Please enter your info"));
+  Future<void> signup() async {
+   final UserEntity user = UserEntity(
+     email: Constant.email.text,
+     password: Constant.password.text,
+     username: Constant.username.text,
+     gender: Constant.gender.text,
+     phone: Constant.phone.text,
+   );
+    if (user.email!.isEmpty || user.password!.isEmpty) {
+      emit(SignUpFailed("Email and password cannot be empty"));
       return;
     }
     emit(SignUpLoading());
@@ -27,7 +33,6 @@ class SignUpCubit extends Cubit<SignUpState> {
       emit(SignUpFailed("$error is error"));
     }
   }
-
 }
 
 @override
@@ -36,5 +41,6 @@ void close() {
   Constant.password.dispose();
   Constant.username.dispose();
   Constant.phone.dispose();
+  Constant.gender.dispose();
   return close();
 }

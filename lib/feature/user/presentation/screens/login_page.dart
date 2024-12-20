@@ -10,6 +10,9 @@ import 'package:instagram_clean/feature/user/presentation/widgets/login_widgets/
 
 
 class LoginPage extends StatelessWidget{
+  const LoginPage({super.key});
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,9 +24,9 @@ class LoginPage extends StatelessWidget{
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             LoginLogo(),
-            verticalSpace(50.h),
+            verticalSpace(20.h),
             LoginForm(),
-            verticalSpace(30.h),
+            verticalSpace(10.h),
             LoginButton(),
           ],
         ),

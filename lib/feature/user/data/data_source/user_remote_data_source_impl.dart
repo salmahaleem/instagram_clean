@@ -18,64 +18,110 @@ class UserRemoteDataSourceImpl implements UserFirebaseRepo {
   });
 
   @override
-  Future<void> createUser(UserEntity user) async{
-    final userCollection = firebaseFirestore.collection(Constant.users);
+  Future<void> createUser(UserEntity user) async {
+    try {
+      final userCollection = firebaseFirestore.collection(Constant.users);
+      final uid = await getCurrentUserId();
 
-    final uid = await getCurrentUserId();
-
-    userCollection.doc(uid).get().then((userDoc) {
       final newUser = UserModel(
-          uid: uid,
-          name: user.name,
-          email: user.email,
-          bio: user.bio,
-          following: user.following,
-          website: user.website,
-          profileUrl: user.profileUrl,
-          username: user.username,
-          totalFollowers: user.totalFollowers,
-          followers: user.followers,
-          totalFollowing: user.totalFollowing,
-          totalPosts: user.totalPosts
+        uid: uid,
+        email: user.email,
+        phone: user.phone,
+        gender: user.gender,
+        bio: user.bio,
+        following: user.following,
+        website: user.website,
+        profileUrl: user.profileUrl,
+        username: user.username,
+        totalFollowers: user.totalFollowers,
+        followers: user.followers,
+        totalFollowing: user.totalFollowing,
+        totalPosts: user.totalPosts,
       ).toJson();
 
-      if (!userDoc.exists) {
-        userCollection.doc(uid).set(newUser);
-      } else {
-        userCollection.doc(uid).update(newUser);
-      }
-    }).catchError((error) {
-      print("error in createUser ");
-    });
-  }
-
-  @override
-  Future<String> getCurrentUserId()async => await firebaseAuth.currentUser!.uid;
-
-  @override
-  Future<void> signup(UserEntity user) async{
-    try{
-       await firebaseAuth.createUserWithEmailAndPassword(email: user.email!, password: user.password!)
-          .then((value) async
-      {
-        if(value.user?.uid != null){
-          await createUser(user);
-        }
-      });
-    } on FirebaseAuthException catch (e) {
-      if (e.code == "email-already-in-use") {
-        print("email is already exist");
-      } else {
-        print("wrong in signUp");
-      }
+      // Use `set` with `merge: true` to update or create without needing a read
+      await userCollection.doc(uid).set(newUser, SetOptions(merge: true));
+    } catch (error) {
+      print("Error in createUser: $error");
+      rethrow; // Propagate error up for better handling in higher layers
     }
   }
 
   @override
-  Future<void> login(UserEntity user) async{
+  Future<String> getCurrentUserId() async =>
+      await firebaseAuth.currentUser!.uid;
+
+  @override
+  Future<void> signup(UserEntity user) async {
+    try {
+      // Input validation
+      if (user.email == null || user.email!.isEmpty) {
+        throw Exception("Email must not be empty.");
+      }
+
+      if (user.password == null || user.password!.isEmpty) {
+        throw Exception("Password must not be empty.");
+      }
+      // Attempt to create a new user with Firebase Authentication
+      final result = await firebaseAuth.createUserWithEmailAndPassword(
+        email: user.email!,
+        password: user.password!,
+      );
+
+      // If the user was successfully created, save their data to Firestore
+      if (result.user?.uid != null) {
+        await createUser(user); // Create user profile in Firestore
+      }
+    } on FirebaseAuthException catch (e) {
+      // Handle specific Firebase authentication errors
+      switch (e.code) {
+        case "email-already-in-use":
+          throw Exception(
+              "This email is already in use. Please try a different email.");
+        case "weak-password":
+          throw Exception(
+              "The password provided is too weak. Please use a stronger password.");
+        default:
+          throw Exception(
+              "Sign-up failed: ${e.message ?? "Unknown error occurred."}");
+      }
+    } catch (error) {
+      // Handle unexpected errors
+      throw Exception("An unexpected error occurred during sign-up: $error");
+    }
+    // try {
+    //   if (user.email == null || user.password == null) {
+    //     throw Exception("Email and password must not be null.");
+    //   }
+    //
+    //   final result = await firebaseAuth.createUserWithEmailAndPassword(
+    //     email: user.email!,
+    //     password: user.password!,
+    //   );
+    //
+    //   if (result.user?.uid != null) {
+    //     await createUser(user); // Create user profile in Firestore
+    //   }
+    // } on FirebaseAuthException catch (e) {
+    //   if (e.code == "email-already-in-use") {
+    //     print("Error: Email already exists.");
+    //   } else {
+    //     print("Error during sign-up: ${e.message}");
+    //   }
+    //   rethrow; // Propagate error for handling at a higher level
+    // } catch (error) {
+    //   print("Unexpected error during sign-up: $error");
+    //   rethrow;
+    // }
+
+  }
+
+  @override
+  Future<void> login(UserEntity user) async {
     try {
       if (user.email!.isNotEmpty || user.password!.isNotEmpty) {
-        await firebaseAuth.signInWithEmailAndPassword(email: user.email!, password: user.password!);
+        await firebaseAuth.signInWithEmailAndPassword(
+            email: user.email!, password: user.password!);
       } else {
         print("enter your email and password");
       }
@@ -92,11 +138,30 @@ class UserRemoteDataSourceImpl implements UserFirebaseRepo {
   Future<bool> isLogin() async => firebaseAuth.currentUser?.uid != null;
 
   @override
-  Future<void> logout() {
-    // TODO: implement logout
-    throw UnimplementedError();
+  Future<void> logout() async{
+    await firebaseAuth.signOut();
   }
 
+  @override
+  Stream<List<UserEntity>> getSingleUser(String uid) {
+    final userCollection = firebaseFirestore.collection(Constant.users).where(
+        "uid", isEqualTo: uid).limit(1);
+    return userCollection.snapshots().map((querySnapshot) =>
+        querySnapshot.docs.map((e) => UserModel.fromSnapshot(e)).toList());
+  }
+
+  @override
+  Stream<List<UserEntity>> getAllUsers(UserEntity user) {
+    final userCollection = firebaseFirestore.collection(Constant.users);
+    return userCollection.snapshots().map((querySnapshot) =>
+        querySnapshot.docs.map((e) => UserModel.fromSnapshot(e)).toList());
+  }
+
+  @override
+  Stream<List<UserEntity>> getSingleOtherUser(String otherUid) {
+    final userCollection = firebaseFirestore.collection(Constant.users).where("uid", isEqualTo: otherUid).limit(1);
+    return userCollection.snapshots().map((querySnapshot) => querySnapshot.docs.map((e) => UserModel.fromSnapshot(e)).toList());
+  }
 
   @override
   Future<void> followUnFollowUser(UserEntity user) {
@@ -105,31 +170,26 @@ class UserRemoteDataSourceImpl implements UserFirebaseRepo {
   }
 
   @override
-  Stream<List<UserEntity>> getAllUsers(UserEntity user) {
-    // TODO: implement getAllUsers
-    throw UnimplementedError();
+  Future<void> updateUser(UserEntity user) async{
+    final userCollection = firebaseFirestore.collection(Constant.users);
+    Map<String, dynamic> userInformation = Map();
+
+    if (user.username != "" && user.username != null) userInformation['username'] = user.username;
+
+    if (user.website != "" && user.website != null) userInformation['website'] = user.website;
+
+    if (user.profileUrl != "" && user.profileUrl != null) userInformation['profileUrl'] = user.profileUrl;
+
+    if (user.bio != "" && user.bio != null) userInformation['bio'] = user.bio;
+
+    if (user.totalFollowing != null) userInformation['totalFollowing'] = user.totalFollowing;
+
+    if (user.totalFollowers != null) userInformation['totalFollowers'] = user.totalFollowers;
+
+    if (user.totalPosts != null) userInformation['totalPosts'] = user.totalPosts;
+
+
+    userCollection.doc(user.uid).update(userInformation);
   }
-
-
-
-  @override
-  Stream<List<UserEntity>> getSingleOtherUser(String otherUid) {
-    // TODO: implement getSingleOtherUser
-    throw UnimplementedError();
-  }
-
-  @override
-  Stream<List<UserEntity>> getSingleUser(String uid) {
-    // TODO: implement getSingleUser
-    throw UnimplementedError();
-  }
-
-
-  @override
-  Future<void> updateUser(UserEntity user) {
-    // TODO: implement updateUser
-    throw UnimplementedError();
-  }
-
-
 }
+

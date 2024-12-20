@@ -5,10 +5,32 @@
   "register": " Register.",
   "do_not_have_an_email?": "Do not have an email?",
   "phone": "Phone",
-  "usernames": "Usernames",
+  "username": "Username",
   "Gender": "Gender",
   "already_have_account": "Already have an Account"
 },
+  "Profile": {
+    "posts": "posts",
+    "followers": "followers",
+    "following": "following",
+    "edit_profile": "Edit Profile",
+    "follow": "Follow",
+    "done": "Done",
+    "cancel":"Cancel",
+    "bio": "Bio",
+    "website": "Website",
+    "private_information":"Private Information",
+    "female": "Female",
+    "male": "Male"
+
+  },
+  "Settings":{
+    "language": "Language",
+    "mode": "Mode",
+    "logOut": "LogOut",
+    "saved": "Saved"
+  },
+
   "sponsored": "Sponsored",
   "rating": "Rating",
   "likes": " Likes",
@@ -16,17 +38,12 @@
   "view_comments": "View all 16 comments",
   "add_comment": "Add a comment...",
   "time_elapsed": "30 minutes ago",
-  "stats": {
-    "posts": "1,234",
-    "followers": "5,678",
-    "following": "9,101"
-  },
   "category": "Category/Genre text",
   "hashtag": "#hashtag",
   "link_placeholder": "Link goes here",
   "followed_by": "Followed by username, username and 100 others",
   "actions": {
-    "follow": "Follow",
+
     "message": "Message",
     "subscribe": "Subscribe",
     "contact": "Contact"

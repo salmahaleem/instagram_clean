@@ -13,8 +13,12 @@ class Constant {
   static TextEditingController phone = TextEditingController();
   static TextEditingController username = TextEditingController();
   static TextEditingController gender = TextEditingController();
-  static  bool isPassVis = false;
+  static TextEditingController website = TextEditingController();
+  static TextEditingController bio = TextEditingController();
+  static  bool isPassVis = true;
   static GlobalKey <FormState> reformKey = GlobalKey <FormState> ();
+  static GlobalKey <FormState> formKey = GlobalKey <FormState> ();
+
 
 
 

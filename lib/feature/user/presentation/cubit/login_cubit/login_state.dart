@@ -8,8 +8,8 @@ final class LoginInitial extends LoginState {}
 final class LoginLoading extends LoginState {}
 
 final class LoginSuccess extends LoginState {
-  final String uid;
-  LoginSuccess({required this.uid});
+  final UserEntity user;
+  LoginSuccess(this.user);
 }
 
 final class LoginFailed extends LoginState {

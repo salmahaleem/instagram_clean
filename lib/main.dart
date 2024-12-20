@@ -1,24 +1,30 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_clean/core/appLogic/languages/language_cubit.dart';
 import 'package:instagram_clean/core/appLogic/theme/theme_cubit.dart';
-import 'package:instagram_clean/core/get_it/get_it.dart';
+
 import 'package:instagram_clean/core/routes/app_routes.dart';
 import 'package:instagram_clean/core/shared/shared_pref.dart';
 import 'package:instagram_clean/firebase_options.dart';
 import 'package:instagram_clean/generated/codegenrated.dart';
+
+import 'core/get_it/get_it.dart'as di;
 
 Future main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await FirebaseAppCheck.instance.activate(
+    //androidProvider: AndroidProvider.playIntegrity,
+  );
   await EasyLocalization.ensureInitialized();
   await SharedPref.init();
-  setGetIt();
+  await di.setGetIt();
   runApp(EasyLocalization(
       supportedLocales: const [Locale('en'), Locale('ar')],
       path: 'assets/translate',
@@ -47,7 +53,7 @@ class MyApp extends StatelessWidget {
                 ? languageState.locale
                 : const Locale('en');
             return ScreenUtilInit(
-                designSize: const Size(360, 690),
+                //designSize: Size(375, 812),
                 minTextAdapt: true,
                 builder: (context, child) {
                   return MaterialApp.router(

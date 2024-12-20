@@ -4,7 +4,6 @@ import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 class UserModel extends UserEntity{
   final String? uid;
   final String? username;
-  final String? name;
   final String? bio;
   final String? phone;
   final String? gender;
@@ -20,7 +19,6 @@ class UserModel extends UserEntity{
   UserModel({
     this.uid,
     this.username,
-    this.name,
     this.bio,
     this.website,
     this.email,
@@ -45,7 +43,6 @@ class UserModel extends UserEntity{
     bio: bio,
     gender: gender,
     phone: phone,
-    name: name,
     email: email,
     totalPosts: totalPosts,
   );
@@ -55,7 +52,6 @@ class UserModel extends UserEntity{
 
     return UserModel(
       email: snapshot['email'],
-      name: snapshot['name'],
       bio: snapshot['bio'],
       gender: snapshot['gender'],
       phone: snapshot['phone'],
@@ -74,7 +70,6 @@ class UserModel extends UserEntity{
   Map<String, dynamic> toJson() => {
     "uid": uid,
     "email": email,
-    "name": name,
     "gender":gender,
     "phone":phone,
     "username": username,
