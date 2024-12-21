@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
@@ -9,19 +10,36 @@ part 'get_single_user_state.dart';
 
 class GetSingleUserCubit extends Cubit<GetSingleUserState> {
   final GetSingleUserUseCase getSingleUserUseCase;
+  StreamSubscription<List<UserEntity>>? _subscription;
+
   GetSingleUserCubit({required this.getSingleUserUseCase}) : super(GetSingleUserInitial());
 
   Future<void> getSingleUser({required String uid}) async {
     emit(GetSingleUserLoading());
     try {
       final streamResponse = await getSingleUserUseCase.call(uid);
-      streamResponse.listen((users) {
-        emit(GetSingleUserLoaded(user: users.first));
-      });
-    } on SocketException catch(_) {
-      emit(GetSingleUserFailed());
-    } catch (_) {
-      emit(GetSingleUserFailed());
+      _subscription = streamResponse.listen(
+            (users) {
+          if (users.isNotEmpty) {
+            emit(GetSingleUserLoaded(user: users.first));
+          } else {
+            emit(GetSingleUserFailed("No users found."));
+          }
+        },
+        onError: (error) {
+          emit(GetSingleUserFailed(error.toString()));
+        },
+      );
+    } on SocketException {
+      emit(GetSingleUserFailed("error in get single user cubit"));
+    } catch (error) {
+      emit(GetSingleUserFailed("error in get single user cubit"));
     }
   }
+
+  // @override
+  // Future<void> close() {
+  //   _subscription?.cancel();
+  //   return super.close();
+  // }
 }

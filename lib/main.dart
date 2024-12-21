@@ -18,11 +18,11 @@ import 'core/get_it/get_it.dart' as di;
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+   options: DefaultFirebaseOptions.currentPlatform,
   );
-  await FirebaseAppCheck.instance.activate(
-    androidProvider: AndroidProvider.debug,
-  );
+  // await FirebaseAppCheck.instance.activate(
+  //   androidProvider: AndroidProvider.debug,
+  // );
   await EasyLocalization.ensureInitialized();
   await SharedPref.init();
   await di.setGetIt();
@@ -35,6 +35,7 @@ Future main() async {
           providers: [
             BlocProvider(create: (_) => ThemeCubit()),
             BlocProvider(create: (_) => LanguageCubit()),
+            BlocProvider(create: (_)=> di.getIt<GetSingleUserCubit>())
           ], child: const MyApp())));
 }
 
@@ -53,32 +54,25 @@ class MyApp extends StatelessWidget {
             final locale = languageState is LanguageChanged
                 ? languageState.locale
                 : const Locale('en');
-            return MultiBlocProvider(
-              providers: [
-                BlocProvider(
-                  create: (_) => di.getIt<GetSingleUserCubit>(),
-                ),
-              ],
-              child: ScreenUtilInit(
-                //designSize: Size(375, 812),
-                  minTextAdapt: true,
-                  builder: (context, child) {
-                    return MaterialApp.router(
-                      debugShowCheckedModeBanner: false,
-                      title: 'Instagram',
-                      theme: themeData,
-                      locale: locale,
-                      localizationsDelegates: context.localizationDelegates,
-                      supportedLocales: context.supportedLocales,
-                      localeResolutionCallback: (locale, supportedLocales) {
-                        return supportedLocales.contains(locale)
-                            ? locale
-                            : const Locale('en');
-                      },
-                      routerConfig: AppRoutes.route,
-                    );
-                  }
-              ),
+            return ScreenUtilInit(
+              //designSize: Size(375, 812),
+                minTextAdapt: true,
+                builder: (context, child) {
+                  return MaterialApp.router(
+                    debugShowCheckedModeBanner: false,
+                    title: 'Instagram',
+                    theme: themeData,
+                    locale: locale,
+                    localizationsDelegates: context.localizationDelegates,
+                    supportedLocales: context.supportedLocales,
+                    localeResolutionCallback: (locale, supportedLocales) {
+                      return supportedLocales.contains(locale)
+                          ? locale
+                          : const Locale('en');
+                    },
+                    routerConfig: AppRoutes.route,
+                  );
+                }
             );
           },
         );

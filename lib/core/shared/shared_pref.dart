@@ -24,4 +24,12 @@ class SharedPref {
     return sharedPreferences.getString('language');
   }
 
+  static Future<void> setId(String id)async{
+    await sharedPreferences.setString('id', id);
+  }
+
+  static String? getId(){
+    return sharedPreferences.getString('id');
+  }
+
 }

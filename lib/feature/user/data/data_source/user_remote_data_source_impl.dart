@@ -144,12 +144,24 @@ class UserRemoteDataSourceImpl implements UserFirebaseRepo {
 
   @override
   Stream<List<UserEntity>> getSingleUser(String uid) {
-    final userCollection = firebaseFirestore.collection(Constant.users).where(
-        "uid", isEqualTo: uid).limit(1);
-    return userCollection.snapshots().map((querySnapshot) =>
-        querySnapshot.docs.map((e) => UserModel.fromSnapshot(e)).toList());
+    if (uid.isEmpty) {
+      throw ArgumentError('UID cannot be empty');
+    }
+    final userCollection = firebaseFirestore.collection(Constant.users)
+        .where("uid", isEqualTo: uid);
+    return userCollection.snapshots()
+        .map((querySnapshot) {
+      try {
+        return querySnapshot.docs
+            .map((doc) => UserModel.fromSnapshot(doc)) // Map Firestore docs to UserModel
+            .toList();
+      } catch (e) {
+        // Log or handle parsing errors
+        throw Exception('Failed to parse user data: $e');
+      }
   }
-
+    );
+    }
   @override
   Stream<List<UserEntity>> getAllUsers(UserEntity user) {
     final userCollection = firebaseFirestore.collection(Constant.users);

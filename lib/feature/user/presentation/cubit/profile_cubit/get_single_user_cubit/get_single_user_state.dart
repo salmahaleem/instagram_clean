@@ -12,5 +12,9 @@ final class GetSingleUserLoaded extends GetSingleUserState {
   GetSingleUserLoaded({required this.user});
 }
 
-final class GetSingleUserFailed extends GetSingleUserState {}
+final class GetSingleUserFailed extends GetSingleUserState {
+  final String error;
+
+  GetSingleUserFailed(this.error);
+}
 

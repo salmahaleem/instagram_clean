@@ -7,6 +7,9 @@ class GetSingleUserUseCase{
   GetSingleUserUseCase({required this.userFirebaseRepo});
 
   Stream<List<UserEntity>> call(String uid){
+    if (uid.isEmpty) {
+      throw ArgumentError('UID cannot be empty');
+    }
     return userFirebaseRepo.getSingleUser(uid);
   }
 
