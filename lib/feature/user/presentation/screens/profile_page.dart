@@ -12,15 +12,24 @@ import 'package:sidebarx/sidebarx.dart';
 
 class ProfilePage extends StatefulWidget {
   final String uid;
-  ProfilePage({super.key, required this.uid});
+
+  const ProfilePage({Key? key, required this.uid}) : super(key: key);
+
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+
   final SidebarXController drawerCont =
       SidebarXController(selectedIndex: 0, extended: false);
   final _key = GlobalKey<ScaffoldState>();
+
+  // @override
+  // void initState() {
+  //   BlocProvider.of<GetSingleUserCubit>(context).getSingleUser(uid: widget.uid);
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {

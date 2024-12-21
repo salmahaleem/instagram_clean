@@ -47,14 +47,15 @@ class AppRoutes {
             name: 'profile',
             builder: (context, state) {
               final String uid = "${state.pathParameters['id']}";
-              return MultiBlocProvider(
-                providers: [
-                  BlocProvider(
-                    create: (_) => getIt<GetSingleUserCubit>(),
-                  ),
-                ],
-                child: ProfilePage(uid: uid),
-              );
+              return ProfilePage(uid: uid);
+              // return MultiBlocProvider(
+              //   providers: [
+              //     BlocProvider(
+              //       create: (_) => getIt<GetSingleUserCubit>(),
+              //     ),
+              //   ],
+              //   child:
+              // );
             }),
 
         GoRoute(
