@@ -21,10 +21,12 @@
     "website": "Website",
     "private_information":"Private Information",
     "female": "Female",
-    "male": "Male"
+    "male": "Male",
+    "change_profile_photo": "Change profile photo"
 
   },
   "Settings":{
+    "settings_and_activity": "Settings and activity",
     "language": "Language",
     "mode": "Mode",
     "logOut": "LogOut",

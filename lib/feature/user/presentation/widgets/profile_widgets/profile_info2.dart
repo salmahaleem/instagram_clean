@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:instagram_clean/core/utils/constant.dart';
 import 'package:instagram_clean/core/utils/spacing.dart';
 import 'package:instagram_clean/core/widgets/instagramButton.dart';
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
@@ -15,8 +16,15 @@ class ProfileInfo2 extends StatelessWidget{
   Widget build(BuildContext context) {
    return Column(
      children: [
-       Text('${userEntity.username}'),
-       Text('${userEntity.bio}'),
+       Align(
+         alignment: AlignmentDirectional.topStart,
+         child: Column(
+           children: [
+             Text('${Constant.username.text}'),
+             Text('${Constant.bio.text}'),
+           ],
+         ),
+       ),
        verticalSpace(8.h),
        Row(
          children: [
@@ -26,10 +34,10 @@ class ProfileInfo2 extends StatelessWidget{
              child: InstagramButton(
                text: '${LocaleKeys.profile_editProfile.tr()}',
                onPressed: () {
-                 context.go('/editProfile');
+                 context.go('/editProfile',extra: userEntity);
                },),
            ),
-           horizontalSpace(10.w),
+           horizontalSpace(12.w),
            SizedBox(
              width: 165.w,
              height: 30.h,

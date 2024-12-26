@@ -1,6 +1,10 @@
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:instagram_clean/core/utils/constant.dart';
 import 'package:instagram_clean/core/utils/spacing.dart';
 import 'package:instagram_clean/core/widgets/userPhoto.dart';
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
@@ -14,8 +18,15 @@ class ProfileInfo1 extends StatelessWidget{
   Widget build(BuildContext context) {
    return Row(
     children: [
-      UserPhoto(),
-      horizontalSpace(10.w),
+      Container(
+        width: 100,
+        height: 100,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(50),
+          child: CachedNetworkImage(imageUrl: userEntity.profileUrl!),
+        ),
+      ),
+      horizontalSpace(40.w),
       Column(
         children: [
           Text('${userEntity.totalPosts}'),
@@ -23,7 +34,7 @@ class ProfileInfo1 extends StatelessWidget{
           Text('${LocaleKeys.profile_posts.tr()}'),
         ],
       ),
-      horizontalSpace(7.w),
+      horizontalSpace(13.w),
       Column(
         children: [
           Text('${userEntity.totalFollowers}'),
@@ -31,10 +42,10 @@ class ProfileInfo1 extends StatelessWidget{
           Text('${LocaleKeys.profile_followers.tr()}'),
         ],
       ),
-      horizontalSpace(7.w),
+      horizontalSpace(13.w),
       Column(
         children: [
-          Text('${userEntity.totalFollowing}'),
+          Text("${Constant.userEntity.totalFollowing}"),
           verticalSpace(2.h),
           Text('${LocaleKeys.profile_following.tr()}'),
         ],

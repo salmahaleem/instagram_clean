@@ -23,23 +23,23 @@ class GetSingleUserCubit extends Cubit<GetSingleUserState> {
           if (users.isNotEmpty) {
             emit(GetSingleUserLoaded(user: users.first));
           } else {
-            emit(GetSingleUserFailed("No users found."));
+            emit(GetSingleUserFailed("No users found for UID: $uid"));
           }
         },
         onError: (error) {
-          emit(GetSingleUserFailed(error.toString()));
+          emit(GetSingleUserFailed("Stream error: ${error.toString()}"));
         },
       );
     } on SocketException {
-      emit(GetSingleUserFailed("error in get single user cubit"));
+      emit(GetSingleUserFailed("No Internet connection."));
     } catch (error) {
-      emit(GetSingleUserFailed("error in get single user cubit"));
+      emit(GetSingleUserFailed("Unexpected error: ${error.toString()}"));
     }
   }
 
-  // @override
-  // Future<void> close() {
-  //   _subscription?.cancel();
-  //   return super.close();
-  // }
+  @override
+  Future<void> close() {
+    _subscription?.cancel();
+    return super.close();
+  }
 }

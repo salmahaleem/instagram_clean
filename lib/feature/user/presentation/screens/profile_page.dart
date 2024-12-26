@@ -2,9 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:instagram_clean/core/utils/constant.dart';
 import 'package:instagram_clean/core/utils/spacing.dart';
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
-import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/get_single_user_cubit/get_single_user_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/widgets/profile_widgets/profile_info1.dart';
 import 'package:instagram_clean/feature/user/presentation/widgets/profile_widgets/profile_info2.dart';
 import 'package:instagram_clean/feature/user/presentation/widgets/profile_widgets/profile_tabcontroller.dart';
@@ -16,35 +17,32 @@ class ProfilePage extends StatelessWidget {
 
    ProfilePage({Key? key, required this.currentUser}) : super(key: key);
 
-  final SidebarXController drawerCont =
-      SidebarXController(selectedIndex: 0, extended: false);
-
   final _key = GlobalKey<ScaffoldState>();
 
   // @override
   @override
   Widget build(BuildContext context) {
-    final isSmallScreen = MediaQuery.of(context).size.width < 600;
+    if (currentUser == null) {
+      return Center(child: Text("No user data available"));
+    }
     return Scaffold(
       key: _key,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: isSmallScreen
-          ? AppBar(
+      appBar:
+          AppBar(
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-              title: Text('${currentUser.username}'),
+              title: Text(currentUser.username.toString()),
               actions: [
                 Icon(Icons.add_box_outlined),
                 horizontalSpace(5.w),
                 IconButton(
                   onPressed: () {
-                    _key.currentState?.openDrawer();
+                    context.go('/settings');
                   },
                   icon: Icon(Icons.menu),
                 ),
               ],
-            )
-          : null,
-      drawer: SettingsMenu(sideController: drawerCont),
+            ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -57,7 +55,7 @@ class ProfilePage extends StatelessWidget {
               userEntity: currentUser,
             ),
             verticalSpace(10.h),
-            ProfileTabController()
+            ProfileTabController(),
           ],
         ),
       ),

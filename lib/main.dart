@@ -9,7 +9,9 @@ import 'package:instagram_clean/core/appLogic/theme/theme_cubit.dart';
 
 import 'package:instagram_clean/core/routes/app_routes.dart';
 import 'package:instagram_clean/core/shared/shared_pref.dart';
+import 'package:instagram_clean/feature/user/presentation/cubit/login_cubit/login_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/get_single_user_cubit/get_single_user_cubit.dart';
+import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/profile_cubit.dart';
 import 'package:instagram_clean/firebase_options.dart';
 import 'package:instagram_clean/generated/codegenrated.dart';
 
@@ -35,7 +37,8 @@ Future main() async {
           providers: [
             BlocProvider(create: (_) => ThemeCubit()),
             BlocProvider(create: (_) => LanguageCubit()),
-            BlocProvider(create: (_)=> di.getIt<GetSingleUserCubit>())
+            BlocProvider(create: (_)=> di.getIt<GetSingleUserCubit>()),
+            BlocProvider(create: (_)=> di.getIt<ProfileCubit>()),
           ], child: const MyApp())));
 }
 

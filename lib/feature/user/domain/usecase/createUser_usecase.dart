@@ -6,8 +6,8 @@ class CreateUserUseCase{
 
   CreateUserUseCase({required this.userFirebaseRepo});
 
-  Future<void> call(UserEntity user)async{
-    return await userFirebaseRepo.createUser(user);
+  Future<void> call(UserEntity user,String profileUrl)async{
+    return await userFirebaseRepo.createUser(user,profileUrl);
   }
 
 }

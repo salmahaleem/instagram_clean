@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_clean/feature/user/presentation/screens/profile_page.dart';
 
 import '../../../user/presentation/cubit/profile_cubit/get_single_user_cubit/get_single_user_cubit.dart';
@@ -22,7 +23,7 @@ class _NavigationBarWidgetState extends State<NavigationBarWidget> {
 
   @override
   void initState() {
-   // BlocProvider.of<GetSingleUserCubit>(context).getSingleUser(uid: widget.uid);
+    BlocProvider.of<GetSingleUserCubit>(context).getSingleUser(uid: widget.uid);
     pageController = PageController();
     super.initState();
   }
@@ -47,7 +48,18 @@ class _NavigationBarWidgetState extends State<NavigationBarWidget> {
   Widget build(BuildContext context) {
     return BlocBuilder<GetSingleUserCubit, GetSingleUserState>(
       builder: (context, getSingleUserState) {
-        if (getSingleUserState is GetSingleUserLoaded) {
+        if (getSingleUserState is GetSingleUserLoading) {
+          return Center(child: CircularProgressIndicator());
+        }else if (getSingleUserState is GetSingleUserFailed) {
+          return Scaffold(
+            body: Center(
+              child: Text(
+                "Error: ${getSingleUserState.error}",
+                style: TextStyle(color: Colors.red, fontSize: 18),
+              ),
+            ),
+          );}
+        else if (getSingleUserState is GetSingleUserLoaded) {
           final currentUser = getSingleUserState.user;
           return Scaffold(
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -58,10 +70,9 @@ class _NavigationBarWidgetState extends State<NavigationBarWidget> {
               items: [
                 BottomNavigationBarItem(icon: Icon(Icons.home_filled, color: Theme.of(context).iconTheme.color), label: ""),
                 BottomNavigationBarItem(icon: Icon(Icons.search_outlined, color: Theme.of(context).iconTheme.color), label: ""),
-                BottomNavigationBarItem(icon: Icon(Icons.add_box_outlined, color: Theme.of(context).iconTheme.color), label: ""),
+                BottomNavigationBarItem(icon: Icon(Icons.add_box_outlined, color: Theme.of(context).iconTheme.color,), label: ""),
                 BottomNavigationBarItem(icon: Icon(Icons.favorite, color: Theme.of(context).iconTheme.color), label: ""),
                 BottomNavigationBarItem(icon: Icon(Icons.account_circle_outlined, color: Theme.of(context).iconTheme.color), label: ""),
-
               ],
               onTap: navigationTapped,
             ),

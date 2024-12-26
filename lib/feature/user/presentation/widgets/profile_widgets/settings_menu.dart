@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:instagram_clean/core/utils/constant.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/profile_cubit.dart';
 import 'package:instagram_clean/generated/locale_keys.dart';
 import 'package:sidebarx/sidebarx.dart';
@@ -12,71 +13,55 @@ import '../../../../../core/appLogic/languages/language_cubit.dart';
 import '../../../../../core/appLogic/theme/theme_cubit.dart';
 
 class SettingsMenu extends StatelessWidget{
-  final SidebarXController? sidebarXController;
-  final SidebarXController? sideController;
-  const SettingsMenu({Key? super.key,this.sideController}):sidebarXController =  sideController;
-
+  const SettingsMenu({super.key});
   @override
   Widget build(BuildContext context) {
-    return SidebarX
-      (
-      controller: sidebarXController!,
-      theme: SidebarXTheme(
-          decoration: BoxDecoration(
-            color: Theme.of(context).scaffoldBackgroundColor,
-            borderRadius: BorderRadius.circular(20.r),
-          ),
-          iconTheme: Theme.of(context).iconTheme
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: AppBar(
+        leading: IconButton(onPressed: (){
+          context.go('/mainPage');
+        }, icon: Icon(Icons.arrow_back)),
+        title: Text("${LocaleKeys.settings_settings_and_activity.tr()}"),
       ),
-      extendedTheme: SidebarXTheme(width: 140.w),
-      headerBuilder: (context,extended){
-        return SizedBox(
-          width: 100.w,
-          height: 100.h,
-          child:Padding(
-            padding: const EdgeInsets.only(top: 20.0),
-            child: Icon(Icons.person,size: 40.r),
-          ),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          spacing:12,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextButton.icon(
+                onPressed: (){},
+                label: Text('  ${LocaleKeys.settings_saved.tr()}',style: Theme.of(context).textTheme.labelLarge,),
+                icon: Icon(Icons.favorite, color: Theme.of(context).iconTheme.color,),
 
-        );
-      },
-      items: [
-        SidebarXItem(
-          label: '  ${LocaleKeys.settings_saved.tr()}',
-          onTap: (){
-            //context.read<ThemeCubit>().themeToggle();
-          },
-          icon: Icons.favorite,
-          selectable: true,
+            ),
+            TextButton.icon(
+                onPressed: (){final newLanguageCode = context.locale.languageCode == 'en' ? 'ar' : 'en';
+              context
+                  .read<LanguageCubit>()
+                  .changeLanguage(newLanguageCode);
+              context.setLocale(Locale(newLanguageCode));
+              },
+                label: Text('  ${LocaleKeys.settings_language.tr()}',style: Theme.of(context).textTheme.labelLarge,),
+                icon: Icon(Icons.language, color: Theme.of(context).iconTheme.color,)
+            ),
+            TextButton.icon(
+                onPressed: (){context.read<ThemeCubit>().themeToggle();},
+                label: Text('  ${LocaleKeys.settings_mode.tr()}',style: Theme.of(context).textTheme.labelLarge,),
+                icon: Icon(Icons.dark_mode, color: Theme.of(context).iconTheme.color,)
+            ),
+            TextButton.icon(
+                onPressed: (){
+                  context.read<ProfileCubit>().loggedOut();
+                  context.go('/');
+                },
+                label: Text('  ${LocaleKeys.settings_logOut.tr()}',style: Theme.of(context).textTheme.labelLarge,),
+                icon: Icon(Icons.logout, color: Theme.of(context).iconTheme.color,)
+            ),
+          ],
         ),
-        SidebarXItem(
-            icon:Icons.language ,
-            label: '  ${LocaleKeys.settings_language.tr()}'
-            ,onTap: (){
-          final newLanguageCode = context.locale.languageCode == 'en' ? 'ar' : 'en';
-          context
-              .read<LanguageCubit>()
-              .changeLanguage(newLanguageCode);
-          context.setLocale(Locale(newLanguageCode));
-        }),
-        SidebarXItem(
-          label: '  ${LocaleKeys.settings_mode.tr()}',
-          onTap: (){
-            context.read<ThemeCubit>().themeToggle();
-          },
-          icon: Icons.dark_mode,
-          selectable: true,
-        ),
-        SidebarXItem(
-          label: '  ${LocaleKeys.settings_logOut.tr()}',
-          onTap: (){
-            BlocProvider.of<ProfileCubit>(context).loggedOut();
-            context.go('/');
-          },
-          icon: Icons.logout,
-          selectable: true,
-        ),
-      ],
+      ),
     );
   }
 

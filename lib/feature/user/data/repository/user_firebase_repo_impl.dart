@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 import 'package:instagram_clean/feature/user/domain/repository/user_firebase_repo.dart';
 
@@ -6,7 +8,7 @@ class UserFirebaseRepoImpl implements UserFirebaseRepo{
 
   UserFirebaseRepoImpl({required this.userFirebaseRepo});
   @override
-  Future<void> createUser(UserEntity user) async => await userFirebaseRepo.createUser(user);
+  Future<void> createUser(UserEntity user, String profileUrl) async => await userFirebaseRepo.createUser(user, profileUrl);
 
   @override
   Future<void> followUnFollowUser(UserEntity user) async => await userFirebaseRepo.followUnFollowUser(user);
@@ -38,5 +40,8 @@ class UserFirebaseRepoImpl implements UserFirebaseRepo{
 
   @override
   Future<void> updateUser(UserEntity user) async => await userFirebaseRepo.updateUser(user);
+
+  @override
+  Future<String> uploadImageToStorage(File? file, bool isPost, String childName) async => userFirebaseRepo.uploadImageToStorage(file, isPost, childName);
 
 }

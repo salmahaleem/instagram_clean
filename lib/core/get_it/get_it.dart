@@ -14,6 +14,7 @@ import 'package:instagram_clean/feature/user/domain/usecase/login_usecase.dart';
 import 'package:instagram_clean/feature/user/domain/usecase/logout_usecase.dart';
 import 'package:instagram_clean/feature/user/domain/usecase/signup_usecase.dart';
 import 'package:instagram_clean/feature/user/domain/usecase/updateUser_usecase.dart';
+import 'package:instagram_clean/feature/user/domain/usecase/uploadImageToStorage_usecase.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/login_cubit/login_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/get_other_single_user/get_other_single_user_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/get_single_user_cubit/get_single_user_cubit.dart';
@@ -67,6 +68,8 @@ Future<void> setGetIt() async {
           () => GetAllUsersUseCase(userFirebaseRepo: getIt<UserFirebaseRepo>()));
   getIt.registerLazySingleton<GetSingleUserUseCase>(
           () => GetSingleUserUseCase(userFirebaseRepo: getIt<UserFirebaseRepo>()));
+  getIt.registerLazySingleton<UploadImageToStorageUseCase>(
+          () => UploadImageToStorageUseCase(userFirebaseRepo: getIt<UserFirebaseRepo>()));
 
 
   //repos

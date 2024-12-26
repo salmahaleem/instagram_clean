@@ -20,6 +20,8 @@ abstract class LocaleKeys{
   static const profile_private_information = 'Profile.private_information';
   static const profile_female = 'Profile.female';
   static const profile_male = 'Profile.male';
+  static const profile_change_profile_photo = 'Profile.change_profile_photo';
+  static const settings_settings_and_activity = "Settings.settings_and_activity";
   static const settings_language = "Settings.language";
   static const settings_mode = "Settings.mode";
   static const settings_logOut = "Settings.logOut";

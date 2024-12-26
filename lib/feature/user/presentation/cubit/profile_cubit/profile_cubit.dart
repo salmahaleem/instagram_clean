@@ -10,15 +10,15 @@ import 'package:meta/meta.dart';
 part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
-  final LogoutUseCase? logoutUseCase;
-  final UpdateUserUseCase? updateUserUseCase;
-  final GetAllUsersUseCase? getAllUsersUseCase;
-  ProfileCubit({this.getAllUsersUseCase, this.updateUserUseCase, this.logoutUseCase}) : super(ProfileInitial());
+  final LogoutUseCase logoutUseCase;
+  final UpdateUserUseCase updateUserUseCase;
+  final GetAllUsersUseCase getAllUsersUseCase;
+  ProfileCubit({required this.getAllUsersUseCase, required this.updateUserUseCase,required this.logoutUseCase}) : super(ProfileInitial());
 
   Future<void> getAllUsers({required UserEntity user}) async {
     emit(ProfileLoading());
     try {
-      final streamResponse = getAllUsersUseCase!.call(user);
+      final streamResponse = getAllUsersUseCase.call(user);
       streamResponse.listen((users) {
         emit(ProfileLoaded(users: users));
       });
@@ -31,17 +31,23 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   Future<void> updateUser({required UserEntity user}) async {
     try {
-      await updateUserUseCase!.call(user);
-    } on SocketException catch(_) {
-      emit(ProfileFailed('error in update'));
-    } catch (_) {
-      emit(ProfileFailed('error in update'));
+      // Emit loading state to indicate update process has started
+      emit(ProfileLoading());
+      // Call the update method
+      await updateUserUseCase.call(user);
+      emit(ProfileUpdated(user: user));
+    } on SocketException catch (_) {
+      // Emit failure state with a specific network error message
+      emit(ProfileFailed('No Internet connection. Please try again.'));
+    } catch (e) {
+      // Emit failure state with detailed error information
+      emit(ProfileFailed('Failed to update profile: ${e.toString()}'));
     }
   }
 
   Future<void> loggedOut()async {
     try {
-      await logoutUseCase!.call();
+      await logoutUseCase.call();
       emit(ProfileClosed());
     } catch (_) {
       emit(ProfileClosed());

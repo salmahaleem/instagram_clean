@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
+import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 
 class Constant {
 
@@ -15,9 +18,14 @@ class Constant {
   static TextEditingController gender = TextEditingController();
   static TextEditingController website = TextEditingController();
   static TextEditingController bio = TextEditingController();
+  static String profileUrl = " ";
   static  bool isPassVis = true;
   static GlobalKey <FormState> reformKey = GlobalKey <FormState> ();
   static GlobalKey <FormState> formKey = GlobalKey <FormState> ();
+
+  static UserEntity userEntity = UserEntity();
+
+  //static File? image;
 
 
 

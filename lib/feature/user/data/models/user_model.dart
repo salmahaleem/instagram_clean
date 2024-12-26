@@ -47,39 +47,43 @@ class UserModel extends UserEntity{
     totalPosts: totalPosts,
   );
 
-  factory UserModel.fromSnapshot(DocumentSnapshot snap) {
-    var snapshot = snap.data() as Map<String, dynamic>;
+  factory UserModel.fromSnapshot(DocumentSnapshot doc) {
+    final snapshot = doc.data() as Map<String, dynamic>?;
+
+    if (snapshot == null) {
+      throw Exception("Document ${doc.id} data is null");
+    }
 
     return UserModel(
-      email: snapshot['email'],
-      bio: snapshot['bio'],
-      gender: snapshot['gender'],
-      phone: snapshot['phone'],
-      username: snapshot['username'],
-      totalFollowers: snapshot['totalFollowers'],
-      totalFollowing: snapshot['totalFollowing'],
-      totalPosts: snapshot['totalPosts'],
-      uid: snapshot['uid'],
-      website: snapshot['website'],
-      profileUrl: snapshot['profileUrl'],
-      followers: List.from(snap.get("followers")),
-      following: List.from(snap.get("following")),
+      uid: snapshot['uid'] ?? '',
+      email: snapshot['email'] ?? '',
+      username: snapshot['username'] ?? '',
+      bio: snapshot['bio'] ?? '',
+      phone: snapshot['phone'] ?? '',
+      gender: snapshot['gender'] ?? '',
+      website: snapshot['website'] ?? '',
+      profileUrl: snapshot['profileUrl'] ?? '',
+      totalFollowers: snapshot['totalFollowers'] ?? 0,
+      totalFollowing: snapshot['totalFollowing'] ?? 0,
+      totalPosts: snapshot['totalPosts'] ?? 0,
+      followers: (snapshot['followers'] is List) ? List.from(snapshot['followers']) : [],
+      following: (snapshot['following'] is List) ? List.from(snapshot['following']) : [],
     );
   }
 
   Map<String, dynamic> toJson() => {
-    "uid": uid,
-    "email": email,
-    "gender":gender,
-    "phone":phone,
-    "username": username,
-    "totalFollowers": totalFollowers,
-    "totalFollowing": totalFollowing,
-    "totalPosts": totalPosts,
-    "website": website,
-    "bio": bio,
-    "profileUrl": profileUrl,
-    "followers": followers,
-    "following": following,
+    "uid": uid ?? '',
+    "email": email ?? '',
+    "gender": gender ?? '',
+    "phone": phone ?? '',
+    "username": username ?? '',
+    "totalFollowers": totalFollowers ?? 0,
+    "totalFollowing": totalFollowing ?? 0,
+    "totalPosts": totalPosts ?? 0,
+    "website": website ?? '',
+    "bio": bio ?? '',
+    "profileUrl": profileUrl ?? '',
+    "followers": followers ?? [],
+    "following": following ?? [],
   };
 }

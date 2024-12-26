@@ -11,9 +11,10 @@ final class ProfileLoaded extends ProfileState {
   final List<UserEntity> users;
   ProfileLoaded({required this.users});
 }
-
-final class ProfileUpdated extends ProfileState {}
-
+final class ProfileUpdated extends ProfileState {
+  final UserEntity user;
+  ProfileUpdated({required this.user});
+}
 final class ProfileClosed extends ProfileState {}
 
 final class ProfileFailed extends ProfileState {

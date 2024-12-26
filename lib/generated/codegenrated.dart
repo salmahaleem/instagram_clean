@@ -31,9 +31,11 @@ class CodeGenerated extends AssetLoader{
       "website": "Website",
       "private_information":"Private Information",
       "female": "Female",
-      "male": "Male"
+      "male": "Male",
+      "change_profile_photo": "Change profile photo"
     },
     "Settings":{
+      "settings_and_activity": "Settings and activity",
       "language": "Language",
       "mode": "Mode",
       "logOut": "LogOut",
@@ -67,9 +69,11 @@ class CodeGenerated extends AssetLoader{
       "website": "موقع الكترونى",
       "private_information":"معلومات خاصة",
       "female": "أنثى",
-      "male": "ذكر"
+      "male": "ذكر",
+      "change_profile_photo": "تغير الصورة الشخصية"
     },
     "Settings":{
+      "settings_and_activity": "الاعدادات و النشاط ",
       "language": "اللغة",
       "mode": "وضع",
       "logOut": "تسجيل الخروج",

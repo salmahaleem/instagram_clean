@@ -22,9 +22,11 @@
     "website": "موقع الكترونى",
     "private_information":"معلومات خاصة",
     "female": "أنثى",
-    "male": "ذكر"
+    "male": "ذكر",
+    "change_profile_photo": "تغير الصورة الشخصية"
   },
   "Settings":{
+  "settings_and_activity": "الاعدادات و النشاط ",
   "language": "اللغة",
   "mode": "وضع",
   "logOut": "تسجيل الخروج",

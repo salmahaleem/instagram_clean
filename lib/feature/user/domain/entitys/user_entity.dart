@@ -9,7 +9,7 @@ class UserEntity  {
   final String? gender;
   final String? website;
   final String? email;
-  final String? profileUrl;
+  late final String? profileUrl;
   final List? followers;
   final List? following;
   final num? totalFollowers;

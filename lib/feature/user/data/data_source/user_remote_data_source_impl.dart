@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -17,34 +19,76 @@ class UserRemoteDataSourceImpl implements UserFirebaseRepo {
     required this.firebaseStorage,
   });
 
+  // Future<void> createUserWithImage(UserEntity user, String profileUrl) async {
+  //   try {
+  //     final userCollection = firebaseFirestore.collection(Constant.users);
+  //
+  //     // Get the current user ID
+  //     final uid = await getCurrentUserId();
+  //
+  //     // Check if the user document exists
+  //     final userDoc = await userCollection.doc(uid).get();
+  //
+  //     // Convert UserEntity to a map
+  //     final newUser = UserModel(
+  //       uid: uid,
+  //       email: user.email,
+  //       bio: user.bio,
+  //       following: user.following,
+  //       website: user.website,
+  //       profileUrl: profileUrl,
+  //       username: user.username,
+  //       totalFollowers: user.totalFollowers,
+  //       followers: user.followers,
+  //       totalFollowing: user.totalFollowing,
+  //       totalPosts: user.totalPosts,
+  //     ).toJson();
+  //
+  //     if (!userDoc.exists) {
+  //       // Create a new user if the document doesn't exist
+  //       await userCollection.doc(uid).set(newUser);
+  //       print("User created successfully.");
+  //     } else {
+  //       // Update the existing user document
+  //       await userCollection.doc(uid).update(newUser);
+  //       print("User updated successfully.");
+  //     }
+  //   } catch (e) {
+  //     // Handle any errors that occur during the process
+  //     print("Error creating/updating user: $e");
+  //     throw Exception("Failed to create/update user: ${e.toString()}");
+  //   }
+  // }
+
   @override
-  Future<void> createUser(UserEntity user) async {
-    try {
-      final userCollection = firebaseFirestore.collection(Constant.users);
-      final uid = await getCurrentUserId();
+  Future<void> createUser(UserEntity user, String profileUrl) async {
+    final userCollection = firebaseFirestore.collection(Constant.users);
 
+    final uid = await getCurrentUserId();
+
+    userCollection.doc(uid).get().then((userDoc) {
       final newUser = UserModel(
-        uid: uid,
-        email: user.email,
-        phone: user.phone,
-        gender: user.gender,
-        bio: user.bio,
-        following: user.following,
-        website: user.website,
-        profileUrl: user.profileUrl,
-        username: user.username,
-        totalFollowers: user.totalFollowers,
-        followers: user.followers,
-        totalFollowing: user.totalFollowing,
-        totalPosts: user.totalPosts,
-      ).toJson();
+              uid: uid,
+              email: user.email,
+              bio: user.bio,
+              following: user.following,
+              website: user.website,
+              profileUrl: user.profileUrl,
+              username: user.username,
+              totalFollowers: user.totalFollowers,
+              followers: user.followers,
+              totalFollowing: user.totalFollowing,
+              totalPosts: user.totalPosts)
+          .toJson();
 
-      // Use `set` with `merge: true` to update or create without needing a read
-      await userCollection.doc(uid).set(newUser, SetOptions(merge: true));
-    } catch (error) {
-      print("Error in createUser: $error");
-      rethrow; // Propagate error up for better handling in higher layers
-    }
+      if (!userDoc.exists) {
+        userCollection.doc(uid).set(newUser);
+      } else {
+        userCollection.doc(uid).update(newUser);
+      }
+    }).catchError((error) {
+      print("Some error occur");
+    });
   }
 
   @override
@@ -63,15 +107,25 @@ class UserRemoteDataSourceImpl implements UserFirebaseRepo {
         throw Exception("Password must not be empty.");
       }
       // Attempt to create a new user with Firebase Authentication
-      final result = await firebaseAuth.createUserWithEmailAndPassword(
+      final currentuser = await firebaseAuth.createUserWithEmailAndPassword(
         email: user.email!,
         password: user.password!,
       );
 
-      // If the user was successfully created, save their data to Firestore
-      if (result.user?.uid != null) {
-        await createUser(user); // Create user profile in Firestore
+      final userId = currentuser.user?.uid;
+      if (userId == null) {
+        throw Exception("User ID could not be generated. Sign-up failed.");
       }
+
+      // Handle profile image upload and user creation
+      String profileUrl = " ";
+      if (user.imageFile != null) {
+        profileUrl =
+            await uploadImageToStorage(user.imageFile!, false, "profileImages");
+      }
+      await createUser(user, profileUrl);
+
+      // Create user in the database
     } on FirebaseAuthException catch (e) {
       // Handle specific Firebase authentication errors
       switch (e.code) {
@@ -89,31 +143,6 @@ class UserRemoteDataSourceImpl implements UserFirebaseRepo {
       // Handle unexpected errors
       throw Exception("An unexpected error occurred during sign-up: $error");
     }
-    // try {
-    //   if (user.email == null || user.password == null) {
-    //     throw Exception("Email and password must not be null.");
-    //   }
-    //
-    //   final result = await firebaseAuth.createUserWithEmailAndPassword(
-    //     email: user.email!,
-    //     password: user.password!,
-    //   );
-    //
-    //   if (result.user?.uid != null) {
-    //     await createUser(user); // Create user profile in Firestore
-    //   }
-    // } on FirebaseAuthException catch (e) {
-    //   if (e.code == "email-already-in-use") {
-    //     print("Error: Email already exists.");
-    //   } else {
-    //     print("Error during sign-up: ${e.message}");
-    //   }
-    //   rethrow; // Propagate error for handling at a higher level
-    // } catch (error) {
-    //   print("Unexpected error during sign-up: $error");
-    //   rethrow;
-    // }
-
   }
 
   @override
@@ -138,7 +167,7 @@ class UserRemoteDataSourceImpl implements UserFirebaseRepo {
   Future<bool> isLogin() async => firebaseAuth.currentUser?.uid != null;
 
   @override
-  Future<void> logout() async{
+  Future<void> logout() async {
     await firebaseAuth.signOut();
   }
 
@@ -147,21 +176,32 @@ class UserRemoteDataSourceImpl implements UserFirebaseRepo {
     if (uid.isEmpty) {
       throw ArgumentError('UID cannot be empty');
     }
-    final userCollection = firebaseFirestore.collection(Constant.users)
+    final userCollection = firebaseFirestore
+        .collection(Constant.users)
         .where("uid", isEqualTo: uid);
-    return userCollection.snapshots()
-        .map((querySnapshot) {
+    return userCollection.snapshots().map((querySnapshot) {
       try {
-        return querySnapshot.docs
-            .map((doc) => UserModel.fromSnapshot(doc)) // Map Firestore docs to UserModel
-            .toList();
-      } catch (e) {
-        // Log or handle parsing errors
+        // Ensure the snapshot contains valid documents
+        if (querySnapshot.docs.isEmpty) {
+          throw Exception("No documents found for UID: $uid");
+        }
+        // Parse each document and filter out null or invalid entries
+        return querySnapshot.docs.map((doc) {
+          final data = doc.data(); // Get document data
+          if (data == null) {
+            throw Exception("Document data is null for doc ID: ${doc.id}");
+          }
+          return UserModel.fromSnapshot(doc); // Convert to UserModel
+        }).toList();
+      } catch (e, stacktrace) {
+        // Log the error and rethrow it
+        print("Error parsing Firestore documents: $e");
+        print("Stacktrace: $stacktrace");
         throw Exception('Failed to parse user data: $e');
       }
+    });
   }
-    );
-    }
+
   @override
   Stream<List<UserEntity>> getAllUsers(UserEntity user) {
     final userCollection = firebaseFirestore.collection(Constant.users);
@@ -171,8 +211,12 @@ class UserRemoteDataSourceImpl implements UserFirebaseRepo {
 
   @override
   Stream<List<UserEntity>> getSingleOtherUser(String otherUid) {
-    final userCollection = firebaseFirestore.collection(Constant.users).where("uid", isEqualTo: otherUid).limit(1);
-    return userCollection.snapshots().map((querySnapshot) => querySnapshot.docs.map((e) => UserModel.fromSnapshot(e)).toList());
+    final userCollection = firebaseFirestore
+        .collection(Constant.users)
+        .where("uid", isEqualTo: otherUid)
+        .limit(1);
+    return userCollection.snapshots().map((querySnapshot) =>
+        querySnapshot.docs.map((e) => UserModel.fromSnapshot(e)).toList());
   }
 
   @override
@@ -182,26 +226,107 @@ class UserRemoteDataSourceImpl implements UserFirebaseRepo {
   }
 
   @override
-  Future<void> updateUser(UserEntity user) async{
+  Future<void> updateUser(UserEntity user) async {
     final userCollection = firebaseFirestore.collection(Constant.users);
-    Map<String, dynamic> userInformation = Map();
+    Map<String, dynamic> userInformation = {};
 
-    if (user.username != "" && user.username != null) userInformation['username'] = user.username;
+    if (user.profileUrl != null && user.profileUrl!.isNotEmpty) {
+      userInformation['profileUrl'] = user.profileUrl;
+    }
 
-    if (user.website != "" && user.website != null) userInformation['website'] = user.website;
+    if (user.username != null && user.username!.isNotEmpty) {
+      userInformation['username'] = user.username;
+    }
 
-    if (user.profileUrl != "" && user.profileUrl != null) userInformation['profileUrl'] = user.profileUrl;
+    if (user.website != null && user.website!.isNotEmpty) {
+      userInformation['website'] = user.website;
+    }
 
-    if (user.bio != "" && user.bio != null) userInformation['bio'] = user.bio;
+    if (user.bio != null && user.bio!.isNotEmpty) {
+      userInformation['bio'] = user.bio;
+    }
 
-    if (user.totalFollowing != null) userInformation['totalFollowing'] = user.totalFollowing;
+    if (user.email != null && user.email!.isNotEmpty) {
+      userInformation['email'] = user.email;
+    }
 
-    if (user.totalFollowers != null) userInformation['totalFollowers'] = user.totalFollowers;
+    if (user.gender != null && user.gender!.isNotEmpty) {
+      userInformation['gender'] = user.gender;
+    }
 
-    if (user.totalPosts != null) userInformation['totalPosts'] = user.totalPosts;
+    if (user.phone != null && user.phone!.isNotEmpty) {
+      userInformation['phone'] = user.phone;
+    }
+    if (user.totalFollowing != null) {
+      userInformation['totalFollowing'] = user.totalFollowing;
+    }
+    if (user.totalFollowers != null) {
+      userInformation['totalFollowers'] = user.totalFollowers;
+    }
+    if (user.totalPosts != null) {
+      userInformation['totalPosts'] = user.totalPosts;
+    }
 
+    try {
+      // Ensure that the uid is not null or empty
+      if (user.uid == null || user.uid!.isEmpty) {
+        throw Exception("User ID is null or empty");
+      }
 
-    userCollection.doc(user.uid).update(userInformation);
+      // Perform the update
+      await userCollection.doc(user.uid).update(userInformation);
+
+      // Log success
+      print(
+          "User ${user.uid} updated successfully with data: $userInformation");
+    } catch (e) {
+      // Handle and log any errors
+      print("Failed to update user: $e");
+      throw Exception("Failed to update user: $e");
+    }
   }
-}
 
+  // @override
+  // Future<String> uploadImageToStorage(File? file, bool isPost, String childName) async {
+  //   try {
+  //     //final fileName = DateTime.now().millisecondsSinceEpoch.toString();
+  //     Reference ref = firebaseStorage
+  //         .ref()
+  //         .child(childName)
+  //         .child(firebaseAuth.currentUser!.uid)
+  //         .child("profileUrl");
+  //
+  //     if (isPost) {
+  //       // String id = Uuid().v1();
+  //       // ref = ref.child(id);
+  //     }
+  //
+  //     final uploadTask = ref.putFile(file!);
+  //     TaskSnapshot snapshot = await uploadTask;
+  //
+  //     String downloadUrl = await snapshot.ref.getDownloadURL();
+  //     return downloadUrl;
+  //   } catch (e) {
+  //     print("Error uploading file: $e");
+  //     throw Exception("Failed to upload image: $e");
+  //   }
+  // }
+
+  @override
+  Future<String> uploadImageToStorage(File? file, bool isPost, String childName) async {
+
+    Reference ref = firebaseStorage.ref().child(childName).child(firebaseAuth.currentUser!.uid);
+
+    if (isPost) {
+      // String id = Uuid().v1();
+      // ref = ref.child(id);
+    }
+
+    final uploadTask = ref.putFile(file!);
+
+    final imageUrl = (await uploadTask.whenComplete(() {})).ref.getDownloadURL();
+
+    return await imageUrl;
+  }
+
+}

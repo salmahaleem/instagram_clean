@@ -67,7 +67,7 @@ class _PrivateInfoState extends State<PrivateInfo> {
               SizedBox(
                 width: 230.w,
                 child: ProfileTextField(
-                  hintText: '${LocaleKeys.authenticationPhone.tr()}',
+                  hintText: Constant.phone.text,
                   controller: Constant.phone,
                   isObscureText: false,
                 ),

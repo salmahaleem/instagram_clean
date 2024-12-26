@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 
 abstract class UserFirebaseRepo{
@@ -14,8 +16,10 @@ abstract class UserFirebaseRepo{
   Stream<List<UserEntity>> getSingleOtherUser(String otherUid);
 
   Future<String> getCurrentUserId();
-  Future<void> createUser(UserEntity user);
+  Future<void> createUser(UserEntity user,String profileUrl);
   Future<void> updateUser(UserEntity user);
   Future<void> followUnFollowUser(UserEntity user);
+
+  Future<String> uploadImageToStorage(File? file, bool isPost, String childName);
 
 }

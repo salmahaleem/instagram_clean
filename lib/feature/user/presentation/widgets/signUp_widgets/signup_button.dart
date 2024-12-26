@@ -6,16 +6,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:instagram_clean/core/utils/constant.dart';
 import 'package:instagram_clean/core/utils/spacing.dart';
 import 'package:instagram_clean/core/widgets/instagramButton.dart';
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/signup_cubit/sign_up_cubit.dart';
 import 'package:instagram_clean/generated/locale_keys.dart';
 
-class SignupButton extends StatelessWidget {
-  final UserEntity? userEntity;
+class SignupButton extends StatefulWidget {
+  final UserEntity userEntity;
 
-  SignupButton({this.userEntity});
+  SignupButton({required this.userEntity});
+
+  @override
+  State<SignupButton> createState() => _SignupButtonState();
+}
+
+class _SignupButtonState extends State<SignupButton> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -41,13 +48,19 @@ class SignupButton extends StatelessWidget {
           builder: (context, state) {
             if (state is SignUpLoading) {
               return Center(child: CircularProgressIndicator());
-            }
+            }else if (state is SignUpSuccess){
+              return InstagramButton(
+                  text: "${LocaleKeys.authenticationRegister.tr()}",
+                  onPressed: () {
+                    context.read<SignUpCubit>().signup(user:widget.userEntity);
+                  });
+          }
             return InstagramButton(
                 text: "${LocaleKeys.authenticationRegister.tr()}",
                 onPressed: () {
-                  context.read<SignUpCubit>().signup();
+                  context.read<SignUpCubit>().signup(user: widget.userEntity);
                 });
-          },
+          }
         ),
         verticalSpace(8.h),
         RichText(
@@ -75,4 +88,5 @@ class SignupButton extends StatelessWidget {
       ],
     );
   }
+
 }
