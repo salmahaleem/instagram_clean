@@ -68,7 +68,7 @@ class AppRoutes {
           return MultiBlocProvider(
             providers: [
               BlocProvider(
-                create: (_) => getIt<ProfileCubit>()..updateUser(user: currentUser),
+                create: (_) => getIt<ProfileCubit>(),
               ),
             ],
             child: EditProfilePage(userEntity: currentUser),

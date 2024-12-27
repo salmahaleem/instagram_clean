@@ -10,10 +10,16 @@ import 'package:instagram_clean/core/widgets/userPhoto.dart';
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 import 'package:instagram_clean/generated/locale_keys.dart';
 
-class ProfileInfo1 extends StatelessWidget{
+class ProfileInfo1 extends StatefulWidget{
   final UserEntity userEntity;
 
   const ProfileInfo1({super.key,required this.userEntity});
+
+  @override
+  State<ProfileInfo1> createState() => _ProfileInfo1State();
+}
+
+class _ProfileInfo1State extends State<ProfileInfo1> {
   @override
   Widget build(BuildContext context) {
    return Row(
@@ -23,13 +29,13 @@ class ProfileInfo1 extends StatelessWidget{
         height: 100,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(50),
-          child: CachedNetworkImage(imageUrl: userEntity.profileUrl!),
+          child: UserPhoto(imageUrl: widget.userEntity.profileUrl,image: widget.userEntity.imageFile),
         ),
       ),
       horizontalSpace(40.w),
       Column(
         children: [
-          Text('${userEntity.totalPosts}'),
+          Text('${widget.userEntity.totalPosts}'),
           verticalSpace(2.h),
           Text('${LocaleKeys.profile_posts.tr()}'),
         ],
@@ -37,7 +43,7 @@ class ProfileInfo1 extends StatelessWidget{
       horizontalSpace(13.w),
       Column(
         children: [
-          Text('${userEntity.totalFollowers}'),
+          Text('${widget.userEntity.totalFollowers}'),
           verticalSpace(2.h),
           Text('${LocaleKeys.profile_followers.tr()}'),
         ],
@@ -45,7 +51,7 @@ class ProfileInfo1 extends StatelessWidget{
       horizontalSpace(13.w),
       Column(
         children: [
-          Text("${Constant.userEntity.totalFollowing}"),
+          Text("${widget.userEntity.totalFollowing}"),
           verticalSpace(2.h),
           Text('${LocaleKeys.profile_following.tr()}'),
         ],
@@ -53,5 +59,4 @@ class ProfileInfo1 extends StatelessWidget{
     ],
    );
   }
-
 }

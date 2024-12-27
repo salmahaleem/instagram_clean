@@ -82,47 +82,36 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
 
-  void _updateUserProfileData() {
+  _updateUserProfileData() {
     setState(() => _isUpdating = true);
     if (_image == null) {
-      _updateUserProfile(" ");
+      _updateUserProfile("");
     } else {
-      di.getIt<UploadImageToStorageUseCase>().call(_image!, false, "profileImages")
-          .then((profileUrl) {
+      di.getIt<UploadImageToStorageUseCase>().call(_image!, false, "profileImages").then((profileUrl) {
         _updateUserProfile(profileUrl);
       }).catchError((e) {
         print("Error uploading image: $e");
-
       });
     }
   }
 
   //function update without image
-  Future<void> _updateUserProfile(String profileUrl) async {
-    try {
-       await BlocProvider.of<ProfileCubit>(context).updateUser(
-           user: UserEntity(
-        uid: widget.userEntity.uid,
-        username: Constant.username.text,
-        bio: Constant.bio.text,
-        website: Constant.website.text,
-        email: Constant.email.text,
-        phone: Constant.phone.text,
-        gender: Constant.gender.text,
-        totalFollowers: 0 ,
-        totalFollowing: 0 ,
-        totalPosts: 0,
-        profileUrl: profileUrl,
-          ));
-    } catch (e) {
-      // Show error feedback (handled by BlocConsumer listener)
-      print("Error updating profile: $e");
-    } finally {
-      if (mounted) {
-        setState(() => _isUpdating = false);
-      }
-    }
+  _updateUserProfile(String profileUrl) {
+
+    BlocProvider.of<ProfileCubit>(context).updateUser(
+        user: UserEntity(
+            uid: widget.userEntity.uid,
+            username: Constant.username.text,
+            bio: Constant.bio.text,
+            website: Constant.website.text,
+            phone: Constant.phone.text,
+            email: Constant.email.text,
+            gender: Constant.gender.text,
+            profileUrl: profileUrl
+        )
+    );
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -158,10 +147,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               },
               builder: (context, state) {
                 return GestureDetector(
-                  onTap: (){
-                    _updateUserProfileData;
-                    context.go('/mainPage',extra: Constant.userEntity);
-                  },
+                  onTap: () => _updateUserProfileData,
                   child: Icon(
                     Icons.done,
                     color: _isUpdating ? Colors.white : AppColors.buttonColor,
@@ -176,7 +162,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         child:SingleChildScrollView(
               child: Column(
                 children: [
-              Column(
+                  Column(
               children: [
               Center(
               child: Container(

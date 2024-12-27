@@ -5,7 +5,6 @@ import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 abstract class UserFirebaseRepo{
 
   //User
-
   Future<void> login(UserEntity user);
   Future<void> signup(UserEntity user);
   Future<bool> isLogin();

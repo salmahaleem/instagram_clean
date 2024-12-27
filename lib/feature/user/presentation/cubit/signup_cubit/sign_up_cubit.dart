@@ -24,8 +24,6 @@ class SignUpCubit extends Cubit<SignUpState> {
     username: Constant.username.text,
     phone: Constant.phone.text,
     gender: Constant.gender.text,
-    profileUrl: Constant.profileUrl,
-    //imageFile: imageFile,
    );
 
    //  if (user.email.isEmpty || user.password.isEmpty) {

@@ -20,8 +20,8 @@ class ProfileInfo2 extends StatelessWidget{
          alignment: AlignmentDirectional.topStart,
          child: Column(
            children: [
-             Text('${Constant.username.text}'),
-             Text('${Constant.bio.text}'),
+             Text('${userEntity.username}'),
+             Text('${userEntity.bio}'),
            ],
          ),
        ),

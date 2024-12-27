@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:instagram_clean/feature/home/presentation/widgets/add_page_widget.dart';
 import 'package:instagram_clean/feature/user/presentation/screens/profile_page.dart';
 
 import '../../../user/presentation/cubit/profile_cubit/get_single_user_cubit/get_single_user_cubit.dart';
@@ -81,7 +82,7 @@ class _NavigationBarWidgetState extends State<NavigationBarWidget> {
               children: [
                 //HomePage(),
                 //SearchPage(),
-               //UploadPostPage(currentUser: currentUser),
+                AddPage(),
                 //ActivityPage(),
                 ProfilePage(currentUser: currentUser,)
               ],

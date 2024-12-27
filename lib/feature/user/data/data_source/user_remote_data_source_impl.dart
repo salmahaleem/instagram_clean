@@ -7,6 +7,7 @@ import 'package:instagram_clean/core/utils/constant.dart';
 import 'package:instagram_clean/feature/user/data/models/user_model.dart';
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 import 'package:instagram_clean/feature/user/domain/repository/user_firebase_repo.dart';
+import 'package:uuid/uuid.dart';
 
 class UserRemoteDataSourceImpl implements UserFirebaseRepo {
   final FirebaseFirestore firebaseFirestore;
@@ -78,8 +79,8 @@ class UserRemoteDataSourceImpl implements UserFirebaseRepo {
               totalFollowers: user.totalFollowers,
               followers: user.followers,
               totalFollowing: user.totalFollowing,
-              totalPosts: user.totalPosts)
-          .toJson();
+              totalPosts: user.totalPosts
+      ).toJson();
 
       if (!userDoc.exists) {
         userCollection.doc(uid).set(newUser);
@@ -118,13 +119,19 @@ class UserRemoteDataSourceImpl implements UserFirebaseRepo {
       }
 
       // Handle profile image upload and user creation
-      String profileUrl = " ";
-      if (user.imageFile != null) {
-        profileUrl =
-            await uploadImageToStorage(user.imageFile!, false, "profileImages");
-      }
-      await createUser(user, profileUrl);
 
+      if (userId != null) {
+        // String profileUrl = " ";
+        if (user.imageFile != null) {
+           await uploadImageToStorage(user.imageFile!, false, "profileImages").then((profileUrl) async{
+            await createUser(user, profileUrl);
+          });
+
+        }else{
+         await createUser(user, " ");
+        }
+      }
+      return;
       // Create user in the database
     } on FirebaseAuthException catch (e) {
       // Handle specific Firebase authentication errors
@@ -228,7 +235,7 @@ class UserRemoteDataSourceImpl implements UserFirebaseRepo {
   @override
   Future<void> updateUser(UserEntity user) async {
     final userCollection = firebaseFirestore.collection(Constant.users);
-    Map<String, dynamic> userInformation = {};
+    Map<String, dynamic> userInformation = Map();
 
     if (user.profileUrl != null && user.profileUrl!.isNotEmpty) {
       userInformation['profileUrl'] = user.profileUrl;
@@ -286,31 +293,6 @@ class UserRemoteDataSourceImpl implements UserFirebaseRepo {
     }
   }
 
-  // @override
-  // Future<String> uploadImageToStorage(File? file, bool isPost, String childName) async {
-  //   try {
-  //     //final fileName = DateTime.now().millisecondsSinceEpoch.toString();
-  //     Reference ref = firebaseStorage
-  //         .ref()
-  //         .child(childName)
-  //         .child(firebaseAuth.currentUser!.uid)
-  //         .child("profileUrl");
-  //
-  //     if (isPost) {
-  //       // String id = Uuid().v1();
-  //       // ref = ref.child(id);
-  //     }
-  //
-  //     final uploadTask = ref.putFile(file!);
-  //     TaskSnapshot snapshot = await uploadTask;
-  //
-  //     String downloadUrl = await snapshot.ref.getDownloadURL();
-  //     return downloadUrl;
-  //   } catch (e) {
-  //     print("Error uploading file: $e");
-  //     throw Exception("Failed to upload image: $e");
-  //   }
-  // }
 
   @override
   Future<String> uploadImageToStorage(File? file, bool isPost, String childName) async {
@@ -318,8 +300,8 @@ class UserRemoteDataSourceImpl implements UserFirebaseRepo {
     Reference ref = firebaseStorage.ref().child(childName).child(firebaseAuth.currentUser!.uid);
 
     if (isPost) {
-      // String id = Uuid().v1();
-      // ref = ref.child(id);
+      String id = Uuid().v1();
+      ref = ref.child(id);
     }
 
     final uploadTask = ref.putFile(file!);
