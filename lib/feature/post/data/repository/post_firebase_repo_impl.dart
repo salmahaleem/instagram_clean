@@ -4,7 +4,7 @@ import 'package:instagram_clean/feature/post/domain/repository/post_firebase_rep
 class PostFirebaseRepoImpl implements PostFirebaseRepo{
   final PostFirebaseRepo postFirebaseRepo;
 
-  PostFirebaseRepoImpl(this.postFirebaseRepo);
+  PostFirebaseRepoImpl({required this.postFirebaseRepo});
   
   @override
   Future<void> createPost(PostEntity post) async => postFirebaseRepo.createPost(post);

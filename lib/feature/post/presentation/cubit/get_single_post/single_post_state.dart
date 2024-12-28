@@ -9,21 +9,21 @@ final class SinglePostInitial extends SinglePostState {
   List<Object> get props => [];
 }
 
-class GetSinglePostLoading extends SinglePostState {
+class SinglePostLoading extends SinglePostState {
   @override
   List<Object> get props => [];
 }
 
 
-class GetSinglePostLoaded extends SinglePostState {
+class SinglePostLoaded extends SinglePostState {
   final PostEntity post;
 
-  GetSinglePostLoaded({required this.post});
+  SinglePostLoaded({required this.post});
   @override
   List<Object> get props => [post];
 }
 
-class GetSinglePostFailure extends SinglePostState {
+class SinglePostFailure extends SinglePostState {
   @override
   List<Object> get props => [];
 }

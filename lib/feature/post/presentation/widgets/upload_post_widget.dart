@@ -1,15 +1,23 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:instagram_clean/core/utils/spacing.dart';
-import 'package:instagram_clean/feature/post/presentation/widgets/create_post_widget.dart';
+import 'package:go_router/go_router.dart';
+import 'package:instagram_clean/core/get_it/get_it.dart' as di;
+import 'package:instagram_clean/core/utils/constant.dart';
+import 'package:instagram_clean/feature/post/domain/entitys/post_entity.dart';
+import 'package:instagram_clean/feature/post/presentation/cubit/post_cubit.dart';
+import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 import 'package:photo_manager/photo_manager.dart';
+import 'package:uuid/uuid.dart';
 
 class UploadPostWidget extends StatefulWidget {
-  //final UserEntity currentUser;
+ // final UserEntity userEntity;
   const UploadPostWidget({
     Key? key,
+    //required this.userEntity,
   }) : super(key: key);
 
   @override
@@ -17,9 +25,10 @@ class UploadPostWidget extends StatefulWidget {
 }
 
 class _UploadPostMainWidgetState extends State<UploadPostWidget> {
+  bool _uploading = false;
   final List<Widget> _mediaList = [];
   final List<File> _filePaths = [];
-  File? _selectedImage;
+  // File? _selectedImage;
   int _currentPage = 0;
   // int? lastPage;
 
@@ -56,8 +65,8 @@ class _UploadPostMainWidgetState extends State<UploadPostWidget> {
         final file = await asset.file;
         if (file != null) {
           _filePaths.add(File(file.path));
-          if (_selectedImage == null) {
-            _selectedImage = _filePaths[0];
+          if (Constant.selectedImage == null) {
+            Constant.selectedImage = _filePaths[0];
           }
         }
       }
@@ -95,9 +104,9 @@ class _UploadPostMainWidgetState extends State<UploadPostWidget> {
         centerTitle: false,
         actions: [
           TextButton(
-            onPressed: _selectedImage != null
+            onPressed: Constant.selectedImage != null
                 ? () {
-              CreatePostWidget(_selectedImage!);
+               context.go('/createPost');
                   }
                 : null,
             child: const Text(
@@ -110,12 +119,12 @@ class _UploadPostMainWidgetState extends State<UploadPostWidget> {
       body: SafeArea(
         child: Column(
           children: [
-            if (_selectedImage != null)
+            if (Constant.selectedImage != null)
               SizedBox(
                 height: 300.h,
                 width: double.infinity,
                 child: Image.file(
-                  _selectedImage!,
+                  Constant.selectedImage!,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -141,7 +150,7 @@ class _UploadPostMainWidgetState extends State<UploadPostWidget> {
                   return GestureDetector(
                     onTap: () {
                       setState(() {
-                        _selectedImage = _filePaths[index];
+                        Constant.selectedImage = _filePaths[index];
                       });
                     },
                     child: _mediaList[index],
@@ -155,3 +164,4 @@ class _UploadPostMainWidgetState extends State<UploadPostWidget> {
     );
   }
 }
+

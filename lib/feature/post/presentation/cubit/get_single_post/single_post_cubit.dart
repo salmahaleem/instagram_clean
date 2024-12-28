@@ -13,16 +13,16 @@ class SinglePostCubit extends Cubit<SinglePostState> {
   SinglePostCubit({required this.readSinglePostUseCase}) : super(SinglePostInitial());
 
   Future<void> getSinglePost({required String postId}) async {
-    emit(GetSinglePostLoading());
+    emit(SinglePostLoading());
     try {
       final streamResponse = readSinglePostUseCase.call(postId);
       streamResponse.listen((posts) {
-        emit(GetSinglePostLoaded(post: posts.first));
+        emit(SinglePostLoaded(post: posts.first));
       });
     } on SocketException catch(_) {
-      emit(GetSinglePostFailure());
+      emit(SinglePostFailure());
     } catch (_) {
-      emit(GetSinglePostFailure());
+      emit(SinglePostFailure());
     }
   }
 }

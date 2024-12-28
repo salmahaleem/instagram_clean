@@ -1,16 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:instagram_clean/core/utils/constant.dart';
 import 'package:instagram_clean/core/utils/spacing.dart';
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 import 'package:instagram_clean/feature/user/presentation/widgets/profile_widgets/profile_info1.dart';
 import 'package:instagram_clean/feature/user/presentation/widgets/profile_widgets/profile_info2.dart';
 import 'package:instagram_clean/feature/user/presentation/widgets/profile_widgets/profile_tabcontroller.dart';
-import 'package:instagram_clean/feature/user/presentation/widgets/profile_widgets/settings_menu.dart';
-import 'package:sidebarx/sidebarx.dart';
 
 class ProfilePage extends StatelessWidget {
   final UserEntity currentUser;
@@ -43,20 +39,22 @@ class ProfilePage extends StatelessWidget {
                 ),
               ],
             ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            ProfileInfo1(
-              userEntity: currentUser,
-            ),
-            verticalSpace(10.h),
-            ProfileInfo2(
-              userEntity: currentUser,
-            ),
-            verticalSpace(10.h),
-            ProfileTabController(),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              ProfileInfo1(
+                userEntity: currentUser,
+              ),
+              verticalSpace(10.h),
+              ProfileInfo2(
+                userEntity: currentUser,
+              ),
+              verticalSpace(10.h),
+              ProfileTabController(),
+            ],
+          ),
         ),
       ),
     );

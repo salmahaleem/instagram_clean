@@ -29,6 +29,10 @@ class Constant {
 
   static UserEntity userEntity = UserEntity();
 
+  static File? selectedImage;
+  static String postId = "";
+  static String otherUserId = "";
+
   // static FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   // static FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   // static FirebaseStorage firebaseStorage = FirebaseStorage.instance;

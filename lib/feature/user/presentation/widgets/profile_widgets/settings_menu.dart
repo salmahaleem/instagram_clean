@@ -2,12 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:instagram_clean/core/utils/constant.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/profile_cubit.dart';
 import 'package:instagram_clean/generated/locale_keys.dart';
-import 'package:sidebarx/sidebarx.dart';
 
 import '../../../../../core/appLogic/languages/language_cubit.dart';
 import '../../../../../core/appLogic/theme/theme_cubit.dart';
@@ -33,7 +30,7 @@ class SettingsMenu extends StatelessWidget{
             TextButton.icon(
                 onPressed: (){},
                 label: Text('  ${LocaleKeys.settings_saved.tr()}',style: Theme.of(context).textTheme.labelLarge,),
-                icon: Icon(Icons.favorite, color: Theme.of(context).iconTheme.color,),
+                icon: Icon(Icons.bookmark_border_outlined, color: Theme.of(context).iconTheme.color,),
 
             ),
             TextButton.icon(

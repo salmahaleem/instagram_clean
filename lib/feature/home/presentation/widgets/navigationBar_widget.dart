@@ -1,3 +1,4 @@
+import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -72,7 +73,7 @@ class _NavigationBarWidgetState extends State<NavigationBarWidget> {
                 BottomNavigationBarItem(icon: Icon(Icons.home_filled, color: Theme.of(context).iconTheme.color), label: ""),
                 BottomNavigationBarItem(icon: Icon(Icons.search_outlined, color: Theme.of(context).iconTheme.color), label: ""),
                 BottomNavigationBarItem(icon: Icon(Icons.add_box_outlined, color: Theme.of(context).iconTheme.color,), label: ""),
-                BottomNavigationBarItem(icon: Icon(Icons.favorite, color: Theme.of(context).iconTheme.color), label: ""),
+                BottomNavigationBarItem(icon: Icon(Icons.video_collection_outlined, color: Theme.of(context).iconTheme.color), label: ""),
                 BottomNavigationBarItem(icon: Icon(Icons.account_circle_outlined, color: Theme.of(context).iconTheme.color), label: ""),
               ],
               onTap: navigationTapped,

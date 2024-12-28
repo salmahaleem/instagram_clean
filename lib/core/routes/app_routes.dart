@@ -5,8 +5,15 @@ import 'package:go_router/go_router.dart';
 import 'package:instagram_clean/core/get_it/get_it.dart';
 import 'package:instagram_clean/core/utils/constant.dart';
 import 'package:instagram_clean/feature/home/presentation/screens/main_page.dart';
+import 'package:instagram_clean/feature/post/presentation/cubit/get_single_post/single_post_cubit.dart';
+import 'package:instagram_clean/feature/post/presentation/cubit/post_cubit.dart';
+import 'package:instagram_clean/feature/post/presentation/screens/post_details.dart';
+import 'package:instagram_clean/feature/post/presentation/screens/post_details_page.dart';
+import 'package:instagram_clean/feature/post/presentation/widgets/all_posts_single_user.dart';
+import 'package:instagram_clean/feature/post/presentation/widgets/create_post_widget.dart';
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/login_cubit/login_cubit.dart';
+import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/get_other_single_user/get_other_single_user_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/get_single_user_cubit/get_single_user_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/profile_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/signup_cubit/sign_up_cubit.dart';
@@ -101,5 +108,58 @@ class AppRoutes {
         builder: (context, state) {
           return MainPage(uid: "${Constant.userEntity.uid}");
         }),
+    GoRoute(
+        path: '/createPost',
+        name: 'createPost',
+        builder: (context, state) {
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (_) => getIt<SinglePostCubit>(),
+              ),
+              BlocProvider(
+                create: (_) => getIt<PostCubit>(),
+              ),
+            ],
+            child: CreatePostWidget(userEntity: Constant.userEntity),
+          );
+        }
+    ),
+    GoRoute(
+        path: '/postDetails',
+        name: '/postDetails',
+        builder: (context, state) {
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (_) =>getIt<SinglePostCubit>(),
+              ),
+              BlocProvider(
+                create: (_) => getIt<PostCubit>(),
+              ),
+            ],
+            child: PostDetailMainWidget(postId: Constant.postId),
+          );
+        }
+    ),
+    GoRoute(
+        path: '/allPostsSingleUser',
+        name: '/allPostsSingleUser',
+        builder: (context, state) {
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (_) =>getIt<GetOtherSingleUserCubit>()..getSingleOtherUser(otherUid: Constant.otherUserId),
+              ),
+              BlocProvider(
+                create: (_) => getIt<PostCubit>(),
+              ),
+            ],
+            child: AllPostsSingleUser(),
+          );
+        }
+    )
   ]);
+
+
 }

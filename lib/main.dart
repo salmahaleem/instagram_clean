@@ -9,7 +9,9 @@ import 'package:instagram_clean/core/appLogic/theme/theme_cubit.dart';
 
 import 'package:instagram_clean/core/routes/app_routes.dart';
 import 'package:instagram_clean/core/shared/shared_pref.dart';
-import 'package:instagram_clean/feature/user/presentation/cubit/login_cubit/login_cubit.dart';
+import 'package:instagram_clean/feature/post/presentation/cubit/get_single_post/single_post_cubit.dart';
+import 'package:instagram_clean/feature/post/presentation/cubit/post_cubit.dart';
+import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/get_other_single_user/get_other_single_user_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/get_single_user_cubit/get_single_user_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/profile_cubit.dart';
 import 'package:instagram_clean/firebase_options.dart';
@@ -22,9 +24,9 @@ Future main() async {
   await Firebase.initializeApp(
    options: DefaultFirebaseOptions.currentPlatform,
   );
-  // await FirebaseAppCheck.instance.activate(
-  //   androidProvider: AndroidProvider.debug,
-  // );
+  await FirebaseAppCheck.instance.activate(
+    androidProvider: AndroidProvider.debug,
+  );
   await EasyLocalization.ensureInitialized();
   await SharedPref.init();
   await di.setGetIt();
@@ -39,6 +41,9 @@ Future main() async {
             BlocProvider(create: (_) => LanguageCubit()),
             BlocProvider(create: (_)=> di.getIt<GetSingleUserCubit>()),
             BlocProvider(create: (_)=> di.getIt<ProfileCubit>()),
+            BlocProvider(create: (_)=> di.getIt<GetOtherSingleUserCubit>()),
+            // BlocProvider(create: (_)=> di.getIt<PostCubit>()),
+            // BlocProvider(create: (_)=> di.getIt<SinglePostCubit>()),
           ], child: const MyApp())));
 }
 

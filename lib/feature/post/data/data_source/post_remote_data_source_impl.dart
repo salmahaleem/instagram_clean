@@ -8,13 +8,13 @@ import 'package:instagram_clean/feature/post/domain/repository/post_firebase_rep
 import 'package:instagram_clean/feature/user/data/repository/user_firebase_repo_impl.dart';
 
 class PostRemoteDataSourceImpl implements PostFirebaseRepo{
-  final UserFirebaseRepoImpl userFirebaseRepoImpl;
+  final UserFirebaseRepoImpl? userFirebaseRepoImpl;
   final FirebaseFirestore firebaseFirestore;
   final FirebaseAuth firebaseAuth;
   final FirebaseStorage firebaseStorage;
 
   PostRemoteDataSourceImpl(
-      this.userFirebaseRepoImpl, {
+      {this.userFirebaseRepoImpl,
     required this.firebaseFirestore,
     required this.firebaseAuth,
     required this.firebaseStorage,
@@ -85,7 +85,7 @@ class PostRemoteDataSourceImpl implements PostFirebaseRepo{
   Future<void> likePost(PostEntity post) async{
     final postCollection = firebaseFirestore.collection(Constant.posts);
 
-    final currentUid = await userFirebaseRepoImpl.getCurrentUserId();
+    final currentUid = await userFirebaseRepoImpl?.getCurrentUserId();
     final postRef = await postCollection.doc(post.postId).get();
 
     if (postRef.exists) {
