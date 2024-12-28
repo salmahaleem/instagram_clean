@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:instagram_clean/core/get_it/get_it.dart';
+import 'package:instagram_clean/core/get_it/get_it.dart' as di;
 import 'package:instagram_clean/core/utils/constant.dart';
 import 'package:instagram_clean/feature/home/presentation/screens/main_page.dart';
+import 'package:instagram_clean/feature/post/domain/entitys/post_entity.dart';
 import 'package:instagram_clean/feature/post/presentation/cubit/get_single_post/single_post_cubit.dart';
 import 'package:instagram_clean/feature/post/presentation/cubit/post_cubit.dart';
-import 'package:instagram_clean/feature/post/presentation/screens/post_details.dart';
 import 'package:instagram_clean/feature/post/presentation/screens/post_details_page.dart';
 import 'package:instagram_clean/feature/post/presentation/widgets/all_posts_single_user.dart';
 import 'package:instagram_clean/feature/post/presentation/widgets/create_post_widget.dart';
@@ -31,7 +31,7 @@ class AppRoutes {
       builder: (context, state) =>
           MultiBlocProvider(
             providers: [
-              BlocProvider(create: (_) => getIt<LoginCubit>()),
+              BlocProvider(create: (_) => di.getIt<LoginCubit>()),
             ],
             child: LoginPage(),
           ),
@@ -43,7 +43,7 @@ class AppRoutes {
             MultiBlocProvider(
               providers: [
                 BlocProvider(
-                  create: (_) => getIt<SignUpCubit>(),
+                  create: (_) => di.getIt<SignUpCubit>(),
                 ),
               ],
               child: SignupPage(),
@@ -57,7 +57,7 @@ class AppRoutes {
             return MultiBlocProvider(
               providers: [
                 BlocProvider(
-                  create: (_) => getIt<GetSingleUserCubit>(),
+                  create: (_) => di.getIt<GetSingleUserCubit>(),
                 ),
               ],
               child: ProfilePage(currentUser: currentUser),
@@ -75,7 +75,7 @@ class AppRoutes {
           return MultiBlocProvider(
             providers: [
               BlocProvider(
-                create: (_) => getIt<ProfileCubit>(),
+                create: (_) => di.getIt<ProfileCubit>(),
               ),
             ],
             child: EditProfilePage(userEntity: currentUser),
@@ -98,7 +98,7 @@ class AppRoutes {
     ),
     GoRoute(
         path: '/settings',
-        name: '/settings',
+        name: 'settings',
         builder: (context, state) {
           return SettingsMenu();
         }),
@@ -114,11 +114,8 @@ class AppRoutes {
         builder: (context, state) {
           return MultiBlocProvider(
             providers: [
-              BlocProvider(
-                create: (_) => getIt<SinglePostCubit>(),
-              ),
-              BlocProvider(
-                create: (_) => getIt<PostCubit>(),
+              BlocProvider<PostCubit>(
+                create: (_) => di.getIt<PostCubit>(),
               ),
             ],
             child: CreatePostWidget(userEntity: Constant.userEntity),
@@ -126,40 +123,37 @@ class AppRoutes {
         }
     ),
     GoRoute(
-        path: '/postDetails',
-        name: '/postDetails',
+        path: '/postDetailsPage/:postId',
+        name: 'postDetailsPage',
         builder: (context, state) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (_) =>getIt<SinglePostCubit>(),
-              ),
-              BlocProvider(
-                create: (_) => getIt<PostCubit>(),
-              ),
-            ],
-            child: PostDetailMainWidget(postId: Constant.postId),
+          final postId = state.pathParameters['postId']!;
+          return BlocProvider<SinglePostCubit>(
+            create: (context) => di.getIt<SinglePostCubit>(),
+            child: PostDetailsPage(postId: postId),
           );
         }
     ),
     GoRoute(
         path: '/allPostsSingleUser',
-        name: '/allPostsSingleUser',
+        name: 'allPostsSingleUser',
         builder: (context, state) {
           return MultiBlocProvider(
             providers: [
               BlocProvider(
-                create: (_) =>getIt<GetOtherSingleUserCubit>()..getSingleOtherUser(otherUid: Constant.otherUserId),
+                create: (_) =>
+                di.getIt<GetOtherSingleUserCubit>()
+                  ..getSingleOtherUser(otherUid: Constant.otherUserId),
               ),
               BlocProvider(
-                create: (_) => getIt<PostCubit>(),
+                create: (_) => di.getIt<PostCubit>(),
               ),
             ],
             child: AllPostsSingleUser(),
           );
         }
     )
-  ]);
+  ]
+  );
 
 
 }

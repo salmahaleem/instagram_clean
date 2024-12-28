@@ -18,7 +18,7 @@ class SinglePostLoading extends SinglePostState {
 class SinglePostLoaded extends SinglePostState {
   final PostEntity post;
 
-  SinglePostLoaded({required this.post});
+  const SinglePostLoaded({required this.post});
   @override
   List<Object> get props => [post];
 }

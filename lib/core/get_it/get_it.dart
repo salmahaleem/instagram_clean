@@ -72,7 +72,8 @@ Future<void> setGetIt() async {
       readPostUseCase: getIt<ReadPostsUseCase>()
   ));
 
-  getIt.registerFactory(() => SinglePostCubit(readSinglePostUseCase: getIt<ReadSinglePostUseCase>()));
+  getIt.registerFactory<SinglePostCubit>(() => SinglePostCubit(
+      readSinglePostUseCase: getIt<ReadSinglePostUseCase>()));
 
   //usecase user
   getIt.registerLazySingleton<LoginUseCase>(
@@ -133,7 +134,6 @@ Future<void> setGetIt() async {
 
   //remote post
   getIt.registerLazySingleton<PostRemoteDataSourceImpl>(() => PostRemoteDataSourceImpl(
-
     firebaseAuth: getIt<FirebaseAuth>(),
     firebaseFirestore: getIt<FirebaseFirestore>(),
     firebaseStorage: getIt<FirebaseStorage>(),

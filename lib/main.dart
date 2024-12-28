@@ -42,8 +42,8 @@ Future main() async {
             BlocProvider(create: (_)=> di.getIt<GetSingleUserCubit>()),
             BlocProvider(create: (_)=> di.getIt<ProfileCubit>()),
             BlocProvider(create: (_)=> di.getIt<GetOtherSingleUserCubit>()),
-            // BlocProvider(create: (_)=> di.getIt<PostCubit>()),
-            // BlocProvider(create: (_)=> di.getIt<SinglePostCubit>()),
+            //BlocProvider(create: (_)=> di.getIt<PostCubit>()),
+            //BlocProvider(create: (_)=> di.getIt<SinglePostCubit>()),
           ], child: const MyApp())));
 }
 

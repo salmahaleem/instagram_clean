@@ -50,18 +50,7 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: GestureDetector(
-                  onTap: _uploading
-                      ? null
-                      : () async {
-                    final success = await _submitPost();
-                    if (success) {
-                      context.go('/postDetails');
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Failed to submit post')),
-                      );
-                    }
-                  },
+                  onTap: _submitPost,
                   child: Icon(
                     Icons.arrow_forward,
                     color:  _uploading ? Colors.grey : Colors.blue,
@@ -70,9 +59,8 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
           ],
         ),
         body: SafeArea(
-          child: _uploading
-              ? Center(child: CircularProgressIndicator())
-              : Padding(
+          child: _uploading ? Center(child: CircularProgressIndicator(),)
+                 :Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: Column(
                     children: [
@@ -104,37 +92,45 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
                             )
                     ],
                   ),
-                ),
-        ));
+                )
+        )
+    );
   }
 
   _submitPost() {
     setState(() {
       _uploading = true;
     });
-    di
-        .getIt<UploadImageToStorageUseCase>()
-        .call(Constant.selectedImage!, true, "posts")
-        .then((imageUrl) {
+    di.getIt<UploadImageToStorageUseCase>().call(Constant.selectedImage!, true, "posts").then((imageUrl) {
       _createSubmitPost(image: imageUrl);
+    }).then((_){
+      context.go('/postDetailsPage/${Uuid().v1()}');
+    }).catchError((error) {
+      setState(() {
+        _uploading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to submit post: $error')),
+      );
     });
   }
 
+
   _createSubmitPost({required String image}) {
-    BlocProvider.of<PostCubit>(context)
-        .createPost(
-            post: PostEntity(
-                description: Constant.descriptionController.text,
-                createAt: Timestamp.now(),
-                creatorUid: widget.userEntity.uid,
-                likes: [],
-                postId: Uuid().v1(),
-                postImageUrl: image,
-                totalComments: 0,
-                totalLikes: 0,
-                username: widget.userEntity.username,
-                userProfileUrl: widget.userEntity.profileUrl))
-        .then((value) => _clear());
+    BlocProvider.of<PostCubit>(context).createPost(
+        post: PostEntity(
+            description: Constant.descriptionController.text,
+            createAt: Timestamp.now(),
+            creatorUid: widget.userEntity.uid,
+            likes: [],
+            postId: Constant.postId,
+            postImageUrl: image,
+            totalComments: 0,
+            totalLikes: 0,
+            username: widget.userEntity.username,
+            userProfileUrl: widget.userEntity.profileUrl
+        )
+    ).then((value) => _clear());
   }
 
   _clear() {
