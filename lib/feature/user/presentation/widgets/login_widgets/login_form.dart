@@ -9,10 +9,15 @@ import 'package:instagram_clean/generated/locale_keys.dart';
 
 
 class LoginForm extends StatelessWidget{
+   final GlobalKey <FormState> formKey = GlobalKey <FormState> ();
+
+  LoginForm({super.key});
+
+
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: Constant.formKey,
+      key: formKey,
       child: Column(
         children: [
           InstagramTextField(

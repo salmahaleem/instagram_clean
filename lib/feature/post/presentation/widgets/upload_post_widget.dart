@@ -106,7 +106,7 @@ class _UploadPostMainWidgetState extends State<UploadPostWidget> {
           TextButton(
             onPressed: Constant.selectedImage != null
                 ? () {
-               context.go('/createPost');
+               context.go('/createPost',extra: Constant.userEntity);
                   }
                 : null,
             child: const Text(

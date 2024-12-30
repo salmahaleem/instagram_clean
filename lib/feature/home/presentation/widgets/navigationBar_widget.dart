@@ -1,8 +1,8 @@
-import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:instagram_clean/core/utils/constant.dart';
+import 'package:instagram_clean/feature/home/presentation/screens/home_page.dart';
 import 'package:instagram_clean/feature/home/presentation/widgets/add_page_widget.dart';
 import 'package:instagram_clean/feature/user/presentation/screens/profile_page.dart';
 
@@ -81,11 +81,11 @@ class _NavigationBarWidgetState extends State<NavigationBarWidget> {
             body: PageView(
               controller: pageController,
               children: [
-                //HomePage(),
+                HomePage(userEntity: currentUser),
                 //SearchPage(),
                 AddPage(),
                 //ActivityPage(),
-                ProfilePage(currentUser: currentUser,)
+                ProfilePage(userEntity: currentUser)
               ],
               onPageChanged: onPageChanged,
             ),

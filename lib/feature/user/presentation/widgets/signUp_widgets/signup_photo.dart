@@ -21,15 +21,15 @@ class SignupPhoto extends StatefulWidget{
 }
 
 class _SignupPhotoState extends State<SignupPhoto> {
-  File? _image;
+  //File? _image;
 
   Future selectImage() async {
     try {
       final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
       if(pickedFile != null){
          setState(() {
-           _image = File(pickedFile.path);
-           di.getIt<UploadImageToStorageUseCase>().call(_image!, false, "profileImages");
+           Constant.profileImage = File(pickedFile.path);
+           di.getIt<UploadImageToStorageUseCase>().call(Constant.profileImage!, false, "profileImages");
          });
 
         //   setState(() {
@@ -60,7 +60,7 @@ class _SignupPhotoState extends State<SignupPhoto> {
         height: 100,
         child: ClipRRect(
         borderRadius: BorderRadius.circular(50),
-        child: UserPhoto(imageUrl: widget.userEntity.profileUrl, image:_image),
+        child: UserPhoto(image:Constant.profileImage),
         ),
         ),
       GestureDetector(

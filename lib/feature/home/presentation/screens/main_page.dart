@@ -2,8 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clean/feature/home/presentation/widgets/navigationBar_widget.dart';
-import 'package:instagram_clean/feature/user/data/models/user_model.dart';
-import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 import 'package:instagram_clean/feature/user/presentation/screens/login_page.dart';
 
 class MainPage extends StatelessWidget{

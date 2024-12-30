@@ -63,35 +63,40 @@ class UserRemoteDataSourceImpl implements UserFirebaseRepo {
 
   @override
   Future<void> createUser(UserEntity user, String profileUrl) async {
-    final userCollection = firebaseFirestore.collection(Constant.users);
+    try {
+      final userCollection = firebaseFirestore.collection(Constant.users);
 
-    final uid = await getCurrentUserId();
+      final uid = await getCurrentUserId();
 
-    userCollection.doc(uid).get().then((userDoc) {
-      final newUser = UserModel(
-              uid: uid,
-              email: user.email,
-              bio: user.bio,
-              following: user.following,
-              website: user.website,
-              profileUrl: user.profileUrl,
-              username: user.username,
-              totalFollowers: user.totalFollowers,
-              followers: user.followers,
-              totalFollowing: user.totalFollowing,
-              totalPosts: user.totalPosts
-      ).toJson();
+      userCollection.doc(uid).get().then((userDoc) {
+        final newUser = UserModel(
+            uid: uid,
+            email: user.email,
+            bio: user.bio,
+            phone: user.phone,
+            gender: user.gender,
+            following: user.following,
+            website: user.website,
+            profileUrl: profileUrl,
+            username: user.username,
+            totalFollowers: user.totalFollowers,
+            followers: user.followers,
+            totalFollowing: user.totalFollowing,
+            totalPosts: user.totalPosts
+        ).toJson();
 
-      if (!userDoc.exists) {
-        userCollection.doc(uid).set(newUser);
-      } else {
-        userCollection.doc(uid).update(newUser);
-      }
-    }).catchError((error) {
-      print("Some error occur");
-    });
+        if (!userDoc.exists) {
+          userCollection.doc(uid).set(newUser);
+        } else {
+          userCollection.doc(uid).update(newUser);
+        }
+      }).catchError((error) {
+        print("Some error occur");
+      });
+    } catch (error) {
+      print("Error creating/updating user: $error");
+    }
   }
-
   @override
   Future<String> getCurrentUserId() async =>
       await firebaseAuth.currentUser!.uid;

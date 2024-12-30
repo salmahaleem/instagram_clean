@@ -5,6 +5,7 @@ import 'package:instagram_clean/core/utils/constant.dart';
 import 'package:instagram_clean/feature/post/data/model/post_model.dart';
 import 'package:instagram_clean/feature/post/domain/entitys/post_entity.dart';
 import 'package:instagram_clean/feature/post/domain/repository/post_firebase_repo.dart';
+import 'package:instagram_clean/feature/user/data/models/user_model.dart';
 import 'package:instagram_clean/feature/user/data/repository/user_firebase_repo_impl.dart';
 
 class PostRemoteDataSourceImpl implements PostFirebaseRepo{
@@ -27,13 +28,13 @@ class PostRemoteDataSourceImpl implements PostFirebaseRepo{
     final newPost = PostModel(
         userProfileUrl: post.userProfileUrl,
         username: post.username,
-        totalLikes: 0,
-        totalComments: 0,
+        totalLikes: post.totalLikes,
+        totalComments: post.totalComments,
         postImageUrl: post.postImageUrl,
         postId: post.postId,
         likes: [],
         description: post.description,
-        creatorUid: post.creatorUid,
+        creatorUid: firebaseAuth.currentUser!.uid,
         createAt: post.createAt
     ).toJson();
 

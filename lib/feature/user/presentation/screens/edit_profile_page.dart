@@ -22,7 +22,7 @@ import 'package:instagram_clean/generated/locale_keys.dart';
 class EditProfilePage extends StatefulWidget {
   final UserEntity userEntity;
 
-  EditProfilePage({super.key, required this.userEntity});
+  EditProfilePage({super.key,required  this.userEntity});
 
   @override
   State<EditProfilePage> createState() => _EditProfilePageState();
@@ -147,7 +147,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               },
               builder: (context, state) {
                 return GestureDetector(
-                  onTap: () => _updateUserProfileData,
+                  onTap:  _updateUserProfileData,
                   child: Icon(
                     Icons.done,
                     color: _isUpdating ? Colors.white : AppColors.buttonColor,
@@ -170,7 +170,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 height: 100,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(50),
-                  child: UserPhoto(imageUrl: widget.userEntity.profileUrl, image: _image),
+                  child: UserPhoto(imageUrl: widget.userEntity!.profileUrl, image: widget.userEntity!.imageFile),
                 ),
               ),
         ),

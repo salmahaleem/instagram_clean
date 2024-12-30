@@ -42,10 +42,10 @@ class _AllPostsSingleUserState extends State<AllPostsSingleUser> {
     _currentUid = await di.getIt<GetCurrentUserIdUseCase>().call();
     setState(() {});
 
-    // BlocProvider.of<GetOtherSingleUserCubit>(context)
-    //   ..getSingleOtherUser(otherUid: Constant.otherUserId);
-    //
-    // BlocProvider.of<PostCubit>(context)..getAllPosts(post: PostEntity());
+    BlocProvider.of<GetOtherSingleUserCubit>(context)
+      ..getSingleOtherUser(otherUid: Constant.otherUserId);
+
+    BlocProvider.of<PostCubit>(context)..getAllPosts(post: PostEntity());
   }
 
   @override

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:instagram_clean/core/get_it/get_it.dart' as di;
+import 'package:instagram_clean/core/get_it/get_it.dart';
 import 'package:instagram_clean/core/utils/constant.dart';
 import 'package:instagram_clean/feature/home/presentation/screens/main_page.dart';
 import 'package:instagram_clean/feature/post/domain/entitys/post_entity.dart';
@@ -12,6 +12,7 @@ import 'package:instagram_clean/feature/post/presentation/screens/post_details_p
 import 'package:instagram_clean/feature/post/presentation/widgets/all_posts_single_user.dart';
 import 'package:instagram_clean/feature/post/presentation/widgets/create_post_widget.dart';
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
+import 'package:instagram_clean/feature/user/domain/usecase/getCurrentUserId_usecase.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/login_cubit/login_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/get_other_single_user/get_other_single_user_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/get_single_user_cubit/get_single_user_cubit.dart';
@@ -31,7 +32,7 @@ class AppRoutes {
       builder: (context, state) =>
           MultiBlocProvider(
             providers: [
-              BlocProvider(create: (_) => di.getIt<LoginCubit>()),
+              BlocProvider(create: (_) => getIt<LoginCubit>()),
             ],
             child: LoginPage(),
           ),
@@ -43,7 +44,7 @@ class AppRoutes {
             MultiBlocProvider(
               providers: [
                 BlocProvider(
-                  create: (_) => di.getIt<SignUpCubit>(),
+                  create: (_) => getIt<SignUpCubit>(),
                 ),
               ],
               child: SignupPage(),
@@ -57,10 +58,13 @@ class AppRoutes {
             return MultiBlocProvider(
               providers: [
                 BlocProvider(
-                  create: (_) => di.getIt<GetSingleUserCubit>(),
+                  create: (_) => getIt<PostCubit>(),
+                ),
+                BlocProvider(
+                  create: (_) => getIt<GetSingleUserCubit>(),
                 ),
               ],
-              child: ProfilePage(currentUser: currentUser),
+              child: ProfilePage(userEntity: currentUser),
             );
           } else {
             return const SizedBox.shrink();
@@ -75,7 +79,7 @@ class AppRoutes {
           return MultiBlocProvider(
             providers: [
               BlocProvider(
-                create: (_) => di.getIt<ProfileCubit>(),
+                create: (_) => getIt<ProfileCubit>(),
               ),
             ],
             child: EditProfilePage(userEntity: currentUser),
@@ -112,13 +116,14 @@ class AppRoutes {
         path: '/createPost',
         name: 'createPost',
         builder: (context, state) {
+          final UserEntity currentUser = state.extra as UserEntity;
           return MultiBlocProvider(
             providers: [
               BlocProvider<PostCubit>(
-                create: (_) => di.getIt<PostCubit>(),
+                create: (_) => getIt<PostCubit>(),
               ),
             ],
-            child: CreatePostWidget(userEntity: Constant.userEntity),
+            child: CreatePostWidget(userEntity: currentUser),
           );
         }
     ),
@@ -127,9 +132,16 @@ class AppRoutes {
         name: 'postDetailsPage',
         builder: (context, state) {
           final postId = state.pathParameters['postId']!;
-          return BlocProvider<SinglePostCubit>(
-            create: (context) => di.getIt<SinglePostCubit>(),
-            child: PostDetailsPage(postId: postId),
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider<SinglePostCubit>(
+                create: (context) => getIt<SinglePostCubit>(),
+              ),
+              BlocProvider<PostCubit>(
+                create: (_) => getIt<PostCubit>(),
+              ),
+            ],
+            child: PostDetailsPage(postId: postId,),
           );
         }
     ),
@@ -141,11 +153,11 @@ class AppRoutes {
             providers: [
               BlocProvider(
                 create: (_) =>
-                di.getIt<GetOtherSingleUserCubit>()
+                getIt<GetOtherSingleUserCubit>()
                   ..getSingleOtherUser(otherUid: Constant.otherUserId),
               ),
               BlocProvider(
-                create: (_) => di.getIt<PostCubit>(),
+                create: (_) => getIt<PostCubit>(),
               ),
             ],
             child: AllPostsSingleUser(),

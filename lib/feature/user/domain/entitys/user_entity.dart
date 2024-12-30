@@ -1,7 +1,8 @@
 
 import 'dart:io';
 
-class UserEntity  {
+
+class UserEntity {
   final String? uid;
   final String? username;
   final String? bio;
@@ -44,7 +45,6 @@ class UserEntity  {
   // List<Object?> get props => [
   //   uid,
   //   username,
-  //   name,
   //   bio,
   //   website,
   //   email,

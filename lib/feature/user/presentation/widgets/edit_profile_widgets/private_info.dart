@@ -14,11 +14,13 @@ class PrivateInfo extends StatefulWidget{
 }
 
 class _PrivateInfoState extends State<PrivateInfo> {
+ final GlobalKey <FormState> profileFormKey = GlobalKey <FormState> ();
   final items = ['Female','Male'];
   String? value;
   @override
   Widget build(BuildContext context) {
     return Form(
+      key: profileFormKey,
       child: Column(
         children: [
           Row(

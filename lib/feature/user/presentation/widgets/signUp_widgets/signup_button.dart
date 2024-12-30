@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -23,6 +25,11 @@ class SignupButton extends StatefulWidget {
 }
 
 class _SignupButtonState extends State<SignupButton> {
+
+  bool _isSigningUp = false;
+  bool _isUploading = false;
+
+  //File? _image;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -52,13 +59,13 @@ class _SignupButtonState extends State<SignupButton> {
               return InstagramButton(
                   text: "${LocaleKeys.authenticationRegister.tr()}",
                   onPressed: () {
-                    context.read<SignUpCubit>().signup(user:widget.userEntity);
+                    _signUpUser();
                   });
           }
             return InstagramButton(
                 text: "${LocaleKeys.authenticationRegister.tr()}",
                 onPressed: () {
-                  context.read<SignUpCubit>().signup(user: widget.userEntity);
+                  _signUpUser();
                 });
           }
         ),
@@ -87,6 +94,42 @@ class _SignupButtonState extends State<SignupButton> {
         ),
       ],
     );
+  }
+
+  Future<void> _signUpUser() async {
+    setState(() {
+      _isSigningUp = true;
+    });
+    BlocProvider.of<SignUpCubit>(context).signup(
+        user: UserEntity(
+            email: Constant.email.text,
+            password: Constant.password.text,
+            bio: "",
+            username: Constant.username.text,
+            totalPosts: 0,
+            totalFollowing: 0,
+            followers: [],
+            totalFollowers: 0,
+            website: "",
+            following: [],
+            profileUrl:Constant.profileUrl ,
+            phone: Constant.phone.text,
+            gender: Constant.gender.text,
+            imageFile: Constant.profileImage,
+            //profileUrl: userEntity.profileUrl
+        )
+    ).then((value) => _clear());
+  }
+
+  _clear() {
+    setState(() {
+      Constant.username.clear();
+      Constant.phone.clear();
+      Constant.gender.clear();
+      Constant.email.clear();
+      Constant.password.clear();
+      _isSigningUp = false;
+    });
   }
 
 }

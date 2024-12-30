@@ -8,9 +8,12 @@ import 'package:instagram_clean/core/widgets/profile_textfield.dart';
 import 'package:instagram_clean/generated/locale_keys.dart';
 
 class MainInfo extends StatelessWidget{
+  final GlobalKey <FormState> profileFormKeys = GlobalKey <FormState> ();
+
   @override
   Widget build(BuildContext context) {
    return Form(
+     key: profileFormKeys,
      child: Column(
        children: [
          Row(

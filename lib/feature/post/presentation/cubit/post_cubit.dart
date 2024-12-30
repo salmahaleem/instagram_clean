@@ -27,6 +27,7 @@ class PostCubit extends Cubit<PostState> {
 
 
   Future<void> createPost({required PostEntity post}) async {
+    emit(PostLoading());
     try {
       await createPostUseCase.call(post);
     } on SocketException catch(_) {

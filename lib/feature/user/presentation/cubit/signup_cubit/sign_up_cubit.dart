@@ -17,33 +17,6 @@ class SignUpCubit extends Cubit<SignUpState> {
 
 
   Future<void> signup({required UserEntity user}) async {
-   final UserEntity user = UserEntity(
-    email: Constant.email.text,
-    password: Constant.password.text,
-    bio: Constant.bio.text,
-    username: Constant.username.text,
-    phone: Constant.phone.text,
-    gender: Constant.gender.text,
-   );
-
-   //  if (user.email.isEmpty || user.password.isEmpty) {
-   //    emit(SignUpFailed("Email and password cannot be empty."));
-   //    return;
-   //  }
-   //
-   //  if (username.isEmpty || gender.isEmpty || phone.isEmpty) {
-   //    emit(SignUpFailed("All fields are required."));
-   //    return;
-   //  }
-   //  // final UserEntity user = UserEntity(
-   //  //   profileUrl: profileUrl ?? "",
-   //  //   email: email,
-   //  //   password: password,
-   //  //   username: username,
-   //  //   gender: gender,
-   //  //   phone: phone,
-   //  // );
-   //
     if (user.email!.isEmpty || user.password!.isEmpty) {
       emit(SignUpFailed("Email and password cannot be empty"));
       return;

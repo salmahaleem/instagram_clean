@@ -17,6 +17,7 @@ import 'package:uuid/uuid.dart';
 
 class CreatePostWidget extends StatefulWidget {
   final UserEntity userEntity;
+
   const CreatePostWidget({Key? key, required this.userEntity})
       : super(key: key);
 
@@ -104,7 +105,7 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
     di.getIt<UploadImageToStorageUseCase>().call(Constant.selectedImage!, true, "posts").then((imageUrl) {
       _createSubmitPost(image: imageUrl);
     }).then((_){
-      context.go('/postDetailsPage/${Uuid().v1()}');
+      context.go('/postDetailsPage/${Constant.postId}');
     }).catchError((error) {
       setState(() {
         _uploading = false;
@@ -117,6 +118,15 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
 
 
   _createSubmitPost({required String image}) {
+    // if (widget.userEntity.username == null || widget.userEntity.username!.isEmpty) {
+    //   print("Error: Username is not available");
+    //   return;
+    // }
+    //
+    // if (widget.userEntity.profileUrl == null || widget.userEntity.profileUrl!.isEmpty) {
+    //   print("Error: Profile URL is not available");
+    //   return;
+    // }
     BlocProvider.of<PostCubit>(context).createPost(
         post: PostEntity(
             description: Constant.descriptionController.text,
@@ -131,6 +141,7 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
             userProfileUrl: widget.userEntity.profileUrl
         )
     ).then((value) => _clear());
+    print("created post >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
   }
 
   _clear() {
