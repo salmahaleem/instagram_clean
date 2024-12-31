@@ -105,7 +105,7 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
     di.getIt<UploadImageToStorageUseCase>().call(Constant.selectedImage!, true, "posts").then((imageUrl) {
       _createSubmitPost(image: imageUrl);
     }).then((_){
-      context.go('/postDetailsPage/${Constant.postId}');
+      context.go('/postDetailsPage/:${Constant.postId}');
     }).catchError((error) {
       setState(() {
         _uploading = false;

@@ -135,7 +135,7 @@ class AppRoutes {
           return MultiBlocProvider(
             providers: [
               BlocProvider<SinglePostCubit>(
-                create: (context) => getIt<SinglePostCubit>(),
+                create: (_) => getIt<SinglePostCubit>(),
               ),
               BlocProvider<PostCubit>(
                 create: (_) => getIt<PostCubit>(),

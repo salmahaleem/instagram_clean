@@ -30,6 +30,7 @@ class PostCubit extends Cubit<PostState> {
     emit(PostLoading());
     try {
       await createPostUseCase.call(post);
+      emit(PostSuccess(post: post));
     } on SocketException catch(_) {
       emit(PostFailure());
     } catch (_) {

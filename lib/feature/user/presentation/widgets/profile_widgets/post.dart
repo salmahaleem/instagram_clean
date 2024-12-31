@@ -16,7 +16,6 @@ import 'package:instagram_clean/feature/user/domain/usecase/getCurrentUserId_use
 
 class SinglePostCardWidget extends StatefulWidget {
   final PostEntity post;
-
   const SinglePostCardWidget({Key? key, required this.post}) : super(key: key);
 
   @override
@@ -58,7 +57,7 @@ class _SinglePostCardWidgetState extends State<SinglePostCardWidget> {
                       height: 30,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(15),
-                        child: UserPhoto(imageUrl: widget.post.userProfileUrl),
+                        child: UserPhoto(imageUrl:"${widget.post.userProfileUrl}"),
                       ),
                     ),
                     horizontalSpace(10.w),

@@ -60,7 +60,7 @@ class HomePage extends StatelessWidget {
                   final post = postState.posts[index];
                   return BlocProvider(
                     create: (context) => di.getIt<PostCubit>(),
-                    child: SinglePostCardWidget(post: post,),
+                    child: SinglePostCardWidget(post: post),
                   );
                 },
               );
