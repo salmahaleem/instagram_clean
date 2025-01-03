@@ -1,17 +1,11 @@
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:instagram_clean/core/get_it/get_it.dart' as di;
 import 'package:instagram_clean/core/utils/constant.dart';
-import 'package:instagram_clean/feature/post/domain/entitys/post_entity.dart';
-import 'package:instagram_clean/feature/post/presentation/cubit/post_cubit.dart';
-import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 import 'package:photo_manager/photo_manager.dart';
-import 'package:uuid/uuid.dart';
+
 
 class UploadPostWidget extends StatefulWidget {
  // final UserEntity userEntity;

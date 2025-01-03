@@ -8,6 +8,8 @@ import 'package:instagram_clean/core/get_it/get_it.dart' as di;
 import 'package:instagram_clean/core/utils/constant.dart';
 import 'package:instagram_clean/core/utils/spacing.dart';
 import 'package:instagram_clean/core/widgets/userPhoto.dart';
+import 'package:instagram_clean/feature/comment/presentation/screens/comment_page.dart';
+import 'package:instagram_clean/feature/home/domain/entity/app_entity.dart';
 
 import 'package:instagram_clean/feature/post/domain/entitys/post_entity.dart';
 import 'package:instagram_clean/feature/post/presentation/cubit/post_cubit.dart';
@@ -138,13 +140,15 @@ class _SinglePostCardWidgetState extends State<SinglePostCardWidget> {
                   horizontalSpace(10.w),
                   GestureDetector(
                       onTap: () {
-                        //Navigator.pushNamed(context, PageConst.commentPage, arguments: AppEntity(uid: _currentUid, postId: widget.post.postId));
+                        context.go('/commentPage',extra: AppEntity(uid: _currentUid,postId: widget.post.postId));
+                        //Navigator.pushNamed(context, CommentPage, arguments: AppEntity(uid: _currentUid, postId: widget.post.postId));
                         //Navigator.push(context, MaterialPageRoute(builder: (context) => CommentPage()));
                       },
                       child: Icon(FeatherIcons.messageCircle)),
                   horizontalSpace(5.w),
                   GestureDetector(
                       onTap: () {
+                        context.go('/commentPage',extra: AppEntity(uid: _currentUid,postId: widget.post.postId));
                         // Navigator.pushNamed(context, PageConst.commentPage, arguments: AppEntity(uid: _currentUid, postId: widget.post.postId));
                       },
                       child: Text("${widget.post.totalComments}",

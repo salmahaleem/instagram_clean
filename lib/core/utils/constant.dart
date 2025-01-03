@@ -24,6 +24,8 @@ class Constant {
   static TextEditingController website = TextEditingController();
   static TextEditingController bio = TextEditingController();
   static TextEditingController descriptionController = TextEditingController();
+  static TextEditingController CommentDescriptionController = TextEditingController();
+  static TextEditingController ReplayDescriptionController = TextEditingController();
 
   static  bool isPassVis = true;
 

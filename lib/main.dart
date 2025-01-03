@@ -9,6 +9,8 @@ import 'package:instagram_clean/core/appLogic/theme/theme_cubit.dart';
 
 import 'package:instagram_clean/core/routes/app_routes.dart';
 import 'package:instagram_clean/core/shared/shared_pref.dart';
+import 'package:instagram_clean/feature/comment/presentation/cubit/comment_cubit.dart';
+import 'package:instagram_clean/feature/comment/presentation/cubit/replay/replay_cubit.dart';
 import 'package:instagram_clean/feature/post/presentation/cubit/get_single_post/single_post_cubit.dart';
 import 'package:instagram_clean/feature/post/presentation/cubit/post_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/login_cubit/login_cubit.dart';
@@ -44,7 +46,9 @@ Future main() async {
             BlocProvider(create: (_)=> di.getIt<ProfileCubit>()),
             BlocProvider(create: (_)=> di.getIt<GetOtherSingleUserCubit>()),
             BlocProvider(create: (_)=> di.getIt<PostCubit>()),
-            //BlocProvider(create: (_)=> di.getIt<SinglePostCubit>()),
+            BlocProvider(create: (_)=> di.getIt<SinglePostCubit>()),
+            BlocProvider(create: (_)=> di.getIt<CommentCubit>()),
+            BlocProvider(create: (_)=> di.getIt<ReplayCubit>()),
           ], child: const MyApp())));
 }
 

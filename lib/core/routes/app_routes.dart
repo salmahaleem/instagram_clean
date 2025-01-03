@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:instagram_clean/core/get_it/get_it.dart';
 import 'package:instagram_clean/core/utils/constant.dart';
+import 'package:instagram_clean/feature/comment/presentation/screens/comment_page.dart';
+import 'package:instagram_clean/feature/home/domain/entity/app_entity.dart';
 import 'package:instagram_clean/feature/home/presentation/screens/main_page.dart';
 import 'package:instagram_clean/feature/post/domain/entitys/post_entity.dart';
 import 'package:instagram_clean/feature/post/presentation/cubit/get_single_post/single_post_cubit.dart';
@@ -163,7 +165,16 @@ class AppRoutes {
             child: AllPostsSingleUser(),
           );
         }
-    )
+    ),
+    GoRoute(
+        path: '/commentPage',
+        name: '/commentPage/',
+        builder: (context,state){
+          final postId = state.pathParameters['postId'];
+          final uid = state.pathParameters['uid'];
+          final AppEntity appEntity = state.extra as AppEntity;
+          return CommentPage(appEntity: appEntity);
+        })
   ]
   );
 

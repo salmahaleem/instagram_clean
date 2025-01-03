@@ -2,6 +2,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:instagram_clean/feature/comment/data/data_source/comment_remote_data_source_impl.dart';
+import 'package:instagram_clean/feature/comment/data/data_source/replay_remote_data_source_impl.dart';
+import 'package:instagram_clean/feature/comment/data/repository/comment_firebase_repo_impl.dart';
+import 'package:instagram_clean/feature/comment/data/repository/replay_firebase_repo_impl.dart';
+import 'package:instagram_clean/feature/comment/domain/repository/comment_firebase_repo.dart';
+import 'package:instagram_clean/feature/comment/domain/repository/replay_firebase_repo.dart';
+import 'package:instagram_clean/feature/comment/domain/usecase/comment_usecase/createComment_usecase.dart';
+import 'package:instagram_clean/feature/comment/domain/usecase/comment_usecase/deleteComment_usecase.dart';
+import 'package:instagram_clean/feature/comment/domain/usecase/comment_usecase/likeComment_usecase.dart';
+import 'package:instagram_clean/feature/comment/domain/usecase/comment_usecase/readComment_usecase.dart';
+import 'package:instagram_clean/feature/comment/domain/usecase/comment_usecase/updateComment_usecase.dart';
+import 'package:instagram_clean/feature/comment/domain/usecase/replay_usecase/create_replay_usecase.dart';
+import 'package:instagram_clean/feature/comment/domain/usecase/replay_usecase/like_replay_usecase.dart';
+import 'package:instagram_clean/feature/comment/domain/usecase/replay_usecase/read_replay_usecase.dart';
+import 'package:instagram_clean/feature/comment/domain/usecase/replay_usecase/update_replay_usecase.dart';
+import 'package:instagram_clean/feature/comment/presentation/cubit/comment_cubit.dart';
+import 'package:instagram_clean/feature/comment/presentation/cubit/replay/replay_cubit.dart';
 import 'package:instagram_clean/feature/post/data/data_source/post_remote_data_source_impl.dart';
 import 'package:instagram_clean/feature/post/data/repository/post_firebase_repo_impl.dart';
 import 'package:instagram_clean/feature/post/domain/repository/post_firebase_repo.dart';
@@ -32,6 +49,8 @@ import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/ge
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/get_single_user_cubit/get_single_user_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/profile_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/signup_cubit/sign_up_cubit.dart';
+
+import '../../feature/comment/domain/usecase/replay_usecase/delete_replay_usecase.dart';
 
 
 final getIt = GetIt.instance;
@@ -75,6 +94,24 @@ Future<void> setGetIt() async {
   getIt.registerFactory<SinglePostCubit>(() => SinglePostCubit(
       readSinglePostUseCase: getIt<ReadSinglePostUseCase>()));
 
+  //comment and replay cubit
+  getIt.registerFactory<CommentCubit>(() => CommentCubit(
+       updateCommentUseCase: getIt<UpdateCommentUseCase>(),
+       readCommentsUseCase: getIt<ReadCommentsUseCase>(),
+       likeCommentUseCase: getIt<LikeCommentUseCase>(),
+       deleteCommentUseCase: getIt<DeleteCommentUseCase>(),
+       createCommentUseCase: getIt<CreateCommentUseCase>()
+  ));
+
+  getIt.registerFactory<ReplayCubit>(() => ReplayCubit(
+      updateReplayUseCase: getIt<UpdateReplayUseCase>(),
+      readReplaysUseCase: getIt<ReadReplaysUseCase>(),
+      likeReplayUseCase: getIt<LikeReplayUseCase>(),
+      deleteReplayUseCase: getIt<DeleteReplayUseCase>(),
+      createReplayUseCase: getIt<CreateReplayUseCase>()
+  ));
+
+
   //usecase user
   getIt.registerLazySingleton<LoginUseCase>(
           () => LoginUseCase(userFirebaseRepo: getIt<UserFirebaseRepo>()));
@@ -116,14 +153,44 @@ Future<void> setGetIt() async {
   getIt.registerLazySingleton<SavePostUseCase>(
           () => SavePostUseCase(postFirebaseRepo: getIt<PostFirebaseRepo>()));
 
+  //usecase comment
+  getIt.registerLazySingleton<CreateCommentUseCase>(
+          () => CreateCommentUseCase(commentFirebaseRepo: getIt<CommentFirebaseRepo>()));
+  getIt.registerLazySingleton<DeleteCommentUseCase>(
+          () => DeleteCommentUseCase(commentFirebaseRepo: getIt<CommentFirebaseRepo>()));
+  getIt.registerLazySingleton<LikeCommentUseCase>(
+          () => LikeCommentUseCase(commentFirebaseRepo: getIt<CommentFirebaseRepo>()));
+  getIt.registerLazySingleton<ReadCommentsUseCase>(
+          () => ReadCommentsUseCase(commentFirebaseRepo: getIt<CommentFirebaseRepo>()));
+  getIt.registerLazySingleton<UpdateCommentUseCase>(
+          () => UpdateCommentUseCase(commentFirebaseRepo: getIt<CommentFirebaseRepo>()));
+
+  // usecase replay
+  getIt.registerLazySingleton<CreateReplayUseCase>(
+          () => CreateReplayUseCase(replayFirebaseRepo: getIt<ReplayFirebaseRepo>()));
+  getIt.registerLazySingleton<DeleteReplayUseCase>(
+          () => DeleteReplayUseCase(replayFirebaseRepo: getIt<ReplayFirebaseRepo>()));
+  getIt.registerLazySingleton<LikeReplayUseCase>(
+          () => LikeReplayUseCase(replayFirebaseRepo: getIt<ReplayFirebaseRepo>()));
+  getIt.registerLazySingleton<ReadReplaysUseCase>(
+          () => ReadReplaysUseCase(replayFirebaseRepo: getIt<ReplayFirebaseRepo>()));
+  getIt.registerLazySingleton<UpdateReplayUseCase>(
+          () => UpdateReplayUseCase(replayFirebaseRepo: getIt<ReplayFirebaseRepo>()));
+
   //repos user
   getIt.registerLazySingleton<UserFirebaseRepo>(
           () => UserFirebaseRepoImpl(userFirebaseRepo: getIt<UserRemoteDataSourceImpl>()));
-
   //repos post
   getIt.registerLazySingleton<PostFirebaseRepo>(
           () => PostFirebaseRepoImpl(postFirebaseRepo: getIt<PostRemoteDataSourceImpl>()));
 
+  //repos comment and replay
+
+  getIt.registerLazySingleton<CommentFirebaseRepo>(
+          () => CommentFirebaseRepoImpl(commentFirebaseRepo: getIt<CommentRemoteDataSourceImpl>()));
+
+  getIt.registerLazySingleton<ReplayFirebaseRepo>(
+          () => ReplayFirebaseRepoImpl(replayFirebaseRepo: getIt<ReplayRemoteDataSourceImpl>()));
 
   //remote user
   getIt.registerLazySingleton<UserRemoteDataSourceImpl>(() => UserRemoteDataSourceImpl(
@@ -137,6 +204,18 @@ Future<void> setGetIt() async {
     firebaseAuth: getIt<FirebaseAuth>(),
     firebaseFirestore: getIt<FirebaseFirestore>(),
     firebaseStorage: getIt<FirebaseStorage>(),
+    userFirebaseRepo: getIt<UserFirebaseRepo>(),
+  ));
+
+  //remote comment and replay
+  getIt.registerLazySingleton<CommentRemoteDataSourceImpl>(() => CommentRemoteDataSourceImpl(
+    firebaseFirestore: getIt<FirebaseFirestore>(),
+    userFirebaseRepo: getIt<UserFirebaseRepo>(),
+  ));
+
+  getIt.registerLazySingleton<ReplayRemoteDataSourceImpl>(() => ReplayRemoteDataSourceImpl(
+    firebaseFirestore: getIt<FirebaseFirestore>(),
+    userFirebaseRepo: getIt<UserFirebaseRepo>(),
   ));
 
   getIt.registerLazySingleton<FirebaseAuth>(() => authe);
