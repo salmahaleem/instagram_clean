@@ -33,7 +33,7 @@ class _ProfileInfo1State extends State<ProfileInfo1> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(50),
                   child: UserPhoto(imageUrl:widget.userEntity.profileUrl,
-                      image: widget.userEntity.imageFile),
+                      image: Constant.profileImage),
                 ),
               ),
               horizontalSpace(40.w),

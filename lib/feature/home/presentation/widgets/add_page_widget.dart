@@ -49,7 +49,7 @@ class _AddScreenState extends State<AddPage> {
               controller: pageController,
               onPageChanged: onPageChanged,
               children: [
-                UploadPostWidget(),
+                UploadPostWidget(userEntity: Constant.userEntity,),
                 //AddReelsScreen(),
               ],
             ),

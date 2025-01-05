@@ -4,14 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:instagram_clean/core/utils/constant.dart';
+import 'package:instagram_clean/feature/post/domain/entitys/post_entity.dart';
+import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 
 class UploadPostWidget extends StatefulWidget {
- // final UserEntity userEntity;
+final UserEntity userEntity;
   const UploadPostWidget({
     Key? key,
-    //required this.userEntity,
+      required this.userEntity,
   }) : super(key: key);
 
   @override
@@ -100,7 +102,7 @@ class _UploadPostMainWidgetState extends State<UploadPostWidget> {
           TextButton(
             onPressed: Constant.selectedImage != null
                 ? () {
-               context.go('/createPost',extra: Constant.userEntity);
+               context.go('/createPost',extra: widget.userEntity);
                   }
                 : null,
             child: const Text(

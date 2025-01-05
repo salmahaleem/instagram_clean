@@ -9,11 +9,11 @@ import 'package:instagram_clean/core/appLogic/theme/theme_cubit.dart';
 
 import 'package:instagram_clean/core/routes/app_routes.dart';
 import 'package:instagram_clean/core/shared/shared_pref.dart';
-import 'package:instagram_clean/feature/comment/presentation/cubit/comment_cubit.dart';
-import 'package:instagram_clean/feature/comment/presentation/cubit/replay/replay_cubit.dart';
+import 'package:instagram_clean/feature/comment%20and%20replay/presentation/cubit/comment_cubit.dart';
+import 'package:instagram_clean/feature/comment%20and%20replay/presentation/cubit/replay/replay_cubit.dart';
+
 import 'package:instagram_clean/feature/post/presentation/cubit/get_single_post/single_post_cubit.dart';
 import 'package:instagram_clean/feature/post/presentation/cubit/post_cubit.dart';
-import 'package:instagram_clean/feature/user/presentation/cubit/login_cubit/login_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/get_other_single_user/get_other_single_user_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/get_single_user_cubit/get_single_user_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/profile_cubit.dart';

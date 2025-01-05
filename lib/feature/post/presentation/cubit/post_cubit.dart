@@ -82,4 +82,17 @@ class PostCubit extends Cubit<PostState> {
     }
   }
 
+  Future<void> savedPosts({required PostEntity post}) async {
+    emit(PostLoading());
+    try {
+      final streamResponse = readPostUseCase.call(post);
+      streamResponse.listen((posts) {
+        emit(PostLoaded(posts: posts));
+      });
+    } on SocketException catch(_) {
+      emit(PostFailure());
+    } catch (_) {
+      emit(PostFailure());
+    }
+  }
 }

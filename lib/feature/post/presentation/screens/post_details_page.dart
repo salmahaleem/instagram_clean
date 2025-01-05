@@ -266,9 +266,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                 Padding(
                   padding: const EdgeInsets.only(left: 10.0),
                   child: GestureDetector(
-                    onTap: () {
-                      // Navigator.pushNamed(context, PageConst.updatePostPage, arguments: post);
-                    },
+                    onTap: (){context.go('/updatePostPage');},
                     child: Text(
                       "Update Post",
                       style: Theme.of(context).textTheme.titleSmall

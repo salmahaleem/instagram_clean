@@ -9,6 +9,7 @@ class PostModel extends PostEntity {
   final String? description;
   final String? postImageUrl;
   final List<String>? likes;
+  final List<String>? saved;
   final num? totalLikes;
   final num? totalComments;
   final Timestamp? createAt;
@@ -21,6 +22,7 @@ class PostModel extends PostEntity {
     this.description,
     this.postImageUrl,
     this.likes,
+    this.saved,
     this.totalLikes,
     this.totalComments,
     this.createAt,
@@ -30,6 +32,7 @@ class PostModel extends PostEntity {
     creatorUid: creatorUid,
     description: description,
     likes: likes,
+    saved: saved,
     postId: postId,
     postImageUrl: postImageUrl,
     totalComments: totalComments,
@@ -52,6 +55,7 @@ class PostModel extends PostEntity {
       postId: snapshot['postId'] ?? '',
       username: snapshot['username'] ?? '',
       likes:(snapshot['likes'] is List) ? List.from(snap.get("likes")) : [],
+      saved:(snapshot['saved'] is List) ? List.from(snap.get("saved")) : [],
     );
   }
 
@@ -65,6 +69,7 @@ class PostModel extends PostEntity {
     "postImageUrl": postImageUrl,
     "postId": postId,
     "likes": likes,
+    "saved":saved,
     "username": username,
   };
 }

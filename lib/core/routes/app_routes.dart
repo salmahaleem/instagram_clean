@@ -4,17 +4,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:instagram_clean/core/get_it/get_it.dart';
 import 'package:instagram_clean/core/utils/constant.dart';
-import 'package:instagram_clean/feature/comment/presentation/screens/comment_page.dart';
+import 'package:instagram_clean/feature/comment%20and%20replay/domain/entity/comment_entity.dart';
+import 'package:instagram_clean/feature/comment%20and%20replay/domain/entity/replay_entity.dart';
+import 'package:instagram_clean/feature/comment%20and%20replay/presentation/screens/comment_page.dart';
+import 'package:instagram_clean/feature/comment%20and%20replay/presentation/screens/edit_comment_page.dart';
+import 'package:instagram_clean/feature/comment%20and%20replay/presentation/screens/edit_replay_page.dart';
 import 'package:instagram_clean/feature/home/domain/entity/app_entity.dart';
+import 'package:instagram_clean/feature/home/presentation/screens/explore_page.dart';
 import 'package:instagram_clean/feature/home/presentation/screens/main_page.dart';
 import 'package:instagram_clean/feature/post/domain/entitys/post_entity.dart';
 import 'package:instagram_clean/feature/post/presentation/cubit/get_single_post/single_post_cubit.dart';
 import 'package:instagram_clean/feature/post/presentation/cubit/post_cubit.dart';
 import 'package:instagram_clean/feature/post/presentation/screens/post_details_page.dart';
-import 'package:instagram_clean/feature/post/presentation/widgets/all_posts_single_user.dart';
+import 'package:instagram_clean/feature/post/presentation/screens/update_post_page.dart';
 import 'package:instagram_clean/feature/post/presentation/widgets/create_post_widget.dart';
+import 'package:instagram_clean/feature/post/presentation/widgets/update_post_widget.dart';
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
-import 'package:instagram_clean/feature/user/domain/usecase/getCurrentUserId_usecase.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/login_cubit/login_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/get_other_single_user/get_other_single_user_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/get_single_user_cubit/get_single_user_cubit.dart';
@@ -24,6 +29,7 @@ import 'package:instagram_clean/feature/user/presentation/screens/edit_profile_p
 import 'package:instagram_clean/feature/user/presentation/screens/login_page.dart';
 import 'package:instagram_clean/feature/user/presentation/screens/profile_page.dart';
 import 'package:instagram_clean/feature/user/presentation/screens/signup_page.dart';
+import 'package:instagram_clean/feature/user/presentation/screens/single_user_profile_page.dart';
 import 'package:instagram_clean/feature/user/presentation/widgets/profile_widgets/settings_menu.dart';
 
 class AppRoutes {
@@ -102,6 +108,22 @@ class AppRoutes {
         }
       },
     ),
+
+    GoRoute(
+        path: '/singleUserPage/:otherUserId',
+        name: '/singleUserPage',
+        builder: (context, state) {
+          final otherUserId = state.pathParameters['otherUserId']!;
+          //final UserEntity currentUser = state.extra as UserEntity;
+          return SingleUserProfilePage(otherUserId: otherUserId);
+        }),
+
+    GoRoute(
+        path: '/explorePage',
+        name: 'explorePage',
+        builder: (context, state) {
+          return ExplorePage();
+        }),
     GoRoute(
         path: '/settings',
         name: 'settings',
@@ -147,33 +169,38 @@ class AppRoutes {
           );
         }
     ),
+
     GoRoute(
-        path: '/allPostsSingleUser',
-        name: 'allPostsSingleUser',
+        path: '/updatePostPage',
+        name: '/updatePostPage',
         builder: (context, state) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (_) =>
-                getIt<GetOtherSingleUserCubit>()
-                  ..getSingleOtherUser(otherUid: Constant.otherUserId),
-              ),
-              BlocProvider(
-                create: (_) => getIt<PostCubit>(),
-              ),
-            ],
-            child: AllPostsSingleUser(),
-          );
-        }
-    ),
+          final PostEntity post = state.extra as PostEntity;
+          return UpdatePostPage(post: post);
+        }),
+
     GoRoute(
         path: '/commentPage',
-        name: '/commentPage/',
-        builder: (context,state){
+        name: '/commentPage',
+        builder: (context, state) {
           final postId = state.pathParameters['postId'];
           final uid = state.pathParameters['uid'];
           final AppEntity appEntity = state.extra as AppEntity;
           return CommentPage(appEntity: appEntity);
+        }),
+
+    GoRoute(
+        path: '/editCommentPage',
+        name: '/editCommentPage',
+        builder: (context, state) {
+          final CommentEntity comment = state.extra as CommentEntity;
+          return EditCommentPage(comment: comment,);
+        }),
+    GoRoute(
+        path: '/editReplayPage',
+        name: '/editReplayPage',
+        builder: (context, state) {
+          final ReplayEntity replay = state.extra as ReplayEntity;
+          return EditReplayPage(replay: replay);
         })
   ]
   );

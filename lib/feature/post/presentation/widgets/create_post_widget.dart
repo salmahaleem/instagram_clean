@@ -12,13 +12,13 @@ import 'package:instagram_clean/core/widgets/userPhoto.dart';
 import 'package:instagram_clean/feature/post/domain/entitys/post_entity.dart';
 import 'package:instagram_clean/feature/post/presentation/cubit/post_cubit.dart';
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
+import 'package:instagram_clean/feature/user/domain/usecase/getCurrentUserId_usecase.dart';
 import 'package:instagram_clean/feature/user/domain/usecase/uploadImageToStorage_usecase.dart';
 import 'package:uuid/uuid.dart';
 
 class CreatePostWidget extends StatefulWidget {
-  final UserEntity userEntity;
-
-  const CreatePostWidget({Key? key, required this.userEntity})
+  final UserEntity? userEntity;
+  CreatePostWidget({Key? key, this.userEntity})
       : super(key: key);
 
   @override
@@ -26,6 +26,17 @@ class CreatePostWidget extends StatefulWidget {
 }
 
 class _CreatePostWidgetState extends State<CreatePostWidget> {
+  String _currentUid = "";
+
+  @override
+  void initState() {
+    di.getIt<GetCurrentUserIdUseCase>().call().then((value) {
+      setState(() {
+        _currentUid = value;
+      });
+    });
+    super.initState();
+  }
   bool _uploading = false;
   //File? _selectedImage;
   @override
@@ -59,41 +70,56 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
             )
           ],
         ),
-        body: SafeArea(
-          child: _uploading ? Center(child: CircularProgressIndicator(),)
-                 :Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: Column(
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        height: 300,
-                        child: UserPhoto(image: Constant.selectedImage),
-                      ),
-                      verticalSpace(10.h),
-                      ProfileTextField(
-                        hintText: "Description",
-                        controller: Constant.descriptionController,
-                        isObscureText: false,
-                      ),
-                      _uploading == true
-                          ? Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Uploading...",
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                                CircularProgressIndicator()
-                              ],
-                            )
-                          : Container(
-                              width: 0,
-                              height: 0,
-                            )
-                    ],
-                  ),
-                )
+        body: SingleChildScrollView(
+          child: SafeArea(
+            child: _uploading ? Center(child: CircularProgressIndicator(),)
+                   :Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Column(
+                      children: [
+                        // Container(
+                        //   width: 30,
+                        //   height: 30,
+                        //   child: ClipRRect(
+                        //     borderRadius: BorderRadius.circular(15),
+                        //     child: UserPhoto(imageUrl:widget.userEntity!.profileUrl,image: widget.userEntity!.imageFile),
+                        //   ),
+                        // ),
+                        // verticalSpace(5.h),
+                        // Text(
+                        //     "${widget.userEntity!.username}",
+                        //     style: Theme.of(context).textTheme.titleMedium
+                        // ),
+                        Container(
+                          width: double.infinity,
+                          height: 300,
+                          child: UserPhoto(image: Constant.selectedImage),
+                        ),
+                        verticalSpace(10.h),
+                        ProfileTextField(
+                          hintText: "Description",
+                          controller: Constant.descriptionController,
+                          isObscureText: false,
+                        ),
+                        _uploading == true
+                            ? Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Uploading...",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  CircularProgressIndicator()
+                                ],
+                              )
+                            : Container(
+                                width: 0,
+                                height: 0,
+                              )
+                      ],
+                    ),
+                  )
+          ),
         )
     );
   }
@@ -106,6 +132,9 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
       _createSubmitPost(image: imageUrl);
     }).then((_){
       context.go('/postDetailsPage/:${Constant.postId}');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Post created'),backgroundColor: Colors.greenAccent,),
+      );
     }).catchError((error) {
       setState(() {
         _uploading = false;
@@ -118,27 +147,18 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
 
 
   _createSubmitPost({required String image}) {
-    // if (widget.userEntity.username == null || widget.userEntity.username!.isEmpty) {
-    //   print("Error: Username is not available");
-    //   return;
-    // }
-    //
-    // if (widget.userEntity.profileUrl == null || widget.userEntity.profileUrl!.isEmpty) {
-    //   print("Error: Profile URL is not available");
-    //   return;
-    // }
     BlocProvider.of<PostCubit>(context).createPost(
         post: PostEntity(
             description: Constant.descriptionController.text,
             createAt: Timestamp.now(),
-            creatorUid: widget.userEntity.uid,
+            creatorUid: widget.userEntity!.uid,
             likes: [],
             postId: Constant.postId,
             postImageUrl: image,
             totalComments: 0,
             totalLikes: 0,
-            username: widget.userEntity.username,
-            userProfileUrl: widget.userEntity.profileUrl
+            username: widget.userEntity!.username,
+            userProfileUrl: widget.userEntity!.profileUrl
         )
     ).then((value) => _clear());
     print("created post >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");

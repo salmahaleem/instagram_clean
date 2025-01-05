@@ -8,6 +8,7 @@ class PostEntity extends Equatable{
   final String? description;
   final String? postImageUrl;
   final List<String>? likes;
+  final List<String>? saved;
   final num? totalLikes;
   final num? totalComments;
   final Timestamp? createAt;
@@ -20,6 +21,7 @@ class PostEntity extends Equatable{
     this.description,
     this.postImageUrl,
     this.likes,
+    this.saved,
     this.totalLikes,
     this.totalComments,
     this.createAt,
@@ -35,6 +37,7 @@ class PostEntity extends Equatable{
     description,
     postImageUrl,
     likes,
+    saved,
     totalLikes,
     totalComments,
     createAt,

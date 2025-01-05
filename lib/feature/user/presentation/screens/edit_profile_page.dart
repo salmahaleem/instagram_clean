@@ -30,7 +30,7 @@ class EditProfilePage extends StatefulWidget {
 
 class _EditProfilePageState extends State<EditProfilePage> {
   bool _isUpdating = false;
-  File? _image;
+  //File? _image;
   //function show dialog
   void showImageSourceDialog(BuildContext context) {
     showDialog(
@@ -64,7 +64,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       final pickedFile = await ImagePicker().pickImage(source: source);
       if(pickedFile != null){
         setState(() {
-          _image = File(pickedFile.path);
+          Constant.profileImage = File(pickedFile.path);
         });
       } else {
         print("no image has been selected");
@@ -84,10 +84,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   _updateUserProfileData() {
     setState(() => _isUpdating = true);
-    if (_image == null) {
+    if (Constant.profileImage == null) {
       _updateUserProfile("");
     } else {
-      di.getIt<UploadImageToStorageUseCase>().call(_image!, false, "profileImages").then((profileUrl) {
+      di.getIt<UploadImageToStorageUseCase>().call(Constant.profileImage!, false, "profileImages").then((profileUrl) {
         _updateUserProfile(profileUrl);
       }).catchError((e) {
         print("Error uploading image: $e");
@@ -170,7 +170,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 height: 100,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(50),
-                  child: UserPhoto(imageUrl: widget.userEntity!.profileUrl, image: widget.userEntity!.imageFile),
+                  child: UserPhoto(imageUrl:Constant.profileUrl, image: Constant.profileImage),
                 ),
               ),
         ),

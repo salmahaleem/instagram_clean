@@ -10,12 +10,14 @@ class InstagramButton extends StatelessWidget{
   final String text;
   final VoidCallback onPressed;
   final IconData? icon;
+  final Color? color;
 
   const InstagramButton({
     Key? key,
     required this.text,
     required this.onPressed,
-    this.icon
+    this.icon,
+    this.color
   }) : super(key: key);
 
   @override

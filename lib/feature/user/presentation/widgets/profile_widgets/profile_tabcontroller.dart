@@ -3,17 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:instagram_clean/core/get_it/get_it.dart';
-import 'package:instagram_clean/core/utils/constant.dart';
 import 'package:instagram_clean/core/widgets/userPhoto.dart';
 import 'package:instagram_clean/feature/post/domain/entitys/post_entity.dart';
 import 'package:instagram_clean/feature/post/presentation/cubit/post_cubit.dart';
-import 'package:instagram_clean/feature/post/presentation/screens/all_posts_singleU_page.dart';
-import 'package:instagram_clean/feature/post/presentation/widgets/all_posts_single_user.dart';
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
-import 'package:instagram_clean/feature/user/domain/usecase/getCurrentUserId_usecase.dart';
-import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/get_other_single_user/get_other_single_user_cubit.dart';
-import 'package:instagram_clean/feature/user/presentation/widgets/profile_widgets/post.dart';
 
 class ProfileTabController extends StatefulWidget {
   final UserEntity userEntity;

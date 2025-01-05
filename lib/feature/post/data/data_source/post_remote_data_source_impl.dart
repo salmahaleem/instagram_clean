@@ -132,9 +132,12 @@ class PostRemoteDataSourceImpl implements PostFirebaseRepo{
 
   @override
   Stream<List<PostEntity>> savePost(PostEntity post) {
-    // TODO: implement savePost
-    throw UnimplementedError();
+    final postCollection = firebaseFirestore.collection(Constant.posts).where(
+        "postId", isEqualTo: post.postId);
+    return postCollection.snapshots().map((querySnapshot) =>
+        querySnapshot.docs.map((e) => PostModel.fromSnapshot(e)).toList());
   }
+
 
 
 
