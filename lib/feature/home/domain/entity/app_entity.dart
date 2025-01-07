@@ -8,6 +8,6 @@ class AppEntity {
 
   final String? uid;
   final String? postId;
-
-  AppEntity({this.currentUser, this.postEntity, this.uid, this.postId});
+  final String? realId;
+  AppEntity({this.currentUser, this.postEntity, this.uid, this.postId,this.realId});
 }

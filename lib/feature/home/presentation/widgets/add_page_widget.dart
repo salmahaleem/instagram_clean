@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_clean/core/utils/constant.dart';
 import 'package:instagram_clean/feature/post/presentation/widgets/upload_post_widget.dart';
+import 'package:instagram_clean/feature/real/presentation/screens/add_real_page.dart';
 
 class AddPage extends StatefulWidget {
   const AddPage({super.key});
@@ -50,7 +51,7 @@ class _AddScreenState extends State<AddPage> {
               onPageChanged: onPageChanged,
               children: [
                 UploadPostWidget(userEntity: Constant.userEntity,),
-                //AddReelsScreen(),
+                AddReelsPage(),
               ],
             ),
             AnimatedPositioned(

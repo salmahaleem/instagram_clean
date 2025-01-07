@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:instagram_clean/core/utils/constant.dart';
 import 'package:instagram_clean/feature/home/presentation/screens/explore_page.dart';
 import 'package:instagram_clean/feature/home/presentation/screens/home_page.dart';
 import 'package:instagram_clean/feature/home/presentation/widgets/add_page_widget.dart';
+import 'package:instagram_clean/feature/real/presentation/screens/reals_page.dart';
 import 'package:instagram_clean/feature/user/presentation/screens/profile_page.dart';
 
 import '../../../user/presentation/cubit/profile_cubit/get_single_user_cubit/get_single_user_cubit.dart';
@@ -85,7 +85,7 @@ class _NavigationBarWidgetState extends State<NavigationBarWidget> {
                 HomePage(userEntity: currentUser),
                 ExplorePage(),
                 AddPage(),
-                //ActivityPage(),
+                RealsPage(),
                 ProfilePage(userEntity: currentUser)
               ],
               onPageChanged: onPageChanged,

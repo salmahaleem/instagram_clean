@@ -9,6 +9,7 @@ import 'package:instagram_clean/core/widgets/userPhoto.dart';
 import 'package:instagram_clean/feature/home/presentation/widgets/explore_widget/search_widget.dart';
 import 'package:instagram_clean/feature/post/domain/entitys/post_entity.dart';
 import 'package:instagram_clean/feature/post/presentation/cubit/post_cubit.dart';
+import 'package:instagram_clean/feature/post/presentation/screens/post_details_page.dart';
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/profile_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/screens/single_user_profile_page.dart';
@@ -102,7 +103,9 @@ class _SearchMainWidgetState extends State<SearchMainWidget> {
                                 itemBuilder: (context, index) {
                                   return GestureDetector(
                                     onTap: () =>
-                                     context.go('/postDetailsPage/:${Constant.postId}'),
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>PostDetailsPage(postId: "${posts[index].postId}",))),
+
+                                  //context.go('/postDetailsPage/:${Constant.postId}'),
                                     child: Container(
                                       width: 100,
                                       height: 100,

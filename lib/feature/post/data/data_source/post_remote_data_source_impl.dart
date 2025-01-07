@@ -46,9 +46,10 @@ class PostRemoteDataSourceImpl implements PostFirebaseRepo{
       if (!postDocRef.exists) {
         postCollection.doc(post.postId).set(newPost).then((value) {
           final userCollection = firebaseFirestore.collection(Constant.users).doc(post.creatorUid);
+
           userCollection.get().then((value) {
             if (value.exists) {
-              final totalPosts = value.get('totalPosts');
+              final totalPosts = value.get("totalPosts");
               userCollection.update({"totalPosts": totalPosts + 1});
               return;
             }

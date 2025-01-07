@@ -24,22 +24,24 @@ class InstagramButton extends StatelessWidget{
   Widget build(BuildContext context) {
     final buttonStyle = Theme.of(context).elevatedButtonTheme.style ??
         ElevatedButton.styleFrom(
-          backgroundColor: AppColors.buttonColor,
+          backgroundColor : color,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.r),
           ),
         );
-    return SizedBox(
-      width: 400.w,
-      height: 50.h,
-      child: ElevatedButton(
-        style: buttonStyle,
-        onPressed: onPressed,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(text,style: Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 20.sp),),
-          ],
+    return InkWell(
+      child: SizedBox(
+        width: 400.w,
+        height: 50.h,
+        child: ElevatedButton(
+          style: buttonStyle,
+          onPressed: onPressed,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(text,style: Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 20.sp),),
+            ],
+          ),
         ),
       ),
     );

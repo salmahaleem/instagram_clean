@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
+import 'package:instagram_clean/feature/user/domain/usecase/followUnFollowUser_usecase.dart';
 import 'package:instagram_clean/feature/user/domain/usecase/getAllUsers_usecase.dart';
 import 'package:instagram_clean/feature/user/domain/usecase/logout_usecase.dart';
 import 'package:instagram_clean/feature/user/domain/usecase/updateUser_usecase.dart';
@@ -13,7 +14,8 @@ class ProfileCubit extends Cubit<ProfileState> {
   final LogoutUseCase logoutUseCase;
   final UpdateUserUseCase updateUserUseCase;
   final GetAllUsersUseCase getAllUsersUseCase;
-  ProfileCubit({required this.getAllUsersUseCase, required this.updateUserUseCase,required this.logoutUseCase}) : super(ProfileInitial());
+  final FollowUnFollowUserUseCase followUnFollowUserUseCase;
+  ProfileCubit({required this.followUnFollowUserUseCase, required this.getAllUsersUseCase, required this.updateUserUseCase,required this.logoutUseCase}) : super(ProfileInitial());
 
   Future<void> getAllUsers({required UserEntity user}) async {
     emit(ProfileLoading());
@@ -50,6 +52,16 @@ class ProfileCubit extends Cubit<ProfileState> {
       emit(ProfileClosed());
     } catch (_) {
       emit(ProfileClosed());
+    }
+  }
+
+  Future<void> followUnFollowUser({required UserEntity user}) async {
+    try {
+      await followUnFollowUserUseCase.call(user);
+    } on SocketException catch(_) {
+      emit(ProfileFailed("error in follow button"));
+    } catch (_) {
+      emit(ProfileFailed("error in follow button"));
     }
   }
 }

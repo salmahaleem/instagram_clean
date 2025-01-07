@@ -6,13 +6,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:instagram_clean/core/get_it/get_it.dart'as di;
 import 'package:instagram_clean/core/utils/colors.dart';
+import 'package:instagram_clean/core/utils/constant.dart';
 import 'package:instagram_clean/core/utils/spacing.dart';
 import 'package:instagram_clean/core/widgets/instagramButton.dart';
 import 'package:instagram_clean/core/widgets/userPhoto.dart';
 import 'package:instagram_clean/feature/post/domain/entitys/post_entity.dart';
 import 'package:instagram_clean/feature/post/presentation/cubit/post_cubit.dart';
+import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 import 'package:instagram_clean/feature/user/domain/usecase/getCurrentUserId_usecase.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/get_other_single_user/get_other_single_user_cubit.dart';
+import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/profile_cubit.dart';
 import 'package:instagram_clean/generated/locale_keys.dart';
 
 class SingleUserProfileWidget extends StatefulWidget {
@@ -119,45 +122,78 @@ class _SingleUserProfileWidgetState extends State<SingleUserProfileWidget> {
                       Text("${singleUser.bio}", style: Theme.of(context).textTheme.titleSmall),
                       verticalSpace(10.h),
                       _currentUid == singleUser.uid ? Container() :InstagramButton(
-                        text: singleUser.followers!.contains(_currentUid) ?"UnFollow":"Follow",
-                        color: singleUser.followers!.contains(_currentUid) ? Colors.black26 : AppColors.buttonColor,
-                        onPressed: () {
-                      //     BlocProvider.of<ProfileCubit>(context).followUnFollowUser(
-                      //     user: UserEntity(
-                      //         uid: _currentUid,
-                      //         otherUid: widget.otherUserId
-                      //     )
-                      // );
-                          },
-                      ),
+                          text: singleUser.followers!.contains(_currentUid) ? "UnFollow":"Follow",
+                          color: singleUser.followers!.contains(_currentUid) ?  AppColors.darkTextFeild: AppColors.buttonColor,
+                          onPressed: () {
+                            BlocProvider.of<ProfileCubit>(context).followUnFollowUser(
+                            user: UserEntity(
+                                uid: _currentUid,
+                                otherUid: widget.otherUserId
+                            )
+                        );
+                            },
+                        ),
                       verticalSpace(10.h),
-                      BlocBuilder<PostCubit, PostState>(
-                        builder: (context, postState) {
-                          if (postState is PostLoaded) {
-                            final posts = postState.posts.where((post) => post.creatorUid == widget.otherUserId).toList();
-                            return GridView.builder(
-                                itemCount: posts.length,
-                                physics: ScrollPhysics(),
-                                shrinkWrap: true,
-                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3, crossAxisSpacing: 5, mainAxisSpacing: 5),
-                                itemBuilder: (context, index) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      context.go('/postDetailsPage/:${posts[index].postId}');
-                                    },
-                                    child: Container(
-                                      width: 100,
-                                      height: 100,
-                                      child: UserPhoto(imageUrl: posts[index].postImageUrl),
-                                    ),
-                                  );
-                                });
+                      DefaultTabController(
+                    length: 1,
+                    child: Column(children: [
+                      SizedBox(
+                        width: double.infinity,
+                        height: 30.h,
+                        child: TabBar(
+                          unselectedLabelColor: Colors.grey,
+                          labelColor: Theme.of(context).iconTheme.color,
+                          indicatorColor: Theme.of(context).iconTheme.color,
+                          tabs: [
+                            Icon(Icons.grid_on),
+                            //Icon(Icons.video_collection_outlined),
+                            //Icon(Icons.person),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: 400.h,
+                        width: double.maxFinite,
+                        child: TabBarView(
+                          children: [
+                            Container(
 
-                          }
-                          return Center(child: CircularProgressIndicator(),);
-                        },
-                      )
+                                child:  BlocBuilder<PostCubit, PostState>(
+                                  builder: (context, postState) {
+                                    if (postState is PostLoaded) {
+                                      final posts = postState.posts.where((post) => post.creatorUid == widget.otherUserId).toList();
+                                      return GridView.builder(
+                                          itemCount: posts.length,
+                                          physics: ScrollPhysics(),
+                                          shrinkWrap: true,
+                                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount: 3, crossAxisSpacing: 5, mainAxisSpacing: 5),
+                                          itemBuilder: (context, index) {
+                                            return GestureDetector(
+                                              onTap: () {
+                                                context.go('/postDetailsPage/:${Constant.postId}');
+                                              },
+                                              child: Container(
+                                                width: 100,
+                                                height: 100,
+                                                child: UserPhoto(imageUrl: posts[index].postImageUrl),
+                                              ),
+                                            );
+                                          });
+
+                                    }
+                                    return Center(child: CircularProgressIndicator(),);
+                                  },
+                                )
+                            ) // _buildTabContent(context),
+                            //       _buildTabContent(context),
+                            //       _buildTabContent(context),
+                          ],
+                        ),
+                      ),
+                    ]),
+                  )
+
                     ],
                   ),
                 ),

@@ -14,6 +14,8 @@ import 'package:instagram_clean/feature/comment%20and%20replay/presentation/cubi
 
 import 'package:instagram_clean/feature/post/presentation/cubit/get_single_post/single_post_cubit.dart';
 import 'package:instagram_clean/feature/post/presentation/cubit/post_cubit.dart';
+import 'package:instagram_clean/feature/real/presentation/cubit/get_single_real/single_real_cubit.dart';
+import 'package:instagram_clean/feature/real/presentation/cubit/real_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/get_other_single_user/get_other_single_user_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/get_single_user_cubit/get_single_user_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/profile_cubit.dart';
@@ -46,7 +48,9 @@ Future main() async {
             BlocProvider(create: (_)=> di.getIt<ProfileCubit>()),
             BlocProvider(create: (_)=> di.getIt<GetOtherSingleUserCubit>()),
             BlocProvider(create: (_)=> di.getIt<PostCubit>()),
+            BlocProvider(create: (_)=> di.getIt<RealCubit>()),
             BlocProvider(create: (_)=> di.getIt<SinglePostCubit>()),
+            BlocProvider(create: (_)=> di.getIt<SingleRealCubit>()),
             BlocProvider(create: (_)=> di.getIt<CommentCubit>()),
             BlocProvider(create: (_)=> di.getIt<ReplayCubit>()),
           ], child: const MyApp())));

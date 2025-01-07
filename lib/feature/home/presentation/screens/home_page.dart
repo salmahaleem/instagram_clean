@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_clean/core/get_it/get_it.dart'as di;
+import 'package:instagram_clean/core/utils/spacing.dart';
 import 'package:instagram_clean/feature/post/domain/entitys/post_entity.dart';
 import 'package:instagram_clean/feature/post/presentation/cubit/post_cubit.dart';
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
@@ -37,7 +38,13 @@ class HomePage extends StatelessWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 10.0),
-            child: Icon(FeatherIcons.messageCircle),
+            child: Row(
+              children: [
+                Icon(Icons.favorite_border_outlined),
+                horizontalSpace(5.w),
+                Icon(FeatherIcons.messageCircle),
+              ],
+            ),
           )
         ],
       ),

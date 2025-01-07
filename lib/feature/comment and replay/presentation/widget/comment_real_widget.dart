@@ -14,31 +14,32 @@ import 'package:instagram_clean/feature/comment%20and%20replay/presentation/cubi
 import 'package:instagram_clean/feature/comment%20and%20replay/presentation/cubit/replay/replay_cubit.dart';
 import 'package:instagram_clean/feature/comment%20and%20replay/presentation/widget/single_comment_widget.dart';
 import 'package:instagram_clean/feature/home/domain/entity/app_entity.dart';
-import 'package:instagram_clean/feature/post/presentation/cubit/get_single_post/single_post_cubit.dart';
 import 'package:instagram_clean/feature/post/presentation/screens/update_post_page.dart';
+import 'package:instagram_clean/feature/real/presentation/cubit/get_single_real/single_real_cubit.dart';
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/get_single_user_cubit/get_single_user_cubit.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../../core/utils/colors.dart';
-
-class CommentWidget extends StatefulWidget{
+class CommentRealWidget extends StatefulWidget {
   final AppEntity appEntity;
 
-  const CommentWidget({super.key, required this.appEntity});
+  const CommentRealWidget({super.key, required this.appEntity});
 
   @override
-  State<CommentWidget> createState() => _CommentWidgetState();
+  State<CommentRealWidget> createState() => _CommentRealWidgetState();
 }
 
-class _CommentWidgetState extends State<CommentWidget> {
+class _CommentRealWidgetState extends State<CommentRealWidget> {
   @override
   void initState() {
-    BlocProvider.of<GetSingleUserCubit>(context).getSingleUser(uid: widget.appEntity.uid!);
+    BlocProvider.of<GetSingleUserCubit>(context)
+        .getSingleUser(uid: widget.appEntity.uid!);
 
-    BlocProvider.of<SinglePostCubit>(context).getSinglePost(postId: widget.appEntity.postId!);
+    BlocProvider.of<SingleRealCubit>(context)
+        .getSingleReal(realId: widget.appEntity.realId!);
 
-    BlocProvider.of<CommentCubit>(context).getComments(postId: widget.appEntity.postId!);
+    BlocProvider.of<CommentCubit>(context)
+        .getComments(postId: widget.appEntity.postId!);
 
     super.initState();
   }
@@ -51,10 +52,10 @@ class _CommentWidgetState extends State<CommentWidget> {
         builder: (context, singleUserState) {
           if (singleUserState is GetSingleUserLoaded) {
             final singleUser = singleUserState.user;
-            return BlocBuilder<SinglePostCubit, SinglePostState>(
-              builder: (context, singlePostState) {
-                if (singlePostState is SinglePostLoaded) {
-                  final singlePost = singlePostState.post;
+            return BlocBuilder<SingleRealCubit, SingleRealState>(
+              builder: (context, singleRealState) {
+                if (singleRealState is SingleRealLoaded) {
+                  final singlePost = singleRealState.real;
                   return BlocBuilder<CommentCubit, CommentState>(
                     builder: (context, commentState) {
                       if (commentState is CommentLoaded) {
@@ -62,27 +63,40 @@ class _CommentWidgetState extends State<CommentWidget> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(bottom: 12.0),
-                              child: Center(child: Text("Comments",style: Theme.of(context).textTheme.titleSmall,)),
+                              padding:
+                              const EdgeInsets.only(bottom: 12.0),
+                              child: Center(
+                                  child: Text(
+                                    "Comments",
+                                    style: Theme
+                                        .of(context)
+                                        .textTheme
+                                        .titleSmall,
+                                  )),
                             ),
                             Expanded(
                               child: ListView.builder(
                                   itemCount: commentState.comments.length,
                                   itemBuilder: (context, index) {
-                                    final singleComment = commentState.comments[index];
+                                    final singleComment =
+                                    commentState.comments[index];
                                     return BlocProvider(
-                                      create: (context) => di.getIt<ReplayCubit>(),
+                                      create: (context) =>
+                                          di.getIt<ReplayCubit>(),
                                       child: SingleCommentWidget(
                                         currentUser: singleUser,
                                         comment: singleComment,
                                         onLongPressListener: () {
                                           _openBottomModalSheet(
                                             context: context,
-                                            comment: commentState.comments[index],
+                                            comment: commentState
+                                                .comments[index],
                                           );
                                         },
                                         onLikeClickListener: () {
-                                          _likeComment(comment: commentState.comments[index]);
+                                          _likeComment(
+                                              comment: commentState
+                                                  .comments[index]);
                                         },
                                       ),
                                     );
@@ -126,7 +140,9 @@ class _CommentWidgetState extends State<CommentWidget> {
               height: 40,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
-                child: UserPhoto(imageUrl: currentUser.profileUrl,image: currentUser.imageFile),
+                child: UserPhoto(
+                    imageUrl: currentUser.profileUrl,
+                    image: currentUser.imageFile),
               ),
             ),
             horizontalSpace(10.w),
@@ -144,7 +160,8 @@ class _CommentWidgetState extends State<CommentWidget> {
                   _createComment(currentUser);
                 },
                 child: Icon(
-                  Icons.send,color: AppColors.buttonColor,
+                  Icons.send,
+                  color: AppColors.buttonColor,
                 ))
           ],
         ),
@@ -173,7 +190,8 @@ class _CommentWidgetState extends State<CommentWidget> {
     });
   }
 
-  _openBottomModalSheet({required BuildContext context, required CommentEntity comment}) {
+  _openBottomModalSheet(
+      {required BuildContext context, required CommentEntity comment}) {
     return showModalBottomSheet(
         context: context,
         builder: (context) {
@@ -191,7 +209,9 @@ class _CommentWidgetState extends State<CommentWidget> {
                       child: Text(
                         "More Options",
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: Colors.white),
                       ),
                     ),
                     SizedBox(
@@ -199,7 +219,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                     ),
                     Divider(
                       thickness: 1,
-                      color:Colors.grey,
+                      color: Colors.grey,
                     ),
                     SizedBox(
                       height: 8,
@@ -208,12 +228,16 @@ class _CommentWidgetState extends State<CommentWidget> {
                       padding: const EdgeInsets.only(left: 10.0),
                       child: GestureDetector(
                         onTap: () {
-                          _deleteComment(commentId: comment.commentId!, postId: comment.postId!);
+                          _deleteComment(
+                              commentId: comment.commentId!,
+                              postId: comment.postId!);
                         },
                         child: Text(
                           "Delete Comment",
                           style: TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 16, color: Colors.white),
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              color: Colors.white),
                         ),
                       ),
                     ),
@@ -226,12 +250,21 @@ class _CommentWidgetState extends State<CommentWidget> {
                     Padding(
                       padding: const EdgeInsets.only(left: 10.0),
                       child: GestureDetector(
-                        onTap: () { context.go('/editCommentPage',extra: comment);
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => UpdatePostPage(post: Constant.postEntity,)));},
+                        onTap: () {
+                          context.go('/editCommentPage', extra: comment);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => UpdatePostPage(
+                                    post: Constant.postEntity,
+                                  )));
+                        },
                         child: Text(
                           "Update Comment",
                           style: TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 16, color: Colors.white),
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              color: Colors.white),
                         ),
                       ),
                     ),
@@ -245,12 +278,13 @@ class _CommentWidgetState extends State<CommentWidget> {
   }
 
   _deleteComment({required String commentId, required String postId}) {
-    BlocProvider.of<CommentCubit>(context)
-        .deleteComment(comment: CommentEntity(commentId: commentId, postId: postId));
+    BlocProvider.of<CommentCubit>(context).deleteComment(
+        comment: CommentEntity(commentId: commentId, postId: postId));
   }
 
   _likeComment({required CommentEntity comment}) {
-    BlocProvider.of<CommentCubit>(context)
-        .likeComment(comment: CommentEntity(commentId: comment.commentId, postId: comment.postId));
+    BlocProvider.of<CommentCubit>(context).likeComment(
+        comment: CommentEntity(
+            commentId: comment.commentId, postId: comment.postId));
   }
-  }
+}

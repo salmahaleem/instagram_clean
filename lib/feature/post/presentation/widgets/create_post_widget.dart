@@ -14,7 +14,6 @@ import 'package:instagram_clean/feature/post/presentation/cubit/post_cubit.dart'
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 import 'package:instagram_clean/feature/user/domain/usecase/getCurrentUserId_usecase.dart';
 import 'package:instagram_clean/feature/user/domain/usecase/uploadImageToStorage_usecase.dart';
-import 'package:uuid/uuid.dart';
 
 class CreatePostWidget extends StatefulWidget {
   final UserEntity? userEntity;

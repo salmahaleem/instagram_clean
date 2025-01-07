@@ -14,6 +14,7 @@ class Constant {
   static const String users ="users";
   static const String comment ="comment";
   static const String posts ="posts";
+  static const String reals ="reals";
   static const String replay ="replay";
 
   static TextEditingController email = TextEditingController();
@@ -26,6 +27,7 @@ class Constant {
   static TextEditingController descriptionController = TextEditingController();
   static TextEditingController CommentDescriptionController = TextEditingController();
   static TextEditingController ReplayDescriptionController = TextEditingController();
+  static TextEditingController caption = TextEditingController();
 
   static  bool isPassVis = true;
 
@@ -33,6 +35,7 @@ class Constant {
 
   static File? selectedImage;
   static String postId = Uuid().v1();
+  static String realId = Uuid().v1();
   static String otherUserId = " ";
   static PostEntity postEntity = PostEntity();
   static File? profileImage;

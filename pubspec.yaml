@@ -54,6 +54,8 @@ dependencies:
   photo_manager: ^3.6.3
   flutter_launcher_icons: ^0.14.2
   feather_icons: ^1.2.0
+  video_player: ^2.9.2
+  cached_video_player_plus: ^3.0.3
 
 dev_dependencies:
   flutter_test:

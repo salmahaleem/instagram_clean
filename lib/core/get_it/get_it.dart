@@ -32,9 +32,23 @@ import 'package:instagram_clean/feature/post/domain/usecase/save_post_usecase.da
 import 'package:instagram_clean/feature/post/domain/usecase/update_post_usecase.dart';
 import 'package:instagram_clean/feature/post/presentation/cubit/get_single_post/single_post_cubit.dart';
 import 'package:instagram_clean/feature/post/presentation/cubit/post_cubit.dart';
+import 'package:instagram_clean/feature/real/data/data_source/real_remote_data_source_impl.dart';
+import 'package:instagram_clean/feature/real/data/repository/real_firebase_repo_impl.dart';
+import 'package:instagram_clean/feature/real/domain/repository/real_firebase_repo.dart';
+import 'package:instagram_clean/feature/real/domain/usecase/create_real_usecase.dart';
+import 'package:instagram_clean/feature/real/domain/usecase/delete_real_usecase.dart';
+import 'package:instagram_clean/feature/real/domain/usecase/like_real_usecase.dart';
+import 'package:instagram_clean/feature/real/domain/usecase/read_reals_usecase.dart';
+import 'package:instagram_clean/feature/real/domain/usecase/read_single_real_usecase.dart';
+import 'package:instagram_clean/feature/real/domain/usecase/save_real_usecase.dart';
+import 'package:instagram_clean/feature/real/domain/usecase/update_real_usecase.dart';
+import 'package:instagram_clean/feature/real/presentation/cubit/get_single_real/single_real_cubit.dart';
+import 'package:instagram_clean/feature/real/presentation/cubit/real_cubit.dart';
 import 'package:instagram_clean/feature/user/data/data_source/user_remote_data_source_impl.dart';
 import 'package:instagram_clean/feature/user/data/repository/user_firebase_repo_impl.dart';
 import 'package:instagram_clean/feature/user/domain/repository/user_firebase_repo.dart';
+import 'package:instagram_clean/feature/user/domain/usecase/createUser_usecase.dart';
+import 'package:instagram_clean/feature/user/domain/usecase/followUnFollowUser_usecase.dart';
 import 'package:instagram_clean/feature/user/domain/usecase/getAllUsers_usecase.dart';
 import 'package:instagram_clean/feature/user/domain/usecase/getCurrentUserId_usecase.dart';
 import 'package:instagram_clean/feature/user/domain/usecase/getSingleOtherUser_usecase.dart';
@@ -69,6 +83,7 @@ Future<void> setGetIt() async {
   getIt.registerFactory<SignUpCubit>(() => SignUpCubit(signupUseCase: getIt<SignupUseCase>()));
 
   getIt.registerFactory<ProfileCubit>(() => ProfileCubit(
+      followUnFollowUserUseCase: getIt<FollowUnFollowUserUseCase>(),
       logoutUseCase: getIt<LogoutUseCase>(),
       updateUserUseCase: getIt<UpdateUserUseCase>(),
       getAllUsersUseCase: getIt<GetAllUsersUseCase>(),
@@ -94,6 +109,18 @@ Future<void> setGetIt() async {
   getIt.registerFactory<SinglePostCubit>(() => SinglePostCubit(
       readSinglePostUseCase: getIt<ReadSinglePostUseCase>()));
 
+//cubit real
+  getIt.registerFactory<RealCubit>(() => RealCubit(
+      updateRealUseCase: getIt<UpdateRealUseCase>(),
+      deleteRealUseCase: getIt<DeleteRealUseCase>(),
+      likeRealUseCase: getIt<LikeRealUseCase>(),
+      createRealUseCase:getIt<CreateRealUseCase>(),
+      readRealUseCase: getIt<ReadRealsUseCase>()
+  ));
+
+  getIt.registerFactory<SingleRealCubit>(() => SingleRealCubit(
+      readSingleRealUseCase: getIt<ReadSingleRealUseCase>()));
+
   //comment and replay cubit
   getIt.registerFactory<CommentCubit>(() => CommentCubit(
        updateCommentUseCase: getIt<UpdateCommentUseCase>(),
@@ -113,6 +140,10 @@ Future<void> setGetIt() async {
 
 
   //usecase user
+  getIt.registerLazySingleton<CreateUserUseCase>(
+          () => CreateUserUseCase(userFirebaseRepo: getIt<UserFirebaseRepo>()));
+  getIt.registerLazySingleton<FollowUnFollowUserUseCase>(
+          () => FollowUnFollowUserUseCase(userFirebaseRepo: getIt<UserFirebaseRepo>()));
   getIt.registerLazySingleton<LoginUseCase>(
           () => LoginUseCase(userFirebaseRepo: getIt<UserFirebaseRepo>()));
   getIt.registerLazySingleton<SignupUseCase>(
@@ -153,6 +184,24 @@ Future<void> setGetIt() async {
   getIt.registerLazySingleton<SavePostUseCase>(
           () => SavePostUseCase(postFirebaseRepo: getIt<PostFirebaseRepo>()));
 
+
+  //usecase real
+  getIt.registerLazySingleton<CreateRealUseCase>(
+          () => CreateRealUseCase(realFirebaseRepo: getIt<RealFirebaseRepo>()));
+  getIt.registerLazySingleton<DeleteRealUseCase>(
+          () => DeleteRealUseCase(realFirebaseRepo: getIt<RealFirebaseRepo>()));
+  getIt.registerLazySingleton<LikeRealUseCase>(
+          () => LikeRealUseCase(realFirebaseRepo: getIt<RealFirebaseRepo>()));
+  getIt.registerLazySingleton<ReadRealsUseCase>(
+          () => ReadRealsUseCase(realFirebaseRepo: getIt<RealFirebaseRepo>()));
+  getIt.registerLazySingleton<ReadSingleRealUseCase>(
+          () => ReadSingleRealUseCase(realFirebaseRepo: getIt<RealFirebaseRepo>()));
+  getIt.registerLazySingleton<UpdateRealUseCase>(
+          () => UpdateRealUseCase(realFirebaseRepo: getIt<RealFirebaseRepo>()));
+  getIt.registerLazySingleton<SaveRealUseCase>(
+          () => SaveRealUseCase(realFirebaseRepo: getIt<RealFirebaseRepo>()));
+
+
   //usecase comment
   getIt.registerLazySingleton<CreateCommentUseCase>(
           () => CreateCommentUseCase(commentFirebaseRepo: getIt<CommentFirebaseRepo>()));
@@ -184,8 +233,11 @@ Future<void> setGetIt() async {
   getIt.registerLazySingleton<PostFirebaseRepo>(
           () => PostFirebaseRepoImpl(postFirebaseRepo: getIt<PostRemoteDataSourceImpl>()));
 
-  //repos comment and replay
+  //repo real
+  getIt.registerLazySingleton<RealFirebaseRepo>(
+          () => RealFirebaseRepoImpl(realFirebaseRepo: getIt<RealRemoteDataSourceImpl>()));
 
+  //repos comment and replay
   getIt.registerLazySingleton<CommentFirebaseRepo>(
           () => CommentFirebaseRepoImpl(commentFirebaseRepo: getIt<CommentRemoteDataSourceImpl>()));
 
@@ -201,6 +253,14 @@ Future<void> setGetIt() async {
 
   //remote post
   getIt.registerLazySingleton<PostRemoteDataSourceImpl>(() => PostRemoteDataSourceImpl(
+    firebaseAuth: getIt<FirebaseAuth>(),
+    firebaseFirestore: getIt<FirebaseFirestore>(),
+    firebaseStorage: getIt<FirebaseStorage>(),
+    userFirebaseRepo: getIt<UserFirebaseRepo>(),
+  ));
+
+ //remote real
+  getIt.registerLazySingleton<RealRemoteDataSourceImpl>(() => RealRemoteDataSourceImpl(
     firebaseAuth: getIt<FirebaseAuth>(),
     firebaseFirestore: getIt<FirebaseFirestore>(),
     firebaseStorage: getIt<FirebaseStorage>(),

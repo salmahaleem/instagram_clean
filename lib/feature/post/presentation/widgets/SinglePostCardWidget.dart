@@ -5,10 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:instagram_clean/core/get_it/get_it.dart' as di;
-import 'package:instagram_clean/core/utils/constant.dart';
 import 'package:instagram_clean/core/utils/spacing.dart';
 import 'package:instagram_clean/core/widgets/userPhoto.dart';
-import 'package:instagram_clean/feature/comment%20and%20replay/presentation/screens/comment_page.dart';
+import 'package:instagram_clean/feature/comment%20and%20replay/presentation/screens/comment_post_page.dart';
 import 'package:instagram_clean/feature/home/domain/entity/app_entity.dart';
 
 import 'package:instagram_clean/feature/post/domain/entitys/post_entity.dart';
@@ -16,7 +15,6 @@ import 'package:instagram_clean/feature/post/presentation/cubit/post_cubit.dart'
 import 'package:instagram_clean/feature/post/presentation/widgets/like_widget.dart';
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 import 'package:instagram_clean/feature/user/domain/usecase/getCurrentUserId_usecase.dart';
-import 'package:instagram_clean/feature/user/domain/usecase/getSingleOtherUser_usecase.dart';
 
 class SinglePostCardWidget extends StatefulWidget {
   final PostEntity post;
@@ -251,16 +249,12 @@ class _SinglePostCardWidgetState extends State<SinglePostCardWidget> {
                         style: Theme.of(context).textTheme.titleSmall,
                       ),
                     ),
-                    SizedBox(
-                      height: 8,
-                    ),
+                    verticalSpace(8.h),
                     Divider(
                       thickness: 1,
                       color: Colors.grey,
                     ),
-                    SizedBox(
-                      height: 8,
-                    ),
+                    verticalSpace(8.h),
                     Padding(
                       padding: const EdgeInsets.only(left: 10.0),
                       child: GestureDetector(
