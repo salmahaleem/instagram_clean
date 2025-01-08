@@ -16,6 +16,7 @@ class UserEntity {
   final num? totalFollowers;
   final num? totalFollowing;
   final num? totalPosts;
+  final bool? isOnline;
 
   // will not going to store in DB
   final File? imageFile;
@@ -39,6 +40,7 @@ class UserEntity {
     this.totalPosts,
     this.phone,
     this.gender,
+    this.isOnline
   });
 
   // @override

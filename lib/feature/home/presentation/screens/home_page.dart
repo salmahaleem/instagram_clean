@@ -3,8 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:instagram_clean/core/get_it/get_it.dart'as di;
 import 'package:instagram_clean/core/utils/spacing.dart';
+import 'package:instagram_clean/feature/chat/presentation/cubit/chat/chat_cubit.dart';
+import 'package:instagram_clean/feature/chat/presentation/screens/chats_page.dart';
+import 'package:instagram_clean/feature/home/presentation/widgets/chats_widget.dart';
 import 'package:instagram_clean/feature/post/domain/entitys/post_entity.dart';
 import 'package:instagram_clean/feature/post/presentation/cubit/post_cubit.dart';
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
@@ -41,8 +45,10 @@ class HomePage extends StatelessWidget {
             child: Row(
               children: [
                 Icon(Icons.favorite_border_outlined),
-                horizontalSpace(5.w),
-                Icon(FeatherIcons.messageCircle),
+                horizontalSpace(10.w),
+                GestureDetector(
+                  onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => ChatsPage(uid: "${userEntity.uid}")));},
+                    child: Icon(FeatherIcons.messageCircle)),
               ],
             ),
           )

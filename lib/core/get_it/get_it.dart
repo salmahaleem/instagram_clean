@@ -2,6 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:instagram_clean/feature/chat/data/data_source/chat_remote_data_source_impl.dart';
+import 'package:instagram_clean/feature/chat/data/repository/chat_firebase_repo_impl.dart';
+import 'package:instagram_clean/feature/chat/domain/repository/chat_firebase_repo.dart';
+import 'package:instagram_clean/feature/chat/domain/usecase/delete_chat_usecase.dart';
+import 'package:instagram_clean/feature/chat/domain/usecase/detete_message_usecase.dart';
+import 'package:instagram_clean/feature/chat/domain/usecase/get_message_usecase.dart';
+import 'package:instagram_clean/feature/chat/domain/usecase/get_my_chat_usecase.dart';
+import 'package:instagram_clean/feature/chat/domain/usecase/seen_message_update_usecase.dart';
+import 'package:instagram_clean/feature/chat/domain/usecase/send_message_usecase.dart';
+import 'package:instagram_clean/feature/chat/presentation/cubit/chat/chat_cubit.dart';
 import 'package:instagram_clean/feature/comment%20and%20replay/data/data_source/comment_remote_data_source_impl.dart';
 import 'package:instagram_clean/feature/comment%20and%20replay/data/data_source/replay_remote_data_source_impl.dart';
 import 'package:instagram_clean/feature/comment%20and%20replay/data/repository/comment_firebase_repo_impl.dart';
@@ -64,6 +74,8 @@ import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/ge
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/get_single_user_cubit/get_single_user_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/profile_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/signup_cubit/sign_up_cubit.dart';
+
+import '../../feature/chat/presentation/cubit/message/message_cubit.dart';
 
 
 
@@ -136,6 +148,19 @@ Future<void> setGetIt() async {
       likeReplayUseCase: getIt<LikeReplayUseCase>(),
       deleteReplayUseCase: getIt<DeleteReplayUseCase>(),
       createReplayUseCase: getIt<CreateReplayUseCase>()
+  ));
+
+  //chat cubit
+  getIt.registerFactory<ChatCubit>(() => ChatCubit(
+      getMyChatUseCase: getIt<GetMyChatUseCase>(),
+      deleteChatUseCase: getIt<DeleteChatUseCase>()
+  ));
+
+  getIt.registerFactory<MessageCubit>(() => MessageCubit(
+      getMessagesUseCase: getIt<GetMessagesUseCase>(),
+      deleteMessageUseCase: getIt<DeleteMessageUseCase>(),
+      sendMessageUseCase: getIt<SendMessageUseCase>(),
+      seenMessageUpdateUseCase: getIt<SeenMessageUpdateUseCase>()
   ));
 
 
@@ -226,6 +251,25 @@ Future<void> setGetIt() async {
   getIt.registerLazySingleton<UpdateReplayUseCase>(
           () => UpdateReplayUseCase(replayFirebaseRepo: getIt<ReplayFirebaseRepo>()));
 
+  //chat usecase
+  getIt.registerLazySingleton<DeleteMessageUseCase>(() => DeleteMessageUseCase(chatFirebaseRepo: getIt<ChatFirebaseRepo>()));
+
+  getIt.registerLazySingleton<DeleteChatUseCase>(
+          () => DeleteChatUseCase(chatFirebaseRepo: getIt<ChatFirebaseRepo>()));
+
+  getIt.registerLazySingleton<GetMessagesUseCase>(
+          () => GetMessagesUseCase(chatFirebaseRepo: getIt<ChatFirebaseRepo>()));
+
+  getIt.registerLazySingleton<GetMyChatUseCase>(
+          () => GetMyChatUseCase(chatFirebaseRepo: getIt<ChatFirebaseRepo>()));
+
+  getIt.registerLazySingleton<SendMessageUseCase>(
+          () => SendMessageUseCase(chatFirebaseRepo: getIt<ChatFirebaseRepo>()));
+
+  getIt.registerLazySingleton<SeenMessageUpdateUseCase>(
+          () => SeenMessageUpdateUseCase(chatFirebaseRepo: getIt<ChatFirebaseRepo>()));
+
+
   //repos user
   getIt.registerLazySingleton<UserFirebaseRepo>(
           () => UserFirebaseRepoImpl(userFirebaseRepo: getIt<UserRemoteDataSourceImpl>()));
@@ -243,6 +287,10 @@ Future<void> setGetIt() async {
 
   getIt.registerLazySingleton<ReplayFirebaseRepo>(
           () => ReplayFirebaseRepoImpl(replayFirebaseRepo: getIt<ReplayRemoteDataSourceImpl>()));
+
+  //repo chat
+  getIt.registerLazySingleton<ChatFirebaseRepo>(
+          () => ChatFirebaseRepoImpl(chatFirebaseRepo: getIt<ChatRemoteDataSourceImpl>()));
 
   //remote user
   getIt.registerLazySingleton<UserRemoteDataSourceImpl>(() => UserRemoteDataSourceImpl(
@@ -277,6 +325,12 @@ Future<void> setGetIt() async {
     firebaseFirestore: getIt<FirebaseFirestore>(),
     userFirebaseRepo: getIt<UserFirebaseRepo>(),
   ));
+
+  //remote chat
+  getIt.registerLazySingleton<ChatRemoteDataSourceImpl>(() => ChatRemoteDataSourceImpl(
+    firebaseFirestore:getIt<FirebaseFirestore>(),
+  ));
+
 
   getIt.registerLazySingleton<FirebaseAuth>(() => authe);
   getIt.registerLazySingleton<FirebaseFirestore>(() => firestore);

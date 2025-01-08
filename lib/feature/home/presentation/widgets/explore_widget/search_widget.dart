@@ -21,7 +21,7 @@ class SearchWidget extends StatelessWidget {
             border: InputBorder.none,
             prefixIcon: Icon(Icons.search,),
             hintText: "Search",
-            hintStyle: Theme.of(context).textTheme.titleSmall!.copyWith(color: Colors.grey),
+            hintStyle: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.grey),
         ),
       ),
     )

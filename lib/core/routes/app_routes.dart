@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:instagram_clean/core/get_it/get_it.dart';
 import 'package:instagram_clean/core/utils/constant.dart';
+import 'package:instagram_clean/feature/chat/domain/entity/message_entity.dart';
+import 'package:instagram_clean/feature/chat/presentation/screens/single_chat_page.dart';
 import 'package:instagram_clean/feature/comment%20and%20replay/domain/entity/comment_entity.dart';
 import 'package:instagram_clean/feature/comment%20and%20replay/domain/entity/replay_entity.dart';
 import 'package:instagram_clean/feature/comment%20and%20replay/presentation/screens/comment_post_page.dart';
@@ -12,6 +14,7 @@ import 'package:instagram_clean/feature/comment%20and%20replay/presentation/scre
 import 'package:instagram_clean/feature/home/domain/entity/app_entity.dart';
 import 'package:instagram_clean/feature/home/presentation/screens/explore_page.dart';
 import 'package:instagram_clean/feature/home/presentation/screens/main_page.dart';
+import 'package:instagram_clean/feature/home/presentation/widgets/chats_widget.dart';
 import 'package:instagram_clean/feature/post/domain/entitys/post_entity.dart';
 import 'package:instagram_clean/feature/post/presentation/cubit/get_single_post/single_post_cubit.dart';
 import 'package:instagram_clean/feature/post/presentation/cubit/post_cubit.dart';
@@ -201,7 +204,23 @@ class AppRoutes {
         builder: (context, state) {
           final ReplayEntity replay = state.extra as ReplayEntity;
           return EditReplayPage(replay: replay);
-        })
+        }),
+    GoRoute(
+        path: '/chatsWidget',
+        name: '/chatsWidget',
+        builder: (context, state) {
+          final uid = state.pathParameters['uid'];
+          final UserEntity user = state.extra as UserEntity;
+          return ChatsWidget(uid: "${uid}",userEntity: user,);
+        }),
+    GoRoute(
+        path: '/singleChatPage',
+        name: '/singleChatPage',
+        builder: (context, state) {
+          final MessageEntity message = state.extra as MessageEntity;
+          return SingleChatPage(message: message);
+        }),
+
   ]
   );
 

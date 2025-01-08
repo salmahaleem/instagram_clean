@@ -15,6 +15,7 @@ class UserModel extends UserEntity{
   final num? totalFollowers;
   final num? totalFollowing;
   final num? totalPosts;
+  final bool? isOnline;
 
   UserModel({
     this.uid,
@@ -30,6 +31,7 @@ class UserModel extends UserEntity{
     this.totalPosts,
     this.phone,
     this.gender,
+    this.isOnline
 
   }) : super(
     uid: uid,
@@ -45,6 +47,7 @@ class UserModel extends UserEntity{
     phone: phone,
     email: email,
     totalPosts: totalPosts,
+    isOnline: isOnline,
   );
 
   factory UserModel.fromSnapshot(DocumentSnapshot doc) {
@@ -68,6 +71,7 @@ class UserModel extends UserEntity{
       totalPosts: snapshot['totalPosts'] ?? 0,
       followers: (snapshot['followers'] is List) ? List.from(snapshot['followers']) : [],
       following: (snapshot['following'] is List) ? List.from(snapshot['following']) : [],
+      isOnline: snapshot['isOnline'] ?? false
     );
   }
 
@@ -85,5 +89,6 @@ class UserModel extends UserEntity{
     "profileUrl": profileUrl ?? '',
     "followers": followers ?? [],
     "following": following ?? [],
+    "isOnline" : isOnline ?? false
   };
 }

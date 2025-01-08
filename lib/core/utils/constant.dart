@@ -16,6 +16,8 @@ class Constant {
   static const String posts ="posts";
   static const String reals ="reals";
   static const String replay ="replay";
+  static const String myChat ="myChat";
+  static const String messages ="messages";
 
   static TextEditingController email = TextEditingController();
   static TextEditingController password = TextEditingController();
@@ -28,6 +30,8 @@ class Constant {
   static TextEditingController CommentDescriptionController = TextEditingController();
   static TextEditingController ReplayDescriptionController = TextEditingController();
   static TextEditingController caption = TextEditingController();
+  static TextEditingController textMessageController = TextEditingController();
+  static ScrollController scrollController  = ScrollController();
 
   static  bool isPassVis = true;
 
@@ -48,7 +52,35 @@ class Constant {
 
   //static File? image;
 
+  static const String singleChatPage = "singleChatPage";
 
 
+}
+
+class MessageTypeConst {
+
+  static const String textMessage = "textMessage";
+  static const String fileMessage = "fileMessage";
+  static const String emojiMessage = "emojiMessage";
+  static const String photoMessage = "photoMessage";
+  static const String audioMessage = "audioMessage";
+  static const String videoMessage = "videoMessage";
+  static const String gifMessage = "gifMessage";
+
+
+  static Future<String> uploadMessageFile(
+      {required File file, Function(bool isUploading)? onComplete, String? uid, String? otherUid,String? type}) async {
+    onComplete!(true);
+
+    final ref = FirebaseStorage.instance.ref().child(
+        "message/$type/$uid/$otherUid/${DateTime.now().millisecondsSinceEpoch}");
+
+    final uploadTask = ref.putData(await file.readAsBytes(),  SettableMetadata(contentType: 'image/png'),);
+
+    final imageUrl =
+    (await uploadTask.whenComplete(() {})).ref.getDownloadURL();
+    onComplete(false);
+    return await imageUrl;
+  }
 
 }

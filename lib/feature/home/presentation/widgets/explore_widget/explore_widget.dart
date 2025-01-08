@@ -2,14 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:instagram_clean/core/utils/constant.dart';
 import 'package:instagram_clean/core/utils/spacing.dart';
 import 'package:instagram_clean/core/widgets/userPhoto.dart';
+import 'package:instagram_clean/feature/comment%20and%20replay/presentation/widget/single_replay_widget.dart';
 import 'package:instagram_clean/feature/home/presentation/widgets/explore_widget/search_widget.dart';
 import 'package:instagram_clean/feature/post/domain/entitys/post_entity.dart';
 import 'package:instagram_clean/feature/post/presentation/cubit/post_cubit.dart';
 import 'package:instagram_clean/feature/post/presentation/screens/post_details_page.dart';
+import 'package:instagram_clean/feature/real/domain/entity/real_entity.dart';
+import 'package:instagram_clean/feature/real/presentation/cubit/real_cubit.dart';
+import 'package:instagram_clean/feature/real/presentation/widget/single_real_widget.dart';
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/profile_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/screens/single_user_profile_page.dart';
@@ -29,6 +31,7 @@ class _SearchMainWidgetState extends State<SearchMainWidget> {
     super.initState();
     BlocProvider.of<ProfileCubit>(context).getAllUsers(user: UserEntity());
     BlocProvider.of<PostCubit>(context).getAllPosts(post: PostEntity());
+    BlocProvider.of<RealCubit>(context).getAllReals(real: RealEntity());
     _searchController.addListener(() {
       setState(() {
 
@@ -66,7 +69,9 @@ class _SearchMainWidgetState extends State<SearchMainWidget> {
                     ),
                     verticalSpace(10.h),
                     _searchController.text.isNotEmpty ? Expanded(
-                      child: ListView.builder(itemCount: filterAllUsers.length,itemBuilder: (context, index) {
+                      child: ListView.builder(
+                          itemCount: filterAllUsers.length,
+                          itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
                              //final String otherUserId= "${filterAllUsers[index].uid}";
@@ -119,7 +124,35 @@ class _SearchMainWidgetState extends State<SearchMainWidget> {
                         }
                         return Center(child: CircularProgressIndicator(),);
                       },
-                    )
+                    ),
+                BlocBuilder<RealCubit, RealState>(
+              builder: (context, realState) {
+                if (realState is RealLoaded) {
+                  final reals = realState.reals;
+                  return Expanded(
+                    child: GridView.builder(
+                        itemCount: reals.length,
+                        physics: ScrollPhysics(),
+                        shrinkWrap: true,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 1, crossAxisSpacing: 5, mainAxisSpacing: 5),
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () =>
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>SingleRealWidget(real: reals[index]))),
+                            //context.go('/postDetailsPage/:${Constant.postId}'),
+                            child: Container(
+                              width: 200,
+                              height: 250,
+                              child: SingleRealWidget(real: reals[index])
+                            ),
+                          );
+                        }),
+                  );
+                }
+                return Center(child: CircularProgressIndicator(),);
+              },
+                )
                   ],
                 ),
               );
