@@ -2,16 +2,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:instagram_clean/core/utils/colors.dart';
-import 'package:instagram_clean/core/utils/constant.dart';
 import 'package:instagram_clean/core/widgets/userPhoto.dart';
 import 'package:instagram_clean/feature/chat/domain/entity/chat_entity.dart';
 import 'package:instagram_clean/feature/chat/domain/entity/message_entity.dart';
 import 'package:instagram_clean/feature/chat/presentation/cubit/chat/chat_cubit.dart';
 import 'package:instagram_clean/feature/chat/presentation/screens/single_chat_page.dart';
 import 'package:instagram_clean/feature/chat/presentation/screens/user_page.dart';
-import 'package:instagram_clean/feature/home/presentation/widgets/chats_widget.dart';
 
 class ChatsPage extends StatefulWidget {
   final String uid;
@@ -65,7 +62,7 @@ class _ChatsPageState extends State<ChatsPage> {
                       height: 50,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(25),
-                        child: UserPhoto(),
+                        child: UserPhoto(imageUrl: chat.recipientProfile),
                       ),
                     ),
                     title: Text("${chat.recipientName}"),

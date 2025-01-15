@@ -36,7 +36,6 @@ dependencies:
   cupertino_icons: ^1.0.8
   firebase_core: ^3.8.1
   firebase_auth: ^5.3.4
-  cloud_firestore: ^5.4.4
   flutter_screenutil: ^5.9.3
   easy_localization: ^3.0.7
   go_router: ^14.6.2
@@ -65,6 +64,10 @@ dependencies:
   file_picker: ^8.1.7
   flutter_sound: ^9.17.8
   path_provider: ^2.1.5
+  flutter_story_view: ^0.0.4
+  get_time_ago: ^2.1.1
+  cloud_firestore: ^5.6.1
+  flutter_instagram_stories: ^1.0.3+4
 
 dev_dependencies:
   flutter_test:

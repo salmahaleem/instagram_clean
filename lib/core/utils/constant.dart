@@ -18,6 +18,7 @@ class Constant {
   static const String replay ="replay";
   static const String myChat ="myChat";
   static const String messages ="messages";
+  static const String story ="story";
 
   static TextEditingController email = TextEditingController();
   static TextEditingController password = TextEditingController();
@@ -44,16 +45,6 @@ class Constant {
   static PostEntity postEntity = PostEntity();
   static File? profileImage;
   static String? profileUrl = " ";
-
-
-  // static FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-  // static FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  // static FirebaseStorage firebaseStorage = FirebaseStorage.instance;
-
-  //static File? image;
-
-  static const String singleChatPage = "singleChatPage";
-
 
 }
 

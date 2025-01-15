@@ -54,6 +54,19 @@ import 'package:instagram_clean/feature/real/domain/usecase/save_real_usecase.da
 import 'package:instagram_clean/feature/real/domain/usecase/update_real_usecase.dart';
 import 'package:instagram_clean/feature/real/presentation/cubit/get_single_real/single_real_cubit.dart';
 import 'package:instagram_clean/feature/real/presentation/cubit/real_cubit.dart';
+import 'package:instagram_clean/feature/story/data/data_source/story_remote_data_source_impl.dart';
+import 'package:instagram_clean/feature/story/data/repository/story_firebase_repo_impl.dart';
+import 'package:instagram_clean/feature/story/domain/repository/story_firebase_repo.dart';
+import 'package:instagram_clean/feature/story/domain/usecase/create_story_usecase.dart';
+import 'package:instagram_clean/feature/story/domain/usecase/delete_story_usecase.dart';
+import 'package:instagram_clean/feature/story/domain/usecase/get_my_story.dart';
+import 'package:instagram_clean/feature/story/domain/usecase/get_my_story_future.dart';
+import 'package:instagram_clean/feature/story/domain/usecase/get_story_usecase.dart';
+import 'package:instagram_clean/feature/story/domain/usecase/seen_story_update.dart';
+import 'package:instagram_clean/feature/story/domain/usecase/update_only_image_story.dart';
+import 'package:instagram_clean/feature/story/domain/usecase/update_story.dart';
+import 'package:instagram_clean/feature/story/presentation/cubit/my_story/my_story_cubit.dart';
+import 'package:instagram_clean/feature/story/presentation/cubit/stories/story_cubit.dart';
 import 'package:instagram_clean/feature/user/data/data_source/user_remote_data_source_impl.dart';
 import 'package:instagram_clean/feature/user/data/repository/user_firebase_repo_impl.dart';
 import 'package:instagram_clean/feature/user/domain/repository/user_firebase_repo.dart';
@@ -163,6 +176,22 @@ Future<void> setGetIt() async {
       seenMessageUpdateUseCase: getIt<SeenMessageUpdateUseCase>()
   ));
 
+  //story cubit
+  getIt.registerFactory<StoryCubit>(() => StoryCubit(
+      createStoryUseCase: getIt<CreateStoryUseCase>(),
+      deleteStoryUseCase: getIt<DeleteStoryUseCase>(),
+      getStoryUseCase: getIt<GetStoryUseCase>(),
+      updateStoryUseCase: getIt<UpdateStoryUseCase>(),
+      updateOnlyImageStoryUseCase: getIt<UpdateOnlyImageStoryUseCase>(),
+      seenStoryUpdateUseCase: getIt<SeenStoryUpdateUseCase>()
+  ));
+
+  getIt.registerFactory<MyStoryCubit>(
+          () => MyStoryCubit(getMyStoryUseCase: getIt<GetMyStoryUseCase>()
+  ));
+
+
+
 
   //usecase user
   getIt.registerLazySingleton<CreateUserUseCase>(
@@ -252,7 +281,8 @@ Future<void> setGetIt() async {
           () => UpdateReplayUseCase(replayFirebaseRepo: getIt<ReplayFirebaseRepo>()));
 
   //chat usecase
-  getIt.registerLazySingleton<DeleteMessageUseCase>(() => DeleteMessageUseCase(chatFirebaseRepo: getIt<ChatFirebaseRepo>()));
+  getIt.registerLazySingleton<DeleteMessageUseCase>(
+          () => DeleteMessageUseCase(chatFirebaseRepo: getIt<ChatFirebaseRepo>()));
 
   getIt.registerLazySingleton<DeleteChatUseCase>(
           () => DeleteChatUseCase(chatFirebaseRepo: getIt<ChatFirebaseRepo>()));
@@ -269,6 +299,23 @@ Future<void> setGetIt() async {
   getIt.registerLazySingleton<SeenMessageUpdateUseCase>(
           () => SeenMessageUpdateUseCase(chatFirebaseRepo: getIt<ChatFirebaseRepo>()));
 
+  //story usecase
+  getIt.registerLazySingleton<CreateStoryUseCase>(
+          () => CreateStoryUseCase(storyFirebaseRepo: getIt<StoryFirebaseRepo>()));
+  getIt.registerLazySingleton<DeleteStoryUseCase>(
+          () => DeleteStoryUseCase(storyFirebaseRepo: getIt<StoryFirebaseRepo>()));
+  getIt.registerLazySingleton<GetMyStoryUseCase>(
+          () => GetMyStoryUseCase(storyFirebaseRepo: getIt<StoryFirebaseRepo>()));
+  getIt.registerLazySingleton<GetMyStoryFutureUseCase>(
+          () => GetMyStoryFutureUseCase(storyFirebaseRepo: getIt<StoryFirebaseRepo>()));
+  getIt.registerLazySingleton<GetStoryUseCase>(
+          () => GetStoryUseCase(storyFirebaseRepo: getIt<StoryFirebaseRepo>()));
+  getIt.registerLazySingleton<SeenStoryUpdateUseCase>(
+          () => SeenStoryUpdateUseCase(storyFirebaseRepo: getIt<StoryFirebaseRepo>()));
+  getIt.registerLazySingleton<UpdateOnlyImageStoryUseCase>(
+          () => UpdateOnlyImageStoryUseCase(storyFirebaseRepo: getIt<StoryFirebaseRepo>()));
+  getIt.registerLazySingleton<UpdateStoryUseCase>(
+          () => UpdateStoryUseCase(storyFirebaseRepo: getIt<StoryFirebaseRepo>()));
 
   //repos user
   getIt.registerLazySingleton<UserFirebaseRepo>(
@@ -291,6 +338,10 @@ Future<void> setGetIt() async {
   //repo chat
   getIt.registerLazySingleton<ChatFirebaseRepo>(
           () => ChatFirebaseRepoImpl(chatFirebaseRepo: getIt<ChatRemoteDataSourceImpl>()));
+
+  //repo story
+  getIt.registerLazySingleton<StoryFirebaseRepo>(
+          () => StoryFirebaseRepoImpl(storyFirebaseRepo: getIt<StoryRemoteDataSourceImpl>()));
 
   //remote user
   getIt.registerLazySingleton<UserRemoteDataSourceImpl>(() => UserRemoteDataSourceImpl(
@@ -331,6 +382,10 @@ Future<void> setGetIt() async {
     firebaseFirestore:getIt<FirebaseFirestore>(),
   ));
 
+  //remote story
+  getIt.registerLazySingleton<StoryRemoteDataSourceImpl>(() => StoryRemoteDataSourceImpl(
+    firebaseFirestore:getIt<FirebaseFirestore>(),
+  ));
 
   getIt.registerLazySingleton<FirebaseAuth>(() => authe);
   getIt.registerLazySingleton<FirebaseFirestore>(() => firestore);

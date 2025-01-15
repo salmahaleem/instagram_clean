@@ -21,6 +21,8 @@ import 'package:instagram_clean/feature/chat/presentation/screens/chats_page.dar
 import 'package:instagram_clean/feature/chat/presentation/widget/chat_utils.dart';
 import 'package:instagram_clean/feature/chat/presentation/widget/message_replay_type_widget.dart';
 import 'package:instagram_clean/feature/chat/presentation/widget/message_type_widget.dart';
+import 'package:instagram_clean/feature/story/data/data_source/story_remote_data_source_impl.dart';
+import 'package:instagram_clean/feature/story/presentation/widget/storage_story.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/get_single_user_cubit/get_single_user_cubit.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:swipe_to/swipe_to.dart';
@@ -536,7 +538,7 @@ class _SingleChatPageState extends State<SingleChatPage> {
 
       if (_isRecording == true) {
         await _soundRecorder!.stopRecorder();
-        ChatRemoteDataSourceImpl.uploadMessageFile(
+        InstagramStorage.uploadMessageFile(
           file: File(audioPath),
           onComplete: (value) {},
           uid: widget.message.senderUid,

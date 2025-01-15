@@ -18,6 +18,8 @@ import 'package:instagram_clean/feature/post/presentation/cubit/get_single_post/
 import 'package:instagram_clean/feature/post/presentation/cubit/post_cubit.dart';
 import 'package:instagram_clean/feature/real/presentation/cubit/get_single_real/single_real_cubit.dart';
 import 'package:instagram_clean/feature/real/presentation/cubit/real_cubit.dart';
+import 'package:instagram_clean/feature/story/presentation/cubit/my_story/my_story_cubit.dart';
+import 'package:instagram_clean/feature/story/presentation/cubit/stories/story_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/get_other_single_user/get_other_single_user_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/get_single_user_cubit/get_single_user_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/profile_cubit.dart';
@@ -57,6 +59,8 @@ Future main() async {
             BlocProvider(create: (_)=> di.getIt<ReplayCubit>()),
             BlocProvider(create: (_)=> di.getIt<ChatCubit>()),
             BlocProvider(create: (_)=> di.getIt<MessageCubit>()),
+            BlocProvider(create: (_)=> di.getIt<StoryCubit>()),
+            BlocProvider(create: (_)=> di.getIt<MyStoryCubit>()),
           ], child: const MyApp())));
 }
 

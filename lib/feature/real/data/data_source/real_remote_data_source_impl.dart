@@ -5,7 +5,6 @@ import 'package:instagram_clean/core/utils/constant.dart';
 import 'package:instagram_clean/feature/real/data/model/real_model.dart';
 import 'package:instagram_clean/feature/real/domain/entity/real_entity.dart';
 import 'package:instagram_clean/feature/real/domain/repository/real_firebase_repo.dart';
-import 'package:instagram_clean/feature/user/data/models/user_model.dart';
 import 'package:instagram_clean/feature/user/domain/repository/user_firebase_repo.dart';
 
 class RealRemoteDataSourceImpl implements RealFirebaseRepo{

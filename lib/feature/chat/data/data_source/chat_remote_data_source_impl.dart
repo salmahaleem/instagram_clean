@@ -243,19 +243,7 @@ class ChatRemoteDataSourceImpl implements ChatFirebaseRepo {
     await otherMessagesRef.update({"isSeen": true});
   }
 
-  static Future<String> uploadMessageFile(
-      {required File file, Function(bool isUploading)? onComplete, String? uid, String? otherUid,String? type}) async {
-    onComplete!(true);
 
-    final ref = FirebaseStorage.instance.ref().child(
-        "message/$type/$uid/$otherUid/${DateTime.now().millisecondsSinceEpoch}");
 
-    final uploadTask = ref.putData(await file.readAsBytes(),  SettableMetadata(contentType: 'image/png'),);
-
-    final imageUrl =
-    (await uploadTask.whenComplete(() {})).ref.getDownloadURL();
-    onComplete(false);
-    return await imageUrl;
-  }
 
 }

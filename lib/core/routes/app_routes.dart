@@ -14,17 +14,15 @@ import 'package:instagram_clean/feature/comment%20and%20replay/presentation/scre
 import 'package:instagram_clean/feature/home/domain/entity/app_entity.dart';
 import 'package:instagram_clean/feature/home/presentation/screens/explore_page.dart';
 import 'package:instagram_clean/feature/home/presentation/screens/main_page.dart';
-import 'package:instagram_clean/feature/home/presentation/widgets/chats_widget.dart';
 import 'package:instagram_clean/feature/post/domain/entitys/post_entity.dart';
 import 'package:instagram_clean/feature/post/presentation/cubit/get_single_post/single_post_cubit.dart';
 import 'package:instagram_clean/feature/post/presentation/cubit/post_cubit.dart';
 import 'package:instagram_clean/feature/post/presentation/screens/post_details_page.dart';
 import 'package:instagram_clean/feature/post/presentation/screens/update_post_page.dart';
 import 'package:instagram_clean/feature/post/presentation/widgets/create_post_widget.dart';
-import 'package:instagram_clean/feature/post/presentation/widgets/update_post_widget.dart';
+import 'package:instagram_clean/feature/story/presentation/widget/story_body.dart';
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/login_cubit/login_cubit.dart';
-import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/get_other_single_user/get_other_single_user_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/get_single_user_cubit/get_single_user_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/profile_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/signup_cubit/sign_up_cubit.dart';
@@ -205,14 +203,7 @@ class AppRoutes {
           final ReplayEntity replay = state.extra as ReplayEntity;
           return EditReplayPage(replay: replay);
         }),
-    GoRoute(
-        path: '/chatsWidget',
-        name: '/chatsWidget',
-        builder: (context, state) {
-          final uid = state.pathParameters['uid'];
-          final UserEntity user = state.extra as UserEntity;
-          return ChatsWidget(uid: "${uid}",userEntity: user,);
-        }),
+
     GoRoute(
         path: '/singleChatPage',
         name: '/singleChatPage',
@@ -220,6 +211,11 @@ class AppRoutes {
           final MessageEntity message = state.extra as MessageEntity;
           return SingleChatPage(message: message);
         }),
+    // GoRoute(path: '/',
+    // name:'/bodyStory',
+    // builder: (context,state){
+    //   return StoryBody();
+    // })
 
   ]
   );

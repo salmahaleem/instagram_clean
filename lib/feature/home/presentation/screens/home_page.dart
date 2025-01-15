@@ -3,14 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:instagram_clean/core/get_it/get_it.dart'as di;
 import 'package:instagram_clean/core/utils/spacing.dart';
-import 'package:instagram_clean/feature/chat/presentation/cubit/chat/chat_cubit.dart';
 import 'package:instagram_clean/feature/chat/presentation/screens/chats_page.dart';
-import 'package:instagram_clean/feature/home/presentation/widgets/chats_widget.dart';
 import 'package:instagram_clean/feature/post/domain/entitys/post_entity.dart';
 import 'package:instagram_clean/feature/post/presentation/cubit/post_cubit.dart';
+import 'package:instagram_clean/feature/story/presentation/screens/story_page.dart';
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 import 'package:instagram_clean/feature/post/presentation/widgets/SinglePostCardWidget.dart';
 import 'package:instagram_clean/generated/assets.dart';
@@ -44,7 +42,9 @@ class HomePage extends StatelessWidget {
             padding: const EdgeInsets.only(right: 10.0),
             child: Row(
               children: [
-                Icon(Icons.favorite_border_outlined),
+                GestureDetector(
+                  onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context) => StoryPage(currentUser: userEntity)));},
+                    child: Icon(Icons.favorite_border_outlined)),
                 horizontalSpace(10.w),
                 GestureDetector(
                   onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => ChatsPage(uid: "${userEntity.uid}")));},
@@ -54,32 +54,42 @@ class HomePage extends StatelessWidget {
           )
         ],
       ),
-      body: BlocProvider<PostCubit>(
-           create: (context) => di.getIt<PostCubit>()..getAllPosts(post:  PostEntity()),
-          child: BlocBuilder<PostCubit, PostState>(
-          builder: (context, postState) {
-            if (postState is PostLoading) {
-              return Center(child: CircularProgressIndicator(),);
-            }
-            if (postState is PostFailure) {
-              print("Some Failure occured while creating the post");
-            }
-            if (postState is PostLoaded) {
-              return postState.posts.isEmpty? _noPostsYetWidget() : ListView.builder(
-                itemCount: postState.posts.length,
-                itemBuilder: (context, index) {
-                  final post = postState.posts[index];
-                  return BlocProvider(
-                    create: (context) => di.getIt<PostCubit>(),
-                    child: SinglePostCardWidget(post: post,userEntity: userEntity,),
-                  );
+      body: SafeArea(
+        child: Column(
+          children: [
+            Container(height: 50,width: double.maxFinite,color: Colors.white,),
+            verticalSpace(10.h),
+            Expanded(child:
+            BlocProvider<PostCubit>(
+                 create: (context) => di.getIt<PostCubit>()..getAllPosts(post:  PostEntity()),
+                child: BlocBuilder<PostCubit, PostState>(
+                builder: (context, postState) {
+                  if (postState is PostLoading) {
+                    return Center(child: CircularProgressIndicator(),);
+                  }
+                  if (postState is PostFailure) {
+                    print("Some Failure occured while creating the post");
+                  }
+                  if (postState is PostLoaded) {
+                    return postState.posts.isEmpty? _noPostsYetWidget() : ListView.builder(
+                      itemCount: postState.posts.length,
+                      itemBuilder: (context, index) {
+                        final post = postState.posts[index];
+                        return BlocProvider(
+                          create: (context) => di.getIt<PostCubit>(),
+                          child: SinglePostCardWidget(post: post,userEntity: userEntity,),
+                        );
+                      },
+                    );
+                  }
+                  return Center(child: CircularProgressIndicator(),);
                 },
-              );
-            }
-            return Center(child: CircularProgressIndicator(),);
-          },
+              ),
+            ),
+      )
+          ],
         ),
-),
+      ),
     );
   }
 
