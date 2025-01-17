@@ -13,6 +13,7 @@ import 'package:instagram_clean/core/widgets/userPhoto.dart';
 import 'package:instagram_clean/feature/post/domain/entitys/post_entity.dart';
 import 'package:instagram_clean/feature/post/presentation/cubit/post_cubit.dart';
 import 'package:instagram_clean/feature/user/domain/usecase/uploadImageToStorage_usecase.dart';
+import 'package:instagram_clean/generated/locale_keys.dart';
 
 class UpdatePostWidget extends StatefulWidget {
   final PostEntity post;
@@ -118,7 +119,7 @@ class _UpdatePostWidgetState extends State<UpdatePostWidget> {
               verticalSpace(10.h),
               InstagramTextField(
                 controller: _descriptionController,
-                hintText: "Description",
+                hintText: "${LocaleKeys.home_description}",
                 isObscureText: false,
               ),
               verticalSpace(10.h),

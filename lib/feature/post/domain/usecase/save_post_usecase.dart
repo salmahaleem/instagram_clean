@@ -6,7 +6,7 @@ class SavePostUseCase {
 
   SavePostUseCase({required this.postFirebaseRepo});
 
-  Stream<List<PostEntity>> call(PostEntity post) {
+  Future<void> call(PostEntity post) {
     return postFirebaseRepo.savePost(post);
   }
 }

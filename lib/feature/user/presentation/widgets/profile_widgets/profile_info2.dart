@@ -31,13 +31,15 @@ class ProfileInfo2 extends StatelessWidget {
             Row(
               children: [
                 SizedBox(
-                  width: 165.w,
+                  width: 340.w,
                   height: 30.h,
-                  child: InstagramButton(
-                    text: '${LocaleKeys.profile_editProfile.tr()}',
-                    onPressed: () {
-                      context.go('/editProfile',extra: userEntity);
-                    },),
+                  child: Center(
+                    child: InstagramButton(
+                      text: '${LocaleKeys.profile_editProfile.tr()}',
+                      onPressed: () {
+                        context.go('/editProfile',extra: userEntity);
+                      },),
+                  ),
                 ),
                 // horizontalSpace(12.w),
                 // SizedBox(

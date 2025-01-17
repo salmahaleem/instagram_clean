@@ -82,7 +82,8 @@ class UserRemoteDataSourceImpl implements UserFirebaseRepo {
             totalFollowers: user.totalFollowers,
             followers: user.followers,
             totalFollowing: user.totalFollowing,
-            totalPosts: user.totalPosts
+            totalPosts: user.totalPosts,
+            token: ''
         ).toJson();
 
         if (!userDoc.exists) {
@@ -339,6 +340,9 @@ class UserRemoteDataSourceImpl implements UserFirebaseRepo {
     }
     if (user.totalPosts != null) {
       userInformation['totalPosts'] = user.totalPosts;
+    }
+    if (user.token != null) {
+      userInformation['token'] = user.token;
     }
 
     try {

@@ -26,7 +26,18 @@ abstract class LocaleKeys{
   static const settings_mode = "Settings.mode";
   static const settings_logOut = "Settings.logOut";
   static const settings_saved = "Settings.saved";
-
-
+  static const home_search = "Home.search";
+  static const home_saved = "Home.saved";
+  static const home_next = "Home.next";
+  static const home_new_post = "Home.new_post";
+  static const home_recent = "Home.recent";
+  static const home_new_reals = "Home.new_reals";
+  static const home_post_your_comment = "Home.post_your_comment";
+  static const home_comments = "Home.comments";
+  static const home_replay = "Home.replay";
+  static const home_post_your_replay = "Home.post_your_replay";
+  static const home_post_details = "Home.post_details";
+  static const home_share = "Home.share";
+  static const home_description = "Home.description";
 
 }

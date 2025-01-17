@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_clean/core/utils/constant.dart';
 import 'package:instagram_clean/feature/real/presentation/widget/create_real_widget.dart';
+import 'package:instagram_clean/generated/locale_keys.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 class AddReelsPage extends StatefulWidget {
@@ -122,7 +124,7 @@ class _AddReelsPageState extends State<AddReelsPage> {
       appBar: AppBar(
         centerTitle: false,
         title: Text(
-          'New Reels',
+          '${LocaleKeys.home_new_reals.tr()}',
           style: Theme.of(context).textTheme.titleLarge
         ),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,

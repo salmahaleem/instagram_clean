@@ -16,6 +16,7 @@ class UserModel extends UserEntity{
   final num? totalFollowing;
   final num? totalPosts;
   final bool? isOnline;
+  final String? token;
 
   UserModel({
     this.uid,
@@ -31,7 +32,8 @@ class UserModel extends UserEntity{
     this.totalPosts,
     this.phone,
     this.gender,
-    this.isOnline
+    this.isOnline,
+    this.token
 
   }) : super(
     uid: uid,
@@ -48,6 +50,7 @@ class UserModel extends UserEntity{
     email: email,
     totalPosts: totalPosts,
     isOnline: isOnline,
+    token: token
   );
 
   factory UserModel.fromSnapshot(DocumentSnapshot doc) {
@@ -61,6 +64,7 @@ class UserModel extends UserEntity{
       uid: snapshot['uid'] ?? '',
       email: snapshot['email'] ?? '',
       username: snapshot['username'] ?? '',
+      token: snapshot['token'] ?? '',
       bio: snapshot['bio'] ?? '',
       phone: snapshot['phone'] ?? '',
       gender: snapshot['gender'] ?? '',
@@ -81,6 +85,7 @@ class UserModel extends UserEntity{
     "gender": gender ?? '',
     "phone": phone ?? '',
     "username": username ?? '',
+    "token" : token ?? '',
     "totalFollowers": totalFollowers ?? 0,
     "totalFollowing": totalFollowing ?? 0,
     "totalPosts": totalPosts ?? 0,

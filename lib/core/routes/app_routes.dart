@@ -6,11 +6,11 @@ import 'package:instagram_clean/core/get_it/get_it.dart';
 import 'package:instagram_clean/core/utils/constant.dart';
 import 'package:instagram_clean/feature/chat/domain/entity/message_entity.dart';
 import 'package:instagram_clean/feature/chat/presentation/screens/single_chat_page.dart';
-import 'package:instagram_clean/feature/comment%20and%20replay/domain/entity/comment_entity.dart';
-import 'package:instagram_clean/feature/comment%20and%20replay/domain/entity/replay_entity.dart';
-import 'package:instagram_clean/feature/comment%20and%20replay/presentation/screens/comment_post_page.dart';
-import 'package:instagram_clean/feature/comment%20and%20replay/presentation/screens/edit_comment_page.dart';
-import 'package:instagram_clean/feature/comment%20and%20replay/presentation/screens/edit_replay_page.dart';
+import 'package:instagram_clean/feature/comment_and_replay/domain/entity/comment_entity.dart';
+import 'package:instagram_clean/feature/comment_and_replay/domain/entity/replay_entity.dart';
+import 'package:instagram_clean/feature/comment_and_replay/presentation/screens/comment_post_page.dart';
+import 'package:instagram_clean/feature/comment_and_replay/presentation/screens/edit_comment_page.dart';
+import 'package:instagram_clean/feature/comment_and_replay/presentation/screens/edit_replay_page.dart';
 import 'package:instagram_clean/feature/home/domain/entity/app_entity.dart';
 import 'package:instagram_clean/feature/home/presentation/screens/explore_page.dart';
 import 'package:instagram_clean/feature/home/presentation/screens/main_page.dart';
@@ -20,7 +20,6 @@ import 'package:instagram_clean/feature/post/presentation/cubit/post_cubit.dart'
 import 'package:instagram_clean/feature/post/presentation/screens/post_details_page.dart';
 import 'package:instagram_clean/feature/post/presentation/screens/update_post_page.dart';
 import 'package:instagram_clean/feature/post/presentation/widgets/create_post_widget.dart';
-import 'package:instagram_clean/feature/story/presentation/widget/story_body.dart';
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/login_cubit/login_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/get_single_user_cubit/get_single_user_cubit.dart';
@@ -31,6 +30,8 @@ import 'package:instagram_clean/feature/user/presentation/screens/login_page.dar
 import 'package:instagram_clean/feature/user/presentation/screens/profile_page.dart';
 import 'package:instagram_clean/feature/user/presentation/screens/signup_page.dart';
 import 'package:instagram_clean/feature/user/presentation/screens/single_user_profile_page.dart';
+import 'package:instagram_clean/feature/user/presentation/widgets/profile_widgets/followers_page.dart';
+import 'package:instagram_clean/feature/user/presentation/widgets/profile_widgets/following_page.dart';
 import 'package:instagram_clean/feature/user/presentation/widgets/profile_widgets/settings_menu.dart';
 
 class AppRoutes {
@@ -211,12 +212,21 @@ class AppRoutes {
           final MessageEntity message = state.extra as MessageEntity;
           return SingleChatPage(message: message);
         }),
-    // GoRoute(path: '/',
-    // name:'/bodyStory',
-    // builder: (context,state){
-    //   return StoryBody();
-    // })
 
+    GoRoute(
+        path: '/FollowersPage',
+        name:'/FollowersPage',
+    builder: (context,state){
+      final UserEntity currentUser = state.extra as UserEntity;
+      return FollowersPage(user: currentUser,);
+    }),
+    GoRoute(
+        path: '/FollowingPage',
+        name:'/FollowingPage',
+        builder: (context,state){
+          final UserEntity currentUser = state.extra as UserEntity;
+          return FollowingPage(user: currentUser,);
+        }),
   ]
   );
 

@@ -1,11 +1,12 @@
 import 'dart:io';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:instagram_clean/core/utils/constant.dart';
-import 'package:instagram_clean/feature/post/domain/entitys/post_entity.dart';
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
+import 'package:instagram_clean/generated/locale_keys.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 
@@ -24,9 +25,8 @@ class _UploadPostMainWidgetState extends State<UploadPostWidget> {
   bool _uploading = false;
   final List<Widget> _mediaList = [];
   final List<File> _filePaths = [];
-  // File? _selectedImage;
   int _currentPage = 0;
-  // int? lastPage;
+
 
   @override
   void initState() {
@@ -94,7 +94,7 @@ class _UploadPostMainWidgetState extends State<UploadPostWidget> {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
         title: const Text(
-          'New Post',
+          '${LocaleKeys.home_new_post}',
           style: TextStyle(color: Colors.white),
         ),
         centerTitle: false,
@@ -128,7 +128,7 @@ class _UploadPostMainWidgetState extends State<UploadPostWidget> {
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                'Recent',
+                '${LocaleKeys.home_recent.tr()}',
                 style:
                     TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w600),
               ),

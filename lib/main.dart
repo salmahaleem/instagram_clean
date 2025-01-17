@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,8 +12,6 @@ import 'package:instagram_clean/core/routes/app_routes.dart';
 import 'package:instagram_clean/core/shared/shared_pref.dart';
 import 'package:instagram_clean/feature/chat/presentation/cubit/chat/chat_cubit.dart';
 import 'package:instagram_clean/feature/chat/presentation/cubit/message/message_cubit.dart';
-import 'package:instagram_clean/feature/comment%20and%20replay/presentation/cubit/comment_cubit.dart';
-import 'package:instagram_clean/feature/comment%20and%20replay/presentation/cubit/replay/replay_cubit.dart';
 
 import 'package:instagram_clean/feature/post/presentation/cubit/get_single_post/single_post_cubit.dart';
 import 'package:instagram_clean/feature/post/presentation/cubit/post_cubit.dart';
@@ -23,10 +22,14 @@ import 'package:instagram_clean/feature/story/presentation/cubit/stories/story_c
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/get_other_single_user/get_other_single_user_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/get_single_user_cubit/get_single_user_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/profile_cubit.dart';
-import 'package:instagram_clean/firebase_options.dart';
+import 'package:instagram_clean/core/network/firebase_options.dart';
 import 'package:instagram_clean/generated/codegenrated.dart';
 
 import 'core/get_it/get_it.dart' as di;
+import 'feature/comment_and_replay/presentation/cubit/comment_cubit.dart';
+import 'feature/comment_and_replay/presentation/cubit/replay/replay_cubit.dart';
+
+
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,6 +38,11 @@ Future main() async {
   );
   await FirebaseAppCheck.instance.activate(
     androidProvider: AndroidProvider.debug,
+  );
+  await FirebaseMessaging.instance.requestPermission(
+    alert: true,
+    sound: true,
+    badge: true
   );
   await EasyLocalization.ensureInitialized();
   await SharedPref.init();
@@ -80,7 +88,6 @@ class MyApp extends StatelessWidget {
                 ? languageState.locale
                 : const Locale('en');
             return ScreenUtilInit(
-              //designSize: Size(375, 812),
                 minTextAdapt: true,
                 builder: (context, child) {
                   return MaterialApp.router(

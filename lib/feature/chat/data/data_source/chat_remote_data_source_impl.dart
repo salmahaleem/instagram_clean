@@ -1,13 +1,14 @@
-import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:instagram_clean/core/get_it/get_it.dart'as di;
 import 'package:instagram_clean/core/utils/constant.dart';
 import 'package:instagram_clean/feature/chat/data/models/chat_model.dart';
 import 'package:instagram_clean/feature/chat/data/models/message_model.dart';
 import 'package:instagram_clean/feature/chat/domain/entity/chat_entity.dart';
 import 'package:instagram_clean/feature/chat/domain/entity/message_entity.dart';
 import 'package:instagram_clean/feature/chat/domain/repository/chat_firebase_repo.dart';
+import 'package:instagram_clean/feature/notification/domain/repo/notification_repo.dart';
+import 'package:instagram_clean/feature/notification/model/notification_model.dart';
 import 'package:uuid/uuid.dart';
 
 class ChatRemoteDataSourceImpl implements ChatFirebaseRepo {
@@ -51,6 +52,14 @@ class ChatRemoteDataSourceImpl implements ChatFirebaseRepo {
       recipientUid: chat.recipientUid,
       senderUid: chat.senderUid,
       totalUnReadMessages: chat.totalUnReadMessages,
+    ));
+
+    di.getIt<NotificationRepo>().generateNotification(NotificationModel(
+      uid:chat.senderUid,
+      otherUid: chat.recipientUid,
+      username: chat.senderName,
+      userProfile: chat.senderProfile,
+      description: recentTextMessage
     ));
 
   }

@@ -57,8 +57,11 @@ class HomePage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            Container(height: 50,width: double.maxFinite,color: Colors.white,),
-            verticalSpace(10.h),
+            Container(
+                height: 100,
+                width: double.infinity,
+                child: StoryPage(currentUser: userEntity)),
+            verticalSpace(3.h),
             Expanded(child:
             BlocProvider<PostCubit>(
                  create: (context) => di.getIt<PostCubit>()..getAllPosts(post:  PostEntity()),

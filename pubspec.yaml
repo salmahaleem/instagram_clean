@@ -68,6 +68,7 @@ dependencies:
   get_time_ago: ^2.1.1
   cloud_firestore: ^5.6.1
   flutter_instagram_stories: ^1.0.3+4
+  firebase_messaging: ^15.2.0
 
 dev_dependencies:
   flutter_test:

@@ -33,25 +33,18 @@
   "saved": "العناصر المحفوظة"
 },
 
-  "time_9_41": "٩:٤١",
-  "sponsored": "برعاية",
-  "rating": "تصنيف",
-  "likes": " إعجاب",
-  "post_description": "لوريم إيبسوم دولور سيت أميت، كونسيكتيتور أديبيسينغ إليت، سيد دو إياسمود تيمبور... المزيد",
-  "view_comments": "عرض جميع ١٦ تعليقًا",
-  "add_comment": "أضف تعليقًا...",
-  "time_elapsed": "منذ ٣٠ دقيقة",
-  "category": "النص الخاص بالفئة/النوع",
-  "hashtag": "#هاشتاج",
-  "link_placeholder": "الرابط هنا",
-  "followed_by": "متبوع بواسطة اسم المستخدم، اسم المستخدم و١٠٠ آخرين",
-  "actions": {
-
-    "message": "رسالة",
-    "subscribe": "اشتراك",
-    "contact": "تواصل"
-  },
-  "cta": "نص الدعوة هنا",
-  "shop_now": "تسوق الآن",
-  "website_link": "انتقل إلى www.websitehere.com"
+  "Home":{
+    "search":"البحث",
+    "next": "التالى",
+    "new_post": "منشور جديد",
+    "recent": "حديثا",
+    "new_reals": " مقطع جديد",
+    "post_your_comment": "ضع تعليقك",
+    "comments": "التعليقات",
+    "replay": "رد",
+    "post_your_replay": "ضع ردك",
+    "post_details": "تفاصيل المنشور",
+    "share": "مشاركة",
+    "description": "وصف"
+  }
 }

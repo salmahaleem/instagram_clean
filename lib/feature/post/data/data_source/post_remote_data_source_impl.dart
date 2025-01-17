@@ -5,8 +5,6 @@ import 'package:instagram_clean/core/utils/constant.dart';
 import 'package:instagram_clean/feature/post/data/model/post_model.dart';
 import 'package:instagram_clean/feature/post/domain/entitys/post_entity.dart';
 import 'package:instagram_clean/feature/post/domain/repository/post_firebase_repo.dart';
-import 'package:instagram_clean/feature/user/data/models/user_model.dart';
-import 'package:instagram_clean/feature/user/data/repository/user_firebase_repo_impl.dart';
 import 'package:instagram_clean/feature/user/domain/repository/user_firebase_repo.dart';
 
 class PostRemoteDataSourceImpl implements PostFirebaseRepo{
@@ -30,10 +28,12 @@ class PostRemoteDataSourceImpl implements PostFirebaseRepo{
         userProfileUrl: post.userProfileUrl,
         username: post.username,
         totalLikes: post.totalLikes,
+        totalSaved: post.totalSaved,
         totalComments: post.totalComments,
         postImageUrl: post.postImageUrl,
         postId: post.postId,
         likes: [],
+        saved: [],
         description: post.description,
         creatorUid: firebaseAuth.currentUser!.uid,
         createAt: post.createAt
@@ -132,12 +132,29 @@ class PostRemoteDataSourceImpl implements PostFirebaseRepo{
   }
 
   @override
-  Stream<List<PostEntity>> savePost(PostEntity post) {
-    final postCollection = firebaseFirestore.collection(Constant.posts).where(
-        "postId", isEqualTo: post.postId);
-    return postCollection.snapshots().map((querySnapshot) =>
-        querySnapshot.docs.map((e) => PostModel.fromSnapshot(e)).toList());
+  Future<void> savePost(PostEntity post) async{
+    final postCollection = firebaseFirestore.collection(Constant.posts);
+
+    final currentUid = await userFirebaseRepo.getCurrentUserId();
+    final postRef = await postCollection.doc(post.postId).get();
+
+    if (postRef.exists) {
+      List saved = postRef.get("saved");
+      final totalSaved = postRef.get("totalSaved");
+      if (saved.contains(currentUid)) {
+        postCollection.doc(post.postId).update({
+          "saved": FieldValue.arrayRemove([currentUid]),
+          "totalSaved": totalSaved - 1
+        });
+      } else {
+        postCollection.doc(post.postId).update({
+          "saved": FieldValue.arrayUnion([currentUid]),
+          "totalSaved": totalSaved + 1
+        });
+      }
+    }
   }
+
 
 
 

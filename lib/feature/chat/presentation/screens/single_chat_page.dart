@@ -42,11 +42,11 @@ class _SingleChatPageState extends State<SingleChatPage> {
   bool _isRecording = false;
   bool _isRecordInit = false;
 
-  @override
-  void dispose() {
-    Constant.textMessageController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   Constant.textMessageController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   void initState() {

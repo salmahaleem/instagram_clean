@@ -11,6 +11,7 @@ class PostModel extends PostEntity {
   final List<String>? likes;
   final List<String>? saved;
   final num? totalLikes;
+  final num? totalSaved;
   final num? totalComments;
   final Timestamp? createAt;
   final String? userProfileUrl;
@@ -24,6 +25,7 @@ class PostModel extends PostEntity {
     this.likes,
     this.saved,
     this.totalLikes,
+    this.totalSaved,
     this.totalComments,
     this.createAt,
     this.userProfileUrl,
@@ -37,6 +39,7 @@ class PostModel extends PostEntity {
     postImageUrl: postImageUrl,
     totalComments: totalComments,
     totalLikes: totalLikes,
+    totalSaved: totalSaved,
     username: username,
     userProfileUrl: userProfileUrl,
   );
@@ -50,6 +53,7 @@ class PostModel extends PostEntity {
       description: snapshot['description'] ?? '',
       userProfileUrl: snapshot['userProfileUrl'] ?? '',
       totalLikes: snapshot['totalLikes'] ?? 0,
+      totalSaved: snapshot['totalSaved'] ?? 0,
       totalComments: snapshot['totalComments'] ?? 0,
       postImageUrl: snapshot['postImageUrl'] ?? '',
       postId: snapshot['postId'] ?? '',
@@ -65,6 +69,7 @@ class PostModel extends PostEntity {
     "description": description,
     "userProfileUrl": userProfileUrl,
     "totalLikes": totalLikes,
+    "totalSaved":totalSaved,
     "totalComments": totalComments,
     "postImageUrl": postImageUrl,
     "postId": postId,

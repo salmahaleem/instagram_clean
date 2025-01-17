@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:instagram_clean/core/get_it/get_it.dart' as di;
 import 'package:instagram_clean/core/utils/spacing.dart';
 import 'package:instagram_clean/core/widgets/userPhoto.dart';
-import 'package:instagram_clean/feature/comment%20and%20replay/presentation/screens/comment_post_page.dart';
+import 'package:instagram_clean/feature/comment_and_replay/presentation/screens/comment_post_page.dart';
 import 'package:instagram_clean/feature/home/domain/entity/app_entity.dart';
 
 import 'package:instagram_clean/feature/post/domain/entitys/post_entity.dart';
@@ -50,7 +50,6 @@ class _SinglePostCardWidgetState extends State<SinglePostCardWidget> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              //headPost(),
 
               GestureDetector(
                 onTap: () {
@@ -116,7 +115,7 @@ class _SinglePostCardWidgetState extends State<SinglePostCardWidget> {
                       child: Icon(
                         Icons.favorite,
                         size: 100,
-                        color: Colors.white,
+                        color: Colors.red,
                       )),
                 ),
               ],
@@ -197,17 +196,16 @@ class _SinglePostCardWidgetState extends State<SinglePostCardWidget> {
                   ),
                 ],
               ),
-              _isSaved == true?
               GestureDetector(
-                onTap: _saved,
-                child: Icon(
-                       Icons.bookmark_outlined
-                ))
-                  :GestureDetector(
+                  onTap: _saved,
                   child: Icon(
-                      Icons.bookmark_border_outlined
-                  )
-             ),
+                    widget.post.saved!.contains(_currentUid)
+                        ? Icons.bookmark_outlined
+                        : Icons.bookmark_border_outlined,
+                    color: widget.post.saved!.contains(_currentUid)
+                        ? Colors.white
+                        : Colors.white,
+                  ))
             ],
           ),
           verticalSpace(7.h),
@@ -302,6 +300,7 @@ class _SinglePostCardWidgetState extends State<SinglePostCardWidget> {
   }
 
   _saved(){
-    BlocProvider.of<PostCubit>(context).savedPosts(post: PostEntity(postId: widget.post.postId));
+    BlocProvider.of<PostCubit>(context)
+        .savedPosts(post: PostEntity(postId: widget.post.postId));
   }
 }

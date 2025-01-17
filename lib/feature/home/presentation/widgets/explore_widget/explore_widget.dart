@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_clean/core/utils/spacing.dart';
 import 'package:instagram_clean/core/widgets/userPhoto.dart';
-import 'package:instagram_clean/feature/comment%20and%20replay/presentation/widget/single_replay_widget.dart';
 import 'package:instagram_clean/feature/home/presentation/widgets/explore_widget/search_widget.dart';
 import 'package:instagram_clean/feature/post/domain/entitys/post_entity.dart';
 import 'package:instagram_clean/feature/post/presentation/cubit/post_cubit.dart';

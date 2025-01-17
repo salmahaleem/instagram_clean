@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_clean/core/get_it/get_it.dart'as di;
 import 'package:instagram_clean/core/utils/spacing.dart';
 import 'package:instagram_clean/core/widgets/userPhoto.dart';
-import 'package:instagram_clean/feature/comment%20and%20replay/presentation/screens/comment_real_page.dart';
+import 'package:instagram_clean/feature/comment_and_replay/presentation/screens/comment_real_page.dart';
 import 'package:instagram_clean/feature/home/domain/entity/app_entity.dart';
 import 'package:instagram_clean/feature/post/presentation/widgets/like_widget.dart';
 import 'package:instagram_clean/feature/real/domain/entity/real_entity.dart';

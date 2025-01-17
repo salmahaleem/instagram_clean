@@ -33,24 +33,18 @@
     "saved": "Saved"
   },
 
-  "sponsored": "Sponsored",
-  "rating": "Rating",
-  "likes": " Likes",
-  "post_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt... more",
-  "view_comments": "View all 16 comments",
-  "add_comment": "Add a comment...",
-  "time_elapsed": "30 minutes ago",
-  "category": "Category/Genre text",
-  "hashtag": "#hashtag",
-  "link_placeholder": "Link goes here",
-  "followed_by": "Followed by username, username and 100 others",
-  "actions": {
-
-    "message": "Message",
-    "subscribe": "Subscribe",
-    "contact": "Contact"
-  },
-  "cta": "CTA copy here",
-  "shop_now": "Shop Now",
-  "website_link": "Go to www.websitehere.com"
+  "Home":{
+    "search":"Search",
+    "next": "Next",
+    "new_post": "New Post",
+    "recent": "Recent",
+    "new_reals": "New Reals",
+    "post_your_comment": "Post your comment",
+    "comments": "Comments",
+    "replay": "Replay",
+    "post_your_replay": "Post your replay",
+    "post_details": "Post Details",
+    "share": "Share",
+    "description": "Description"
+  }
 }

@@ -7,6 +7,7 @@ import 'package:instagram_clean/feature/post/domain/usecase/create_post_usecase.
 import 'package:instagram_clean/feature/post/domain/usecase/delete_post_usecase.dart';
 import 'package:instagram_clean/feature/post/domain/usecase/like_post_usecase.dart';
 import 'package:instagram_clean/feature/post/domain/usecase/read_posts_usecase.dart';
+import 'package:instagram_clean/feature/post/domain/usecase/save_post_usecase.dart';
 import 'package:instagram_clean/feature/post/domain/usecase/update_post_usecase.dart';
 
 part 'post_state.dart';
@@ -17,12 +18,14 @@ class PostCubit extends Cubit<PostState> {
   final LikePostUseCase likePostUseCase;
   final ReadPostsUseCase readPostUseCase;
   final UpdatePostUseCase updatePostUseCase;
+  final SavePostUseCase savePostUseCase;
   PostCubit({
     required this.updatePostUseCase,
     required this.deletePostUseCase,
     required this.likePostUseCase,
     required this.createPostUseCase,
-    required this.readPostUseCase
+    required this.readPostUseCase,
+    required this.savePostUseCase,
   }) : super(PostInitial());
 
 
@@ -83,12 +86,8 @@ class PostCubit extends Cubit<PostState> {
   }
 
   Future<void> savedPosts({required PostEntity post}) async {
-    emit(PostLoading());
     try {
-      final streamResponse = readPostUseCase.call(post);
-      streamResponse.listen((posts) {
-        emit(PostLoaded(posts: posts));
-      });
+      await savePostUseCase.call(post);
     } on SocketException catch(_) {
       emit(PostFailure());
     } catch (_) {

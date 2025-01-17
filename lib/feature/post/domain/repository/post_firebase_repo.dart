@@ -9,6 +9,6 @@ abstract class PostFirebaseRepo{
   Future<void> updatePost(PostEntity post);
   Future<void> deletePost(PostEntity post);
   Future<void> likePost(PostEntity post);
-  Stream<List<PostEntity>> savePost(PostEntity post);
+  Future<void> savePost(PostEntity post);
 
 }

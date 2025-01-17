@@ -19,6 +19,8 @@ class Constant {
   static const String myChat ="myChat";
   static const String messages ="messages";
   static const String story ="story";
+  static const String notification ="notification";
+
 
   static TextEditingController email = TextEditingController();
   static TextEditingController password = TextEditingController();

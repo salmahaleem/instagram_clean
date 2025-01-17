@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,6 +15,7 @@ import 'package:instagram_clean/feature/post/presentation/cubit/post_cubit.dart'
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 import 'package:instagram_clean/feature/user/domain/usecase/getCurrentUserId_usecase.dart';
 import 'package:instagram_clean/feature/user/domain/usecase/uploadImageToStorage_usecase.dart';
+import 'package:instagram_clean/generated/locale_keys.dart';
 
 class CreatePostWidget extends StatefulWidget {
   final UserEntity? userEntity;
@@ -37,7 +39,6 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
     super.initState();
   }
   bool _uploading = false;
-  //File? _selectedImage;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +54,7 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
                 size: 28,
               )),
           title: Text(
-            'New post',
+            '${LocaleKeys.home_new_post.tr()}',
             style: TextStyle(color: Colors.black),
           ),
           centerTitle: false,
@@ -76,19 +77,6 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: Column(
                       children: [
-                        // Container(
-                        //   width: 30,
-                        //   height: 30,
-                        //   child: ClipRRect(
-                        //     borderRadius: BorderRadius.circular(15),
-                        //     child: UserPhoto(imageUrl:widget.userEntity!.profileUrl,image: widget.userEntity!.imageFile),
-                        //   ),
-                        // ),
-                        // verticalSpace(5.h),
-                        // Text(
-                        //     "${widget.userEntity!.username}",
-                        //     style: Theme.of(context).textTheme.titleMedium
-                        // ),
                         Container(
                           width: double.infinity,
                           height: 300,
@@ -96,7 +84,7 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
                         ),
                         verticalSpace(10.h),
                         ProfileTextField(
-                          hintText: "Description",
+                          hintText: "${LocaleKeys.home_description}",
                           controller: Constant.descriptionController,
                           isObscureText: false,
                         ),
@@ -152,10 +140,12 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
             createAt: Timestamp.now(),
             creatorUid: widget.userEntity!.uid,
             likes: [],
+            saved: [],
             postId: Constant.postId,
             postImageUrl: image,
             totalComments: 0,
             totalLikes: 0,
+            totalSaved: 0,
             username: widget.userEntity!.username,
             userProfileUrl: widget.userEntity!.profileUrl
         )

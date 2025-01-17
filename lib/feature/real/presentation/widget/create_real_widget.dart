@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +13,7 @@ import 'package:instagram_clean/feature/real/domain/entity/real_entity.dart';
 import 'package:instagram_clean/feature/real/presentation/cubit/real_cubit.dart';
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 import 'package:instagram_clean/feature/user/domain/usecase/getCurrentUserId_usecase.dart';
+import 'package:instagram_clean/generated/locale_keys.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../user/domain/usecase/uploadImageToStorage_usecase.dart';
@@ -54,7 +56,7 @@ class _CreateRealWidgetState extends State<CreateRealWidget> {
       appBar: AppBar(
         centerTitle: false,
         title: Text(
-          'New Reels',
+          '${LocaleKeys.home_new_reals.tr()}',
           style: Theme.of(context).textTheme.titleMedium
         ),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -91,7 +93,7 @@ class _CreateRealWidgetState extends State<CreateRealWidget> {
                   controller: Constant.caption,
                   maxLines: 10,
                   decoration: const InputDecoration(
-                    hintText: 'Write a caption ...',
+                    hintText: '${LocaleKeys.home_description}',
                     border: InputBorder.none,
                   ),
                 ),
@@ -109,7 +111,7 @@ class _CreateRealWidgetState extends State<CreateRealWidget> {
                     borderRadius: BorderRadius.circular(10.r),
                   ),
                   child: Text(
-                    'Share',
+                    '${LocaleKeys.home_share.tr()}',
                     style: TextStyle(
                       fontSize: 16.sp,
                       color: Colors.white,
@@ -118,28 +120,6 @@ class _CreateRealWidgetState extends State<CreateRealWidget> {
                   ),
                 ),
               ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //   children: [
-              //     // Container(
-              //     //   alignment: Alignment.center,
-              //     //   height: 45.h,
-              //     //   width: 150.w,
-              //     //   decoration: BoxDecoration(
-              //     //     color: Colors.white,
-              //     //     border: Border.all(
-              //     //       color: Colors.black,
-              //     //     ),
-              //     //     borderRadius: BorderRadius.circular(10.r),
-              //     //   ),
-              //     //   child: Text(
-              //     //     'Save draft',
-              //     //     style: TextStyle(fontSize: 16.sp),
-              //     //   ),
-              //     // ),
-              //
-              //   ],
-              // )
             ],
           ),
         ),

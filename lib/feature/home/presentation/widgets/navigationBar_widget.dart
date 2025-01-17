@@ -1,10 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:instagram_clean/core/get_it/get_it.dart'as di;
 import 'package:instagram_clean/feature/home/presentation/screens/explore_page.dart';
 import 'package:instagram_clean/feature/home/presentation/screens/home_page.dart';
 import 'package:instagram_clean/feature/home/presentation/widgets/add_page_widget.dart';
+import 'package:instagram_clean/feature/notification/domain/usecase/get_token.dart';
 import 'package:instagram_clean/feature/real/presentation/screens/reals_page.dart';
+import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
+import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/profile_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/screens/profile_page.dart';
 
 import '../../../user/presentation/cubit/profile_cubit/get_single_user_cubit/get_single_user_cubit.dart';
@@ -28,6 +32,13 @@ class _NavigationBarWidgetState extends State<NavigationBarWidget> {
   void initState() {
     BlocProvider.of<GetSingleUserCubit>(context).getSingleUser(uid: widget.uid);
     pageController = PageController();
+
+    di.getIt<GetTokenUseCase>().call().then((String? token){
+     print("token $token");
+     BlocProvider.of<ProfileCubit>(context).updateUser(user: UserEntity(uid: widget.uid,token: token)).then((value){
+       print('update user completed');
+     });
+    });
     super.initState();
   }
 

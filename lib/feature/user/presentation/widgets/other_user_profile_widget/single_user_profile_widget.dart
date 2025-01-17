@@ -87,10 +87,8 @@ class _SingleUserProfileWidgetState extends State<SingleUserProfileWidget> {
                               ),
                               horizontalSpace(25.w),
                               GestureDetector(
-                                onTap: () {
-                                  //Navigator.pushNamed(context, PageConst.followersPage, arguments: singleUser);
-
-                                },
+                                onTap: () =>
+                                  context.go('/FollowersPage',extra: singleUser),
                                 child: Column(
                                   children: [
                                     Text("${singleUser.totalFollowers}",),
@@ -101,9 +99,7 @@ class _SingleUserProfileWidgetState extends State<SingleUserProfileWidget> {
                               ),
                               horizontalSpace(25.w),
                               GestureDetector(
-                                onTap: () {
-                                  // Navigator.pushNamed(context, PageConst.followingPage, arguments: singleUser);
-                                },
+                                onTap: () => context.go('/FollowingPage',extra: singleUser),
                                 child: Column(
                                   children: [
                                     Text("${singleUser.totalFollowing}", ),

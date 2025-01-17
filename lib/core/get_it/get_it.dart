@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:instagram_clean/feature/chat/data/data_source/chat_remote_data_source_impl.dart';
@@ -12,24 +13,26 @@ import 'package:instagram_clean/feature/chat/domain/usecase/get_my_chat_usecase.
 import 'package:instagram_clean/feature/chat/domain/usecase/seen_message_update_usecase.dart';
 import 'package:instagram_clean/feature/chat/domain/usecase/send_message_usecase.dart';
 import 'package:instagram_clean/feature/chat/presentation/cubit/chat/chat_cubit.dart';
-import 'package:instagram_clean/feature/comment%20and%20replay/data/data_source/comment_remote_data_source_impl.dart';
-import 'package:instagram_clean/feature/comment%20and%20replay/data/data_source/replay_remote_data_source_impl.dart';
-import 'package:instagram_clean/feature/comment%20and%20replay/data/repository/comment_firebase_repo_impl.dart';
-import 'package:instagram_clean/feature/comment%20and%20replay/data/repository/replay_firebase_repo_impl.dart';
-import 'package:instagram_clean/feature/comment%20and%20replay/domain/repository/comment_firebase_repo.dart';
-import 'package:instagram_clean/feature/comment%20and%20replay/domain/repository/replay_firebase_repo.dart';
-import 'package:instagram_clean/feature/comment%20and%20replay/domain/usecase/comment_usecase/createComment_usecase.dart';
-import 'package:instagram_clean/feature/comment%20and%20replay/domain/usecase/comment_usecase/deleteComment_usecase.dart';
-import 'package:instagram_clean/feature/comment%20and%20replay/domain/usecase/comment_usecase/likeComment_usecase.dart';
-import 'package:instagram_clean/feature/comment%20and%20replay/domain/usecase/comment_usecase/readComment_usecase.dart';
-import 'package:instagram_clean/feature/comment%20and%20replay/domain/usecase/comment_usecase/updateComment_usecase.dart';
-import 'package:instagram_clean/feature/comment%20and%20replay/domain/usecase/replay_usecase/create_replay_usecase.dart';
-import 'package:instagram_clean/feature/comment%20and%20replay/domain/usecase/replay_usecase/delete_replay_usecase.dart';
-import 'package:instagram_clean/feature/comment%20and%20replay/domain/usecase/replay_usecase/like_replay_usecase.dart';
-import 'package:instagram_clean/feature/comment%20and%20replay/domain/usecase/replay_usecase/read_replay_usecase.dart';
-import 'package:instagram_clean/feature/comment%20and%20replay/domain/usecase/replay_usecase/update_replay_usecase.dart';
-import 'package:instagram_clean/feature/comment%20and%20replay/presentation/cubit/comment_cubit.dart';
-import 'package:instagram_clean/feature/comment%20and%20replay/presentation/cubit/replay/replay_cubit.dart';
+import 'package:instagram_clean/feature/comment_and_replay/data/data_source/comment_remote_data_source_impl.dart';
+import 'package:instagram_clean/feature/comment_and_replay/data/data_source/replay_remote_data_source_impl.dart';
+import 'package:instagram_clean/feature/comment_and_replay/data/repository/comment_firebase_repo_impl.dart';
+import 'package:instagram_clean/feature/comment_and_replay/data/repository/replay_firebase_repo_impl.dart';
+import 'package:instagram_clean/feature/comment_and_replay/domain/repository/comment_firebase_repo.dart';
+import 'package:instagram_clean/feature/comment_and_replay/domain/repository/replay_firebase_repo.dart';
+import 'package:instagram_clean/feature/comment_and_replay/domain/usecase/comment_usecase/createComment_usecase.dart';
+import 'package:instagram_clean/feature/comment_and_replay/domain/usecase/comment_usecase/deleteComment_usecase.dart';
+import 'package:instagram_clean/feature/comment_and_replay/domain/usecase/comment_usecase/likeComment_usecase.dart';
+import 'package:instagram_clean/feature/comment_and_replay/domain/usecase/comment_usecase/readComment_usecase.dart';
+import 'package:instagram_clean/feature/comment_and_replay/domain/usecase/comment_usecase/updateComment_usecase.dart';
+import 'package:instagram_clean/feature/comment_and_replay/domain/usecase/replay_usecase/create_replay_usecase.dart';
+import 'package:instagram_clean/feature/comment_and_replay/domain/usecase/replay_usecase/delete_replay_usecase.dart';
+import 'package:instagram_clean/feature/comment_and_replay/domain/usecase/replay_usecase/like_replay_usecase.dart';
+import 'package:instagram_clean/feature/comment_and_replay/domain/usecase/replay_usecase/read_replay_usecase.dart';
+import 'package:instagram_clean/feature/comment_and_replay/domain/usecase/replay_usecase/update_replay_usecase.dart';
+import 'package:instagram_clean/feature/comment_and_replay/presentation/cubit/comment_cubit.dart';
+import 'package:instagram_clean/feature/comment_and_replay/presentation/cubit/replay/replay_cubit.dart';
+import 'package:instagram_clean/feature/notification/domain/repo/notification_repo.dart';
+import 'package:instagram_clean/feature/notification/domain/usecase/get_token.dart';
 import 'package:instagram_clean/feature/post/data/data_source/post_remote_data_source_impl.dart';
 import 'package:instagram_clean/feature/post/data/repository/post_firebase_repo_impl.dart';
 import 'package:instagram_clean/feature/post/domain/repository/post_firebase_repo.dart';
@@ -96,6 +99,7 @@ final getIt = GetIt.instance;
 final FirebaseAuth authe = FirebaseAuth.instance;
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 final FirebaseStorage firebaseStorage =FirebaseStorage.instance;
+final FirebaseMessaging firebaseMessaging =FirebaseMessaging.instance;
 
 Future<void> setGetIt() async {
   //cubit user
@@ -128,7 +132,8 @@ Future<void> setGetIt() async {
       deletePostUseCase: getIt<DeletePostUseCase>(),
       likePostUseCase: getIt<LikePostUseCase>(),
       createPostUseCase:getIt<CreatePostUseCase>(),
-      readPostUseCase: getIt<ReadPostsUseCase>()
+      readPostUseCase: getIt<ReadPostsUseCase>(),
+      savePostUseCase: getIt<SavePostUseCase>()
   ));
 
   getIt.registerFactory<SinglePostCubit>(() => SinglePostCubit(
@@ -317,6 +322,14 @@ Future<void> setGetIt() async {
   getIt.registerLazySingleton<UpdateStoryUseCase>(
           () => UpdateStoryUseCase(storyFirebaseRepo: getIt<StoryFirebaseRepo>()));
 
+  //notification usecase
+  getIt.registerLazySingleton<GetTokenUseCase>(
+          () => GetTokenUseCase(firebaseMessaging: getIt<FirebaseMessaging>()));
+  
+  //notification repo
+  getIt.registerLazySingleton<NotificationRepo>(
+          () => NotificationRepo(firestore: getIt<FirebaseFirestore>()));
+
   //repos user
   getIt.registerLazySingleton<UserFirebaseRepo>(
           () => UserFirebaseRepoImpl(userFirebaseRepo: getIt<UserRemoteDataSourceImpl>()));
@@ -390,5 +403,6 @@ Future<void> setGetIt() async {
   getIt.registerLazySingleton<FirebaseAuth>(() => authe);
   getIt.registerLazySingleton<FirebaseFirestore>(() => firestore);
   getIt.registerLazySingleton<FirebaseStorage>(() => firebaseStorage);
+  getIt.registerLazySingleton<FirebaseMessaging>(() => firebaseMessaging);
 
 }

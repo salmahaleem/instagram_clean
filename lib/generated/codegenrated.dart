@@ -41,7 +41,23 @@ class CodeGenerated extends AssetLoader{
       "logOut": "LogOut",
       "saved": "Saved"
 
+
     },
+
+    "Home":{
+      "search":"Search",
+      "next": "Next",
+      "new_post": "New Post",
+      "recent": "Recent",
+      "new_reals": "New Reals",
+      "post_your_comment": "Post your comment",
+      "comments": "Comments",
+      "replay": "Replay",
+      "post_your_replay": "Post your replay",
+      "post_details": "Post Details",
+      "share": "Share",
+      "description": "Description"
+    }
 
   };
 
@@ -79,6 +95,20 @@ class CodeGenerated extends AssetLoader{
       "logOut": "تسجيل الخروج",
       "saved": "العناصر المحفوظة"
     },
+    "Home":{
+      "search":"البحث",
+      "next": "التالى",
+      "new_post": "منشور جديد",
+      "recent": "حديثا",
+      "new_reals": " مقطع جديد",
+      "post_your_comment": "ضع تعليقك",
+      "comments": "التعليقات",
+      "replay": "رد",
+      "post_your_replay": "ضع ردك",
+      "post_details": "تفاصيل المنشور",
+      "share": "مشاركة",
+      "description": "وصف"
+    }
   };
 
   static const Map<String, Map<String, dynamic>> mapLocales = {

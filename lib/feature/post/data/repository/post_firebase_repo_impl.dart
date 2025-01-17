@@ -25,6 +25,6 @@ class PostFirebaseRepoImpl implements PostFirebaseRepo{
   Stream<List<PostEntity>> readSinglePost(String postId) => postFirebaseRepo.readSinglePost(postId);
 
   @override
-  Stream<List<PostEntity>> savePost(PostEntity post) => postFirebaseRepo.savePost(post);
+  Future<void> savePost(PostEntity post) => postFirebaseRepo.savePost(post);
 
 }

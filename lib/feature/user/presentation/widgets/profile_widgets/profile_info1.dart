@@ -1,15 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:instagram_clean/core/get_it/get_it.dart' as di;
+import 'package:go_router/go_router.dart';
 import 'package:instagram_clean/core/utils/constant.dart';
 import 'package:instagram_clean/core/utils/spacing.dart';
 import 'package:instagram_clean/core/widgets/userPhoto.dart';
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
-import 'package:instagram_clean/feature/user/domain/usecase/getCurrentUserId_usecase.dart';
-import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/get_other_single_user/get_other_single_user_cubit.dart';
 import 'package:instagram_clean/generated/locale_keys.dart';
 
 class ProfileInfo1 extends StatefulWidget {
@@ -45,20 +42,28 @@ class _ProfileInfo1State extends State<ProfileInfo1> {
                 ],
               ),
               horizontalSpace(13.w),
-              Column(
-                children: [
-                  Text('${widget.userEntity.totalFollowers}'),
-                  verticalSpace(2.h),
-                  Text('${LocaleKeys.profile_followers.tr()}'),
-                ],
+              GestureDetector(
+                onTap: () =>
+                  context.go('/FollowersPage',extra: widget.userEntity),
+                child: Column(
+                  children: [
+                    Text('${widget.userEntity.totalFollowers}'),
+                    verticalSpace(2.h),
+                    Text('${LocaleKeys.profile_followers.tr()}'),
+                  ],
+                ),
               ),
               horizontalSpace(13.w),
-              Column(
-                children: [
-                  Text("${widget.userEntity.totalFollowing}"),
-                  verticalSpace(2.h),
-                  Text('${LocaleKeys.profile_following.tr()}'),
-                ],
+              GestureDetector(
+                onTap: () =>
+                  context.go('/FollowingPage',extra: widget.userEntity),
+                child: Column(
+                  children: [
+                    Text("${widget.userEntity.totalFollowing}"),
+                    verticalSpace(2.h),
+                    Text('${LocaleKeys.profile_following.tr()}'),
+                  ],
+                ),
               ),
             ],
           );
