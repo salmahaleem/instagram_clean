@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:instagram_clean/generated/locale_keys.dart';
 
 class SearchWidget extends StatelessWidget {
   final TextEditingController controller;
@@ -20,7 +22,7 @@ class SearchWidget extends StatelessWidget {
         decoration: InputDecoration(
             border: InputBorder.none,
             prefixIcon: Icon(Icons.search,),
-            hintText: "Search",
+            hintText: "${LocaleKeys.home_search.tr()}",
             hintStyle: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.grey),
         ),
       ),

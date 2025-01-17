@@ -92,8 +92,8 @@ class _CreateRealWidgetState extends State<CreateRealWidget> {
                 child: TextField(
                   controller: Constant.caption,
                   maxLines: 10,
-                  decoration: const InputDecoration(
-                    hintText: '${LocaleKeys.home_description}',
+                  decoration: InputDecoration(
+                    hintText: '${LocaleKeys.home_description.tr()}',
                     border: InputBorder.none,
                   ),
                 ),

@@ -93,8 +93,8 @@ class _UploadPostMainWidgetState extends State<UploadPostWidget> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
-        title: const Text(
-          '${LocaleKeys.home_new_post}',
+        title: Text(
+          '${LocaleKeys.home_new_post.tr()}',
           style: TextStyle(color: Colors.white),
         ),
         centerTitle: false,
@@ -105,8 +105,8 @@ class _UploadPostMainWidgetState extends State<UploadPostWidget> {
                context.go('/createPost',extra: widget.userEntity);
                   }
                 : null,
-            child: const Text(
-              'Next',
+            child:  Text(
+              '${LocaleKeys.home_next.tr()}',
               style: TextStyle(fontSize: 16, color: Colors.blue),
             ),
           ),

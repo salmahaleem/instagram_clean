@@ -28,7 +28,7 @@ class RealRemoteDataSourceImpl implements RealFirebaseRepo{
 
     final newPost = RealModel(
         userProfileUrl: real.userProfileUrl,
-        username: username.toString(),
+        username: real.username,
         totalLikes: real.totalLikes,
         totalComments: real.totalComments,
         realUrl: real.realUrl,

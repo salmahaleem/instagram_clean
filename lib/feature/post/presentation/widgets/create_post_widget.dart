@@ -84,7 +84,7 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
                         ),
                         verticalSpace(10.h),
                         ProfileTextField(
-                          hintText: "${LocaleKeys.home_description}",
+                          hintText: "${LocaleKeys.home_description.tr()}",
                           controller: Constant.descriptionController,
                           isObscureText: false,
                         ),
@@ -116,7 +116,7 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
       _uploading = true;
     });
     di.getIt<UploadImageToStorageUseCase>().call(Constant.selectedImage!, true, "posts").then((imageUrl) {
-      _createSubmitPost(image: imageUrl);
+      _createSubmitPost(image: imageUrl,user: widget.userEntity!);
     }).then((_){
       context.go('/postDetailsPage/:${Constant.postId}');
       ScaffoldMessenger.of(context).showSnackBar(
@@ -133,12 +133,12 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
   }
 
 
-  _createSubmitPost({required String image}) {
+  _createSubmitPost({required String image,required UserEntity user}) {
     BlocProvider.of<PostCubit>(context).createPost(
         post: PostEntity(
             description: Constant.descriptionController.text,
             createAt: Timestamp.now(),
-            creatorUid: widget.userEntity!.uid,
+            creatorUid: user.uid,
             likes: [],
             saved: [],
             postId: Constant.postId,
@@ -146,8 +146,8 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
             totalComments: 0,
             totalLikes: 0,
             totalSaved: 0,
-            username: widget.userEntity!.username,
-            userProfileUrl: widget.userEntity!.profileUrl
+            username: user.username,
+            userProfileUrl: user.profileUrl
         )
     ).then((value) => _clear());
     print("created post >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
