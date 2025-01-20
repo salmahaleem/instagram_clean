@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/profile_cubit.dart';
 import 'package:instagram_clean/generated/locale_keys.dart';
 
@@ -10,14 +11,15 @@ import '../../../../../core/appLogic/languages/language_cubit.dart';
 import '../../../../../core/appLogic/theme/theme_cubit.dart';
 
 class SettingsMenu extends StatelessWidget{
-  const SettingsMenu({super.key});
+  final UserEntity currentUser;
+  const SettingsMenu({super.key, required this.currentUser});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         leading: IconButton(onPressed: (){
-          context.go('/mainPage');
+          context.go('/mainPage/:${currentUser.uid}');
         }, icon: Icon(Icons.arrow_back)),
         title: Text("${LocaleKeys.settings_settings_and_activity.tr()}"),
       ),

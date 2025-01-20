@@ -7,7 +7,7 @@ import 'package:instagram_clean/core/widgets/userPhoto.dart';
 import 'package:instagram_clean/feature/home/presentation/widgets/explore_widget/search_widget.dart';
 import 'package:instagram_clean/feature/post/domain/entitys/post_entity.dart';
 import 'package:instagram_clean/feature/post/presentation/cubit/post_cubit.dart';
-import 'package:instagram_clean/feature/post/presentation/screens/post_details_page.dart';
+import 'package:instagram_clean/feature/post/presentation/widgets/post_details_page.dart';
 import 'package:instagram_clean/feature/real/domain/entity/real_entity.dart';
 import 'package:instagram_clean/feature/real/presentation/cubit/real_cubit.dart';
 import 'package:instagram_clean/feature/real/presentation/widget/single_real_widget.dart';
@@ -33,7 +33,6 @@ class _SearchMainWidgetState extends State<SearchMainWidget> {
     BlocProvider.of<RealCubit>(context).getAllReals(real: RealEntity());
     _searchController.addListener(() {
       setState(() {
-
       });
     });
   }
@@ -73,8 +72,6 @@ class _SearchMainWidgetState extends State<SearchMainWidget> {
                           itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
-                             //final String otherUserId= "${filterAllUsers[index].uid}";
-                            //context.go('/singleUserPage/:${filterAllUsers[index].uid}'),
                             Navigator.push(context, MaterialPageRoute(builder: (context)=>SingleUserProfilePage(otherUserId: '${filterAllUsers[index].uid}',)));},
                           child: Row(
                             children: [
@@ -93,67 +90,64 @@ class _SearchMainWidgetState extends State<SearchMainWidget> {
                           ),
                         );
                       }),
-                    ) :BlocBuilder<PostCubit, PostState>(
-                      builder: (context, postState) {
-                        if (postState is PostLoaded) {
-                          final posts = postState.posts;
-                          return Expanded(
-                            child: GridView.builder(
-                                itemCount: posts.length,
-                                physics: ScrollPhysics(),
-                                shrinkWrap: true,
-                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3, crossAxisSpacing: 5, mainAxisSpacing: 5),
-                                itemBuilder: (context, index) {
-                                  return GestureDetector(
-                                    onTap: () =>
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>PostDetailsPage(postId: "${posts[index].postId}",))),
-
-                                  //context.go('/postDetailsPage/:${Constant.postId}'),
-                                    child: Container(
-                                      width: 100,
-                                      height: 100,
-                                      child: UserPhoto(
-                                          imageUrl: posts[index].postImageUrl
-                                      ),
-                                    ),
-                                  );
-                                }),
-                          );
-                        }
-                        return Center(child: CircularProgressIndicator(),);
-                      },
+                    ) : BlocBuilder<PostCubit, PostState>(
+                          builder: (context, postState) {
+                            if (postState is PostLoaded) {
+                              final posts = postState.posts;
+                              return Expanded(
+                                child: GridView.builder(
+                                    itemCount: posts.length,
+                                    physics: ScrollPhysics(),
+                                    shrinkWrap: true,
+                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 3, crossAxisSpacing: 5, mainAxisSpacing: 5),
+                                    itemBuilder: (context, index) {
+                                      return GestureDetector(
+                                        onTap: () =>
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>PostDetailsPage(postId: "${posts[index].postId}",))),
+                                        child: Container(
+                                          width: 100,
+                                          height: 100,
+                                          child: UserPhoto(
+                                              imageUrl: posts[index].postImageUrl
+                                          ),
+                                        ),
+                                      );
+                                    }),
+                              );
+                            }
+                            return Center(child: CircularProgressIndicator(),);
+                          },
+                        ),
+                        BlocBuilder<RealCubit, RealState>(
+                          builder: (context, realState) {
+                            if (realState is RealLoaded) {
+                              final reals = realState.reals;
+                              return Expanded(
+                                child: GridView.builder(
+                                    itemCount: reals.length,
+                                    physics: ScrollPhysics(),
+                                    shrinkWrap: true,
+                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 1, crossAxisSpacing: 5, mainAxisSpacing: 5),
+                                    itemBuilder: (context, index) {
+                                      return GestureDetector(
+                                        onTap: () =>
+                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>SingleRealWidget(real: reals[index]))),
+                                        child: Container(
+                                            width: 200,
+                                            height: 250,
+                                            child: SingleRealWidget(real: reals[index])
+                                        ),
+                                      );
+                                    }),
+                              );
+                            }
+                            return Center(child: CircularProgressIndicator(),);
+                          },
+                        )
+                      ],
                     ),
-                BlocBuilder<RealCubit, RealState>(
-              builder: (context, realState) {
-                if (realState is RealLoaded) {
-                  final reals = realState.reals;
-                  return Expanded(
-                    child: GridView.builder(
-                        itemCount: reals.length,
-                        physics: ScrollPhysics(),
-                        shrinkWrap: true,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 1, crossAxisSpacing: 5, mainAxisSpacing: 5),
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () =>
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>SingleRealWidget(real: reals[index]))),
-                            //context.go('/postDetailsPage/:${Constant.postId}'),
-                            child: Container(
-                              width: 200,
-                              height: 250,
-                              child: SingleRealWidget(real: reals[index])
-                            ),
-                          );
-                        }),
-                  );
-                }
-                return Center(child: CircularProgressIndicator(),);
-              },
-                )
-                  ],
-                ),
               );
 
             }

@@ -41,12 +41,6 @@ class _SignupPhotoState extends State<SignupPhoto> {
 
     } catch(e) {
       print("error selected image $e");
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   SnackBar(
-      //     content: Text("Failed to select image. Please try again."),
-      //     backgroundColor: Colors.red,
-      //   ),
-      // );
     }
   }
 

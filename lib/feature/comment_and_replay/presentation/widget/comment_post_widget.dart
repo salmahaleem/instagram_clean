@@ -154,7 +154,7 @@ class _CommentWidgetState extends State<CommentWidget> {
               style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: "${LocaleKeys.home_post_your_comment}",
+                  hintText: "${LocaleKeys.home_post_your_comment.tr()}",
                   hintStyle: TextStyle(color: Colors.grey)),
             )),
             GestureDetector(
@@ -209,7 +209,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                     Padding(
                       padding: const EdgeInsets.only(left: 10.0),
                       child: Text(
-                        "More Options",
+                        "${LocaleKeys.comment_more_options.tr()}",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
@@ -235,7 +235,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                               postId: comment.postId!);
                         },
                         child: Text(
-                          "Delete Comment",
+                          "${LocaleKeys.comment_delete_comment.tr()}",
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
@@ -262,7 +262,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                                       )));
                         },
                         child: Text(
-                          "Update Comment",
+                          "${LocaleKeys.comment_update_comment.tr()}",
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 16,

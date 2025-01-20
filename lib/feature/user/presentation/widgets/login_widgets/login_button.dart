@@ -28,7 +28,7 @@ class LoginButton extends StatelessWidget {
                     backgroundColor: Color(0xFFA5D6A7),
                   ),
                 );
-                context.go('/mainPage');
+                context.go('/mainPage/:${state.user.uid}',);
               } else if (state is LoginFailed) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(

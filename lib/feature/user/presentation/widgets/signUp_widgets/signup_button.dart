@@ -43,7 +43,7 @@ class _SignupButtonState extends State<SignupButton> {
                   backgroundColor: Color(0xFFA5D6A7),
                 ),
               );
-              context.go('/mainPage');
+              context.go('/mainPage/:${state.user.uid}');
             } else if (state is SignUpFailed) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(

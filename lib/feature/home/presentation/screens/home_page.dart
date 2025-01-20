@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,10 +13,12 @@ import 'package:instagram_clean/feature/story/presentation/screens/story_page.da
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 import 'package:instagram_clean/feature/post/presentation/widgets/SinglePostCardWidget.dart';
 import 'package:instagram_clean/generated/assets.dart';
+import 'package:instagram_clean/generated/locale_keys.dart';
 
 class HomePage extends StatelessWidget {
-  final UserEntity userEntity;
-  const HomePage({Key? key, required this.userEntity}) : super(key: key);
+  final UserEntity currentUser;
+  final PostEntity? postEntity;
+  const HomePage({Key? key, required this.currentUser, this.postEntity}) : super(key: key);
 
   Widget checkTheme(BuildContext context) {
     if (Theme.of(context).brightness == Brightness.light) {
@@ -43,11 +46,11 @@ class HomePage extends StatelessWidget {
             child: Row(
               children: [
                 GestureDetector(
-                  onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context) => StoryPage(currentUser: userEntity)));},
+                  onTap: (){},
                     child: Icon(Icons.favorite_border_outlined)),
                 horizontalSpace(10.w),
                 GestureDetector(
-                  onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => ChatsPage(uid: "${userEntity.uid}")));},
+                  onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => ChatsPage(uid: "${currentUser.uid}")));},
                     child: Icon(FeatherIcons.messageCircle)),
               ],
             ),
@@ -58,10 +61,10 @@ class HomePage extends StatelessWidget {
         child: Column(
           children: [
             Container(
-                height: 100,
+                height: 120.h,
                 width: double.infinity,
-                child: StoryPage(currentUser: userEntity)),
-            verticalSpace(3.h),
+                child: StoryPage(currentUser: currentUser)),
+            verticalSpace(5.h),
             Expanded(child:
             BlocProvider<PostCubit>(
                  create: (context) => di.getIt<PostCubit>()..getAllPosts(post:  PostEntity()),
@@ -80,7 +83,7 @@ class HomePage extends StatelessWidget {
                         final post = postState.posts[index];
                         return BlocProvider(
                           create: (context) => di.getIt<PostCubit>(),
-                          child: SinglePostCardWidget(post: post,userEntity: userEntity,),
+                          child: SinglePostCardWidget(post: post,userEntity: currentUser,),
                         );
                       },
                     );
@@ -97,6 +100,6 @@ class HomePage extends StatelessWidget {
   }
 
   _noPostsYetWidget() {
-    return Center(child: Text("No Posts Yet", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),),);
+    return Center(child: Text("${LocaleKeys.home_no_posts_yet.tr()}", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),),);
   }
 }

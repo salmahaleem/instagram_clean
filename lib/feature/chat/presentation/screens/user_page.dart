@@ -1,13 +1,14 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:instagram_clean/core/utils/constant.dart';
 import 'package:instagram_clean/core/widgets/userPhoto.dart';
 import 'package:instagram_clean/feature/chat/domain/entity/message_entity.dart';
 import 'package:instagram_clean/feature/chat/presentation/screens/single_chat_page.dart';
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/get_single_user_cubit/get_single_user_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/profile_cubit.dart';
+import 'package:instagram_clean/generated/locale_keys.dart';
 
 class ContactsPage extends StatefulWidget {
   final String uid;
@@ -32,7 +33,7 @@ class _ContactsPageState extends State<ContactsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Select Contacts"),
+        title:  Text("${LocaleKeys.chat_select_contacts.tr()}"),
       ),
       body: BlocBuilder<GetSingleUserCubit, GetSingleUserState>(
         builder: (context, state) {
@@ -44,8 +45,8 @@ class _ContactsPageState extends State<ContactsPage> {
                 if (state is ProfileLoaded) {
                   final contacts = state.users.where((user) => user.uid != widget.uid).toList();
                   if (contacts.isEmpty) {
-                    return const Center(
-                      child: Text("No Contacts Yet"),
+                    return  Center(
+                      child: Text("${LocaleKeys.chat_no_contacts_yet.tr()}"),
                     );
                   }
 

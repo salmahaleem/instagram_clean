@@ -118,7 +118,7 @@ class _SingleUserProfileWidgetState extends State<SingleUserProfileWidget> {
                       Text("${singleUser.bio}", style: Theme.of(context).textTheme.titleSmall),
                       verticalSpace(10.h),
                       _currentUid == singleUser.uid ? Container() :InstagramButton(
-                          text: singleUser.followers!.contains(_currentUid) ? "UnFollow":"Follow",
+                          text: singleUser.followers!.contains(_currentUid) ? "${LocaleKeys.profile_unFollow.tr()}":"${LocaleKeys.profile_follow.tr()}",
                           color: singleUser.followers!.contains(_currentUid) ?  AppColors.darkTextFeild: AppColors.buttonColor,
                           onPressed: () {
                             BlocProvider.of<ProfileCubit>(context).followUnFollowUser(

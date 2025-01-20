@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:instagram_clean/feature/home/presentation/screens/home_page.dart
 import 'package:instagram_clean/feature/story/domain/entity/story_entity.dart';
 import 'package:instagram_clean/feature/story/presentation/cubit/stories/story_cubit.dart';
 import 'package:instagram_clean/feature/story/presentation/widget/delete_story_update_widget.dart';
+import 'package:instagram_clean/generated/locale_keys.dart';
 
 class MyStoryPage extends StatefulWidget {
   final StoryEntity story;
@@ -47,7 +49,7 @@ class _MyStoryPageState extends State<MyStoryPage> {
                   Expanded(
                     child: Text(
                       GetTimeAgo.parse(widget.story.createdAt!.toDate().subtract(Duration(seconds: DateTime.now().second))),
-                      style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                      style: Theme.of(context).textTheme.titleSmall!.copyWith(color: Colors.white10)
                     ),
                   ),
 
@@ -86,10 +88,10 @@ class _MyStoryPageState extends State<MyStoryPage> {
                                     storyId: widget.story.storyId
                                 )
                             );
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => HomePage(userEntity: Constant.userEntity,)));
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => HomePage(currentUser: Constant.userEntity,)));
                           });
                         },
-                        child: Text("Delete Post",
+                        child: Text("${LocaleKeys.post_delete_story.tr()}",
                             style: Theme.of(context).textTheme.titleSmall),
                       ),
                     ),

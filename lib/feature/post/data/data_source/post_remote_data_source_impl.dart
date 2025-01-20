@@ -27,9 +27,9 @@ class PostRemoteDataSourceImpl implements PostFirebaseRepo{
     final newPost = PostModel(
         userProfileUrl: post.userProfileUrl,
         username: post.username,
-        totalLikes: post.totalLikes,
-        totalSaved: post.totalSaved,
-        totalComments: post.totalComments,
+        totalLikes: 0,
+        totalSaved: 0,
+        totalComments: 0,
         postImageUrl: post.postImageUrl,
         postId: post.postId,
         likes: [],
@@ -37,19 +37,17 @@ class PostRemoteDataSourceImpl implements PostFirebaseRepo{
         description: post.description,
         creatorUid: firebaseAuth.currentUser!.uid,
         createAt: post.createAt
-    ).toJson();
+    ).toDocument();
 
     try {
 
       final postDocRef = await postCollection.doc(post.postId).get();
-
       if (!postDocRef.exists) {
         postCollection.doc(post.postId).set(newPost).then((value) {
           final userCollection = firebaseFirestore.collection(Constant.users).doc(post.creatorUid);
-
           userCollection.get().then((value) {
             if (value.exists) {
-              final totalPosts = value.get("totalPosts");
+              final totalPosts = value.get('totalPosts');
               userCollection.update({"totalPosts": totalPosts + 1});
               return;
             }

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_clean/core/utils/constant.dart';
 import 'package:instagram_clean/core/utils/spacing.dart';
-import 'package:instagram_clean/core/widgets/instagramTextField.dart';
 import 'package:instagram_clean/core/widgets/profile_textfield.dart';
 import 'package:instagram_clean/generated/locale_keys.dart';
 

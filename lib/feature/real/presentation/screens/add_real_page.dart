@@ -6,11 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_clean/core/utils/constant.dart';
 import 'package:instagram_clean/feature/real/presentation/widget/create_real_widget.dart';
+import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 import 'package:instagram_clean/generated/locale_keys.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 class AddReelsPage extends StatefulWidget {
-  const AddReelsPage({super.key});
+  final UserEntity currentUser;
+  const AddReelsPage({super.key, required this.currentUser});
 
   @override
   State<AddReelsPage> createState() => _AddReelsPageState();
@@ -70,24 +72,15 @@ class _AddReelsPageState extends State<AddReelsPage> {
                               children: [
                                 Text(
                                   asset.videoDuration.inMinutes.toString(),
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white,
-                                  ),
+                                  style:  Theme.of(context).textTheme.titleMedium
                                 ),
-                                const Text(
+                                 Text(
                                   ':',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white,
-                                  ),
+                                  style: Theme.of(context).textTheme.titleMedium
                                 ),
                                 Text(
                                   asset.videoDuration.inSeconds.toString(),
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white,
-                                  ),
+                                  style: Theme.of(context).textTheme.titleMedium
                                 ),
                               ],
                             ),
@@ -147,7 +140,7 @@ class _AddReelsPageState extends State<AddReelsPage> {
                     indexx = index;
                     _file = path[index];
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => CreateRealWidget(_file!, userEntity: Constant.userEntity,),
+                      builder: (context) => CreateRealWidget(_file!, currentUser: widget.currentUser),
                     ));
                   });
                 },

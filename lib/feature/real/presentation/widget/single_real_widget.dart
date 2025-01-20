@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ import 'package:instagram_clean/feature/post/presentation/widgets/like_widget.da
 import 'package:instagram_clean/feature/real/domain/entity/real_entity.dart';
 import 'package:instagram_clean/feature/real/presentation/cubit/real_cubit.dart';
 import 'package:instagram_clean/feature/user/domain/usecase/getCurrentUserId_usecase.dart';
+import 'package:instagram_clean/generated/locale_keys.dart';
 import 'package:video_player/video_player.dart';
 
 class SingleRealWidget extends StatefulWidget{
@@ -244,7 +246,7 @@ class _SingleRealWidgetState extends State<SingleRealWidget> {
                     Padding(
                       padding: const EdgeInsets.only(left: 10.0),
                       child: Text(
-                        "More Options",
+                        "${LocaleKeys.comment_more_options.tr()}",
                         style: Theme.of(context).textTheme.titleSmall,
                       ),
                     ),
@@ -258,7 +260,7 @@ class _SingleRealWidgetState extends State<SingleRealWidget> {
                       padding: const EdgeInsets.only(left: 10.0),
                       child: GestureDetector(
                         onTap: _deleteReal,
-                        child: Text("Delete Post",
+                        child: Text("${LocaleKeys.post_delete_real.tr()}",
                             style: Theme.of(context).textTheme.titleSmall),
                       ),
                     ),

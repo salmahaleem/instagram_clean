@@ -9,6 +9,7 @@ import 'package:instagram_clean/feature/chat/domain/entity/message_entity.dart';
 import 'package:instagram_clean/feature/chat/presentation/cubit/chat/chat_cubit.dart';
 import 'package:instagram_clean/feature/chat/presentation/screens/single_chat_page.dart';
 import 'package:instagram_clean/feature/chat/presentation/screens/user_page.dart';
+import 'package:instagram_clean/generated/locale_keys.dart';
 
 class ChatsPage extends StatefulWidget {
   final String uid;
@@ -40,7 +41,7 @@ class _ChatsPageState extends State<ChatsPage> {
             if(state is ChatLoaded) {
               final myChat = state.chats;
               if(myChat.isEmpty) {
-                return Center(child: Text("No Conversation Yet"));
+                return Center(child: Text("${LocaleKeys.chat_no_conversation_yet.tr()}"));
               }
               return ListView.builder(itemCount: myChat.length, itemBuilder: (context, index) {
                 final chat = myChat[index];

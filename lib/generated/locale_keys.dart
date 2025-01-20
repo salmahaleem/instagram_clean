@@ -13,6 +13,7 @@ abstract class LocaleKeys{
   static const profile_following = 'Profile.following';
   static const profile_editProfile = 'Profile.edit_profile';
   static const profile_follow = 'Profile.follow';
+  static const profile_unFollow = 'Profile.unFollow';
   static const profile_done = 'Profile.done';
   static const profile_cancel = 'Profile.cancel';
   static const profile_bio = 'Profile.bio';
@@ -39,5 +40,32 @@ abstract class LocaleKeys{
   static const home_post_details = "Home.post_details";
   static const home_share = "Home.share";
   static const home_description = "Home.description";
-
+  static const home_no_posts_yet = "Home.no_posts_yet";
+  static const home_post = "Home.post";
+  static const home_real = "Home.real";
+  static const chat_no_conversation_yet = "Chat.no_conversation_yet";
+  static const chat_online = "Chat.online";
+  static const chat_offline = "Chat.offline";
+  static const chat_message = "Chat.message";
+  static const chat_document = "Chat.document";
+  static const chat_gallery = "Chat.gallery";
+  static const chat_location = "Chat.location";
+  static const chat_select_contacts = "Chat.select_contacts";
+  static const chat_no_contacts_yet = "Chat.no_contacts_yet";
+  static const comment_more_options = "Comment.more_options";
+  static const comment_delete_comment = "Comment.delete_comment";
+  static const comment_update_comment = "Comment.update_comment";
+  static const comment_edit_comment = "Comment.edit_comment";
+  static const comment_save_changes = "Comment.save_changes";
+  static const comment_edit_replay = "Comment.edit_replay";
+  static const comment_view_replays = "Comment.view_replays";
+  static const comment_delete_replay = "Comment.delete_replay";
+  static const comment_update_replay = "Comment.update_replay";
+  static const post_delete_post = "Post.delete_post";
+  static const post_update_post = "Post.update_post";
+  static const post_edit_post = "Post.edit_post";
+  static const post_delete_real = "Post.delete_real";
+  static const post_no_reals_yet = "Post.no_reals_yet";
+  static const post_my_story = "Post.my_story";
+  static const post_delete_story = "Post.delete_story";
 }

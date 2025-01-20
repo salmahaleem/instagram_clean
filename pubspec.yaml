@@ -69,10 +69,17 @@ dependencies:
   cloud_firestore: ^5.6.1
   flutter_instagram_stories: ^1.0.3+4
   firebase_messaging: ^15.2.0
+  lottie: ^3.3.1
+  record: ^5.2.0
+  flutter_sound_record: ^3.3.2
+  permission_handler: ^11.3.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+#flutter_launcher_icons:
+#  image_path: "assets/images/instagramIcon.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -96,6 +103,7 @@ flutter:
   assets:
     - assets/images/
     - assets/translate/
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
@@ -124,3 +132,10 @@ flutter:
   # see https://flutter.dev/to/font-from-package
 assets:
   - lib/generated/
+
+#flutter_launcher_icons:
+#  android: "launcher_icon"
+#  ios: "AppIcon"
+#  image_path: "assets/images/instagramIcon.png"
+#  min_sdk_android: 23
+#  remove_alpha_ios: true

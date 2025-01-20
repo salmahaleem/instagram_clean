@@ -15,6 +15,7 @@
     "following": "following",
     "edit_profile": "Edit Profile",
     "follow": "Follow",
+    "unFollow": "UnFollow",
     "done": "Done",
     "cancel":"Cancel",
     "bio": "Bio",
@@ -37,6 +38,8 @@
     "search":"Search",
     "next": "Next",
     "new_post": "New Post",
+    "post": "Post",
+    "real": "Real",
     "recent": "Recent",
     "new_reals": "New Reals",
     "post_your_comment": "Post your comment",
@@ -45,6 +48,41 @@
     "post_your_replay": "Post your replay",
     "post_details": "Post Details",
     "share": "Share",
-    "description": "Description"
+    "description": "Description",
+    "no_posts_yet": "No Posts Yet"
+
+  },
+  "Chat": {
+    "no_conversation_yet": "No Conversation Yet",
+    "online": "Online",
+    "offline": "Offline",
+    "message": "Message",
+    "document": "Document",
+    "gallery": "Gallery",
+    "location": "Location",
+    "select_contacts": "Select Contacts",
+    "no_contacts_yet": "No Contacts Yet",
+    "post": "Post",
+    "real": "Real"
+  },
+  "Comment": {
+    "more_options": "More Options",
+    "delete_comment": "Delete Comment",
+    "update_comment": "Update Comment",
+    "edit_comment": "Edit Comment",
+    "edit_replay": "Edit Replay",
+    "delete_replay": "Delete Replay",
+    "update_replay": "Update Replay",
+    "view_replays": "View Replays",
+    "save_changes": "Save Changes"
+  },
+  "Post": {
+    "edit_post": "Edit Post",
+    "update_post": "Update Post",
+    "delete_post": "Delete Post",
+    "delete_real": "Delete Real",
+    "no_reals_yet": "No Reals Yet",
+    "delete_story": "Delete Story",
+    "my_story": "My Story"
   }
 }

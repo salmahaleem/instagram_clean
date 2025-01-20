@@ -15,6 +15,7 @@ import 'package:instagram_clean/feature/post/presentation/cubit/post_cubit.dart'
 import 'package:instagram_clean/feature/post/presentation/widgets/like_widget.dart';
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 import 'package:instagram_clean/feature/user/domain/usecase/getCurrentUserId_usecase.dart';
+import 'package:instagram_clean/generated/locale_keys.dart';
 
 class SinglePostCardWidget extends StatefulWidget {
   final PostEntity post;
@@ -243,7 +244,7 @@ class _SinglePostCardWidgetState extends State<SinglePostCardWidget> {
                     Padding(
                       padding: const EdgeInsets.only(left: 10.0),
                       child: Text(
-                        "More Options",
+                        "${LocaleKeys.comment_more_options.tr()}",
                         style: Theme.of(context).textTheme.titleSmall,
                       ),
                     ),
@@ -257,7 +258,7 @@ class _SinglePostCardWidgetState extends State<SinglePostCardWidget> {
                       padding: const EdgeInsets.only(left: 10.0),
                       child: GestureDetector(
                         onTap: _deletePost,
-                        child: Text("Delete Post",
+                        child: Text("${LocaleKeys.post_delete_post.tr()}",
                             style: Theme.of(context).textTheme.titleSmall),
                       ),
                     ),
@@ -274,7 +275,7 @@ class _SinglePostCardWidgetState extends State<SinglePostCardWidget> {
                           context.go('/updatePostPage',extra: post);
                         },
                         child: Text(
-                          "Update Post",
+                          "${LocaleKeys.post_update_post.tr()}",
                           style: Theme.of(context).textTheme.titleSmall,
                         ),
                       ),

@@ -19,9 +19,9 @@ import 'package:video_player/video_player.dart';
 import '../../../user/domain/usecase/uploadImageToStorage_usecase.dart';
 
 class CreateRealWidget extends StatefulWidget {
-  final UserEntity userEntity;
+  final UserEntity currentUser;
   File videoFile;
-  CreateRealWidget(this.videoFile, {super.key, required this.userEntity});
+  CreateRealWidget(this.videoFile, {super.key, required this.currentUser});
 
   @override
   State<CreateRealWidget> createState() => _CreateRealWidgetState();
@@ -132,12 +132,12 @@ class _CreateRealWidgetState extends State<CreateRealWidget> {
       _uploading = true;
     });
     di.getIt<UploadImageToStorageUseCase>().call(widget.videoFile, true, "reals").then((realUrl) {
-      _createSubmitReal(real: realUrl);
+      _createSubmitReal(real: realUrl,currentUser:widget.currentUser);
     }).then((_){
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Real created'),backgroundColor: Colors.greenAccent,),
       );
-      context.go('/mainPage');
+      context.go('/mainPage/:${widget.currentUser.uid}');
     }).catchError((error) {
       setState(() {
         _uploading = false;
@@ -149,22 +149,21 @@ class _CreateRealWidgetState extends State<CreateRealWidget> {
   }
 
 
-  _createSubmitReal({required String real}) {
+  _createSubmitReal({required String real,required UserEntity currentUser}) {
     BlocProvider.of<RealCubit>(context).createReal(
         real: RealEntity(
             description: Constant.caption.text,
             createAt: Timestamp.now(),
-            creatorUid: widget.userEntity.uid,
+            creatorUid: currentUser.uid,
             likes: [],
             realId: Constant.realId,
             realUrl: real,
             totalComments: 0,
             totalLikes: 0,
-            username: widget.userEntity.username,
-            userProfileUrl: widget.userEntity.profileUrl
+            username: currentUser.username,
+            userProfileUrl: currentUser.profileUrl
         )
     ).then((value) => _clear());
-    print("created real >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
   }
 
   _clear() {

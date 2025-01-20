@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +8,7 @@ import 'package:instagram_clean/core/utils/spacing.dart';
 import 'package:instagram_clean/core/widgets/instagramButton.dart';
 import 'package:instagram_clean/core/widgets/instagramTextField.dart';
 import 'package:instagram_clean/feature/comment_and_replay/presentation/cubit/comment_cubit.dart';
+import 'package:instagram_clean/generated/locale_keys.dart';
 
 import '../../domain/entity/comment_entity.dart';
 
@@ -35,7 +37,7 @@ class _EditCommentWidgetState extends State<EditCommentWidget> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        title: Text("Edit Comment"),
+        title: Text("${LocaleKeys.comment_edit_comment.tr()}"),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
@@ -43,12 +45,12 @@ class _EditCommentWidgetState extends State<EditCommentWidget> {
           children: [
             InstagramTextField(
               controller: _descriptionController,
-              hintText: "description",
+              hintText: "${LocaleKeys.home_description.tr()}",
               isObscureText: false,
             ),
             verticalSpace(10.h),
             InstagramButton(
-              text: "Save Changes",
+              text: "${LocaleKeys.comment_save_changes.tr()}",
               onPressed: () {
               _editComment();
             },
@@ -57,8 +59,6 @@ class _EditCommentWidgetState extends State<EditCommentWidget> {
             _isCommentUpdating == true?Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Updating...", style: TextStyle(color: Colors.white),),
-                horizontalSpace(10.w),
                 CircularProgressIndicator(),
               ],
             ) : Container(width: 0, height: 0,)

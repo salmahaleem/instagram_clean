@@ -15,14 +15,15 @@ import 'package:instagram_clean/core/widgets/userPhoto.dart';
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 import 'package:instagram_clean/feature/user/domain/usecase/uploadImageToStorage_usecase.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/profile_cubit.dart';
+import 'package:instagram_clean/feature/user/presentation/screens/profile_page.dart';
 import 'package:instagram_clean/feature/user/presentation/widgets/edit_profile_widgets/main_info.dart';
 import 'package:instagram_clean/feature/user/presentation/widgets/edit_profile_widgets/private_info.dart';
 import 'package:instagram_clean/generated/locale_keys.dart';
 
 class EditProfilePage extends StatefulWidget {
-  final UserEntity userEntity;
+  final UserEntity currentUser;
 
-  EditProfilePage({super.key,required  this.userEntity});
+  EditProfilePage({super.key,required  this.currentUser});
 
   @override
   State<EditProfilePage> createState() => _EditProfilePageState();
@@ -100,7 +101,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
     BlocProvider.of<ProfileCubit>(context).updateUser(
         user: UserEntity(
-            uid: widget.userEntity.uid,
+            uid: widget.currentUser.uid,
             username: Constant.username.text,
             bio: Constant.bio.text,
             website: Constant.website.text,
@@ -118,7 +119,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     return Scaffold(
       appBar: AppBar(
           leading: GestureDetector(
-            onTap: () => context.go('/mainPage',extra: Constant.userEntity),
+            onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfilePage(userEntity: widget.currentUser)));},
               child: Icon(Icons.cancel_outlined)),
           title: Center(
               child: Text(
@@ -135,7 +136,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       backgroundColor: Color(0xFFA5D6A7),
                     ),
                   );
-                  context.go('/mainPage',extra: Constant.userEntity);
+                  context.go('/mainPage',extra: widget.currentUser);
                 } else if (state is ProfileFailed) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(

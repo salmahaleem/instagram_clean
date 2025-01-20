@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_clean/core/utils/constant.dart';
 import 'package:instagram_clean/core/utils/spacing.dart';
@@ -8,11 +9,16 @@ import 'package:instagram_clean/generated/locale_keys.dart';
 
 
 
-class LoginForm extends StatelessWidget{
-   final GlobalKey <FormState> formKey = GlobalKey <FormState> ();
+class LoginForm extends StatefulWidget{
 
   LoginForm({super.key});
 
+  @override
+  State<LoginForm> createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
+   final GlobalKey <FormState> formKey = GlobalKey <FormState> ();
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +41,15 @@ class LoginForm extends StatelessWidget{
           InstagramTextField(
             hintText: LocaleKeys.authenticationPassword.tr(),
             controller: Constant.password,
-            isObscureText: true,
+            isObscureText: Constant.isPassVis,
+            suffixIcon: GestureDetector(
+                onTap: (){
+                  setState(() {
+                    Constant.isPassVis = !Constant.isPassVis;
+                  });
+                },
+                child: Icon(Constant.isPassVis? Icons.visibility_off : Icons.visibility)
+            ),
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return LocaleKeys.authenticationPassword.tr();
@@ -47,5 +61,4 @@ class LoginForm extends StatelessWidget{
       ),
     );
   }
-
 }

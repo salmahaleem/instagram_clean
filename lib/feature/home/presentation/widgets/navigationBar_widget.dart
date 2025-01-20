@@ -10,7 +10,6 @@ import 'package:instagram_clean/feature/real/presentation/screens/reals_page.dar
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/profile_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/screens/profile_page.dart';
-
 import '../../../user/presentation/cubit/profile_cubit/get_single_user_cubit/get_single_user_cubit.dart';
 
 class NavigationBarWidget extends StatefulWidget{
@@ -93,9 +92,9 @@ class _NavigationBarWidgetState extends State<NavigationBarWidget> {
             body: PageView(
               controller: pageController,
               children: [
-                HomePage(userEntity: currentUser),
+                HomePage(currentUser: currentUser),
                 ExplorePage(),
-                AddPage(),
+                AddPage(currentUser: currentUser),
                 RealsPage(),
                 ProfilePage(userEntity: currentUser)
               ],

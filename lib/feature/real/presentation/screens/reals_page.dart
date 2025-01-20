@@ -5,6 +5,7 @@ import 'package:instagram_clean/core/get_it/get_it.dart'as di;
 import 'package:instagram_clean/feature/real/domain/entity/real_entity.dart';
 import 'package:instagram_clean/feature/real/presentation/cubit/real_cubit.dart';
 import 'package:instagram_clean/feature/real/presentation/widget/single_real_widget.dart';
+import 'package:instagram_clean/generated/locale_keys.dart';
 
 class RealsPage extends StatefulWidget {
   @override
@@ -56,7 +57,7 @@ class _RealsPageState extends State<RealsPage> {
   }
 
   _noRealsYetWidget() {
-    return Center(child: Text("No Reals Yet", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),),);
+    return Center(child: Text("${LocaleKeys.post_no_reals_yet}", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),),);
   }
 
 }

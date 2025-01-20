@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:instagram_clean/core/utils/colors.dart';
 import 'package:instagram_clean/core/utils/constant.dart';
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 import 'package:instagram_clean/generated/locale_keys.dart';
@@ -95,7 +96,7 @@ class _UploadPostMainWidgetState extends State<UploadPostWidget> {
         elevation: 0,
         title: Text(
           '${LocaleKeys.home_new_post.tr()}',
-          style: TextStyle(color: Colors.white),
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         centerTitle: false,
         actions: [
@@ -107,7 +108,7 @@ class _UploadPostMainWidgetState extends State<UploadPostWidget> {
                 : null,
             child:  Text(
               '${LocaleKeys.home_next.tr()}',
-              style: TextStyle(fontSize: 16, color: Colors.blue),
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(color: AppColors.buttonColor),
             ),
           ),
         ],
@@ -129,8 +130,7 @@ class _UploadPostMainWidgetState extends State<UploadPostWidget> {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 '${LocaleKeys.home_recent.tr()}',
-                style:
-                    TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w600),
+                style: Theme.of(context).textTheme.titleMedium
               ),
             ),
             Expanded(

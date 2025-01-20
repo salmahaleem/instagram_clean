@@ -45,7 +45,7 @@ class StoryDottedBordersWidget extends CustomPainter {
         Paint()
           ..color =
           isMe ? CupertinoColors.black.withOpacity(.5) : images![0].viewers!.contains(
-              uid) ? CupertinoColors.black.withOpacity(.5) : CupertinoColors.activeGreen
+              uid) ? CupertinoColors.inactiveGray : CupertinoColors.activeGreen
           ..strokeWidth = 2.5
           ..style = PaintingStyle.stroke,
       );
@@ -76,8 +76,8 @@ class StoryDottedBordersWidget extends CustomPainter {
           Paint()
           //here you can compare your SEEN story index with the arc index to make it grey
             ..color =
-            isMe ? CupertinoColors.black.withOpacity(.5) : images![i].viewers!.contains(
-                uid) ? CupertinoColors.black.withOpacity(.5) : CupertinoColors.activeGreen
+            isMe ? CupertinoColors.systemGrey.withOpacity(.5) : images![i].viewers!.contains(
+                uid) ? CupertinoColors.inactiveGray : CupertinoColors.activeGreen
             ..strokeWidth = 2.5
             ..style = PaintingStyle.stroke,
         );

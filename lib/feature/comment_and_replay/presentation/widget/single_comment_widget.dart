@@ -123,7 +123,7 @@ class _SingleCommentWidgetState extends State<SingleCommentWidget> {
                               _isUserReplaying = !_isUserReplaying;
                             });},
                             child: Text(
-                              "${LocaleKeys.home_replay}",
+                              "${LocaleKeys.home_replay.tr()}",
                               style: Theme.of(context).textTheme.titleSmall!.copyWith(color: Colors.white10)
                             )),
                         horizontalSpace(15.w),
@@ -133,7 +133,7 @@ class _SingleCommentWidgetState extends State<SingleCommentWidget> {
                             BlocProvider.of<ReplayCubit>(context).getReplays(replay: ReplayEntity(postId: widget.comment.postId, commentId: widget.comment.commentId));
                           },
                           child: Text(
-                            "View Replays",
+                            "${LocaleKeys.comment_view_replays.tr()}",
                             style: Theme.of(context).textTheme.titleSmall!.copyWith(color: Colors.white10)
                           ),
                         ),
@@ -165,7 +165,7 @@ class _SingleCommentWidgetState extends State<SingleCommentWidget> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         InstagramTextField(
-                            hintText: "${LocaleKeys.home_post_your_replay}",
+                            hintText: "${LocaleKeys.home_post_your_replay.tr()}",
                             controller: Constant.ReplayDescriptionController,
                             isObscureText: false,),
                         verticalSpace(10.h),
@@ -226,21 +226,16 @@ class _SingleCommentWidgetState extends State<SingleCommentWidget> {
                     Padding(
                       padding: const EdgeInsets.only(left: 10.0),
                       child: Text(
-                        "More Options",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white),
+                        "${LocaleKeys.comment_more_options.tr()}",
+                        style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ),
-                    SizedBox(
-                      height: 8,
-                    ),
+                   verticalSpace(8.h),
                     Divider(
                       thickness: 1,
-                      color: Colors.grey,
+                      color: Colors.black26,
                     ),
-                    SizedBox(
-                      height: 8,
-                    ),
+                    verticalSpace(8.h),
                     Padding(
                       padding: const EdgeInsets.only(left: 10.0),
                       child: GestureDetector(
@@ -248,9 +243,8 @@ class _SingleCommentWidgetState extends State<SingleCommentWidget> {
                           _deleteReplay(replay: replay);
                         },
                         child: Text(
-                          "Delete Replay",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 16, color: Colors.white),
+                          "${LocaleKeys.comment_delete_replay.tr()}",
+                          style: Theme.of(context).textTheme.titleSmall,
                         ),
                       ),
                     ),
@@ -268,9 +262,8 @@ class _SingleCommentWidgetState extends State<SingleCommentWidget> {
                           Navigator.push(context, MaterialPageRoute(builder: (context) => UpdatePostPage(post: Constant.postEntity,)));
                         },
                         child: Text(
-                          "Update Replay",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 16, color: Colors.white),
+                          "${LocaleKeys.comment_update_replay.tr()}",
+                          style: Theme.of(context).textTheme.titleSmall,
                         ),
                       ),
                     ),

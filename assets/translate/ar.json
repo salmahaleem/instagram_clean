@@ -16,6 +16,7 @@
     "following": "متابعة",
     "edit_profile": "تعديل الملف الشخصى",
     "follow": "متابعة",
+    "unFollow": "الغا المتابعة",
     "done": "تم",
     "cancel":"الغاء",
     "bio": "سيرة ذاتية",
@@ -38,6 +39,8 @@
     "next": "التالى",
     "new_post": "منشور جديد",
     "recent": "حديثا",
+    "post": "منشور",
+    "real": "مقطع",
     "new_reals": " مقطع جديد",
     "post_your_comment": "ضع تعليقك",
     "comments": "التعليقات",
@@ -45,6 +48,41 @@
     "post_your_replay": "ضع ردك",
     "post_details": "تفاصيل المنشور",
     "share": "مشاركة",
-    "description": "وصف"
+    "description": "وصف",
+    "no_posts_yet": "لا توجد منشورات"
+
+  },
+  "Chat": {
+    "no_conversation_yet": "لا توجد محادثات",
+    "online": "متصل",
+    "offline": "غير متصل",
+    "message": "رسالة",
+    "document": "مستندات",
+    "gallery": "معرض",
+    "location": "موقع",
+    "select_contacts": "حدد متصل",
+    "no_contacts_yet": "لا يوجد متصل",
+    "post": "منشور",
+    "real": "مقطع"
+  },
+  "Comment": {
+    "more_options": "خيارات اخري",
+    "delete_comment": "مسح التعليق",
+    "update_comment": "تعديل التعليق",
+    "edit_comment": "تعديل التعليق",
+    "edit_replay": "تعديل الرد",
+    "delete_replay": "مسح الرد",
+    "update_replay": "تعديل الرد",
+    "view_replays": "عرض الردود",
+    "save_changes":"حفظ التغير"
+  },
+  "Post": {
+    "edit_post": "تعديل المنشور",
+    "update_post": "تعديل المنشور",
+    "delete_post": "مسح المنشور",
+    "delete_real": "مسح المقطع",
+    "no_reals_yet": "لا يوجد مقاطع",
+    "delete_story": "مسح القصة",
+    "my_story": "قصتك"
   }
 }

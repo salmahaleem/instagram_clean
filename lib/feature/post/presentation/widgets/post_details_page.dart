@@ -20,7 +20,6 @@ import 'package:instagram_clean/generated/locale_keys.dart';
 
 class PostDetailsPage extends StatefulWidget{
   final String postId;
-  //final UserEntity userEntity;
   PostDetailsPage({super.key, required this.postId, });
 
 
@@ -61,7 +60,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
           context.go('/mainPage');
         },
         icon: Icon(Icons.arrow_back)),
-        title: Text("Post Detail"),
+        title: Text("${LocaleKeys.home_post_details.tr()}"),
         actions: [
           TextButton(
               onPressed: (){
@@ -233,26 +232,22 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                 Padding(
                   padding: const EdgeInsets.only(left: 10.0),
                   child: Text(
-                    "More Options",
+                    "${LocaleKeys.comment_more_options.tr()}",
                     style: Theme.of(context).textTheme.titleSmall
                   ),
                 ),
-                SizedBox(
-                  height: 8,
-                ),
+                verticalSpace(8.h),
                 Divider(
                   thickness: 1,
-                  color: Colors.grey,
+                  color: Colors.black26,
                 ),
-                SizedBox(
-                  height: 8,
-                ),
+                verticalSpace(8.h),
                 Padding(
                   padding: const EdgeInsets.only(left: 10.0),
                   child: GestureDetector(
                     onTap: _deletePost,
                     child: Text(
-                      "Delete Post",
+                      "${LocaleKeys.post_delete_post.tr()}",
                       style: Theme.of(context).textTheme.titleSmall
                     ),
                   ),
@@ -260,7 +255,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
 
                 Divider(
                   thickness: 1,
-                  color: Colors.grey,
+                  color: Colors.black26,
                 ),
                 verticalSpace(3.h),
                 Padding(
@@ -268,7 +263,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                   child: GestureDetector(
                     onTap: (){context.go('/updatePostPage');},
                     child: Text(
-                      "Update Post",
+                      "${LocaleKeys.post_update_post.tr()}",
                       style: Theme.of(context).textTheme.titleSmall
                     ),
                   ),

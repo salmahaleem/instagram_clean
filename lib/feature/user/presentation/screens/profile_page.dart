@@ -3,13 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:instagram_clean/core/get_it/get_it.dart';
 import 'package:instagram_clean/core/utils/spacing.dart';
-import 'package:instagram_clean/feature/post/domain/entitys/post_entity.dart';
-import 'package:instagram_clean/feature/post/presentation/cubit/post_cubit.dart';
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
-import 'package:instagram_clean/feature/user/domain/usecase/getCurrentUserId_usecase.dart';
-import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/get_other_single_user/get_other_single_user_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/cubit/profile_cubit/get_single_user_cubit/get_single_user_cubit.dart';
 import 'package:instagram_clean/feature/user/presentation/widgets/profile_widgets/profile_info1.dart';
 import 'package:instagram_clean/feature/user/presentation/widgets/profile_widgets/profile_info2.dart';
@@ -40,12 +35,16 @@ class ProfilePage extends StatelessWidget {
                   .of(context)
                   .scaffoldBackgroundColor,
               title: Text("${currentUser.username}"),
+              leading: GestureDetector(onTap:()
+                  {context.go('/mainPage/:${state.user.uid}',);},
+                child: Icon(Icons.arrow_back),
+              ),
               actions: [
                 Icon(Icons.add_box_outlined),
                 horizontalSpace(5.w),
                 IconButton(
                   onPressed: () {
-                    context.go('/settings');
+                    context.go('/settings',extra: currentUser);
                   },
                   icon: Icon(Icons.menu),
                 ),

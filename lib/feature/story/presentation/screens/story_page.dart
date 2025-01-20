@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_story_view/flutter_story_view.dart';
 import 'package:flutter_story_view/models/story_item.dart';
 import 'package:instagram_clean/core/get_it/get_it.dart' as di;
@@ -18,6 +20,7 @@ import 'package:instagram_clean/feature/story/presentation/widget/show_image_and
 import 'package:instagram_clean/feature/story/presentation/widget/storage_story.dart';
 import 'package:instagram_clean/feature/story/presentation/widget/story_dotted_border_widget.dart';
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
+import 'package:instagram_clean/generated/locale_keys.dart';
 import '../../domain/entity/story_entity.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart' as path;
@@ -138,10 +141,12 @@ class _StoryPageState extends State<StoryPage> {
       {StoryEntity? myStories}) {
     return Scaffold(
         body: Padding(
-      padding: const EdgeInsets.all(5.0),
+      padding: const EdgeInsets.all(15.0),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Column(
               children: [
@@ -216,58 +221,100 @@ class _StoryPageState extends State<StoryPage> {
                           )
                   ],
                 ),
-                //Text("My Story"),
+                verticalSpace(3.h),
+                Text("${LocaleKeys.post_my_story.tr()}"),
               ],
             ),
-            horizontalSpace(5),
-            Container(
-              width: double.maxFinite,
-              height: 100,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: storys.length,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    final story = storys[index];
-                    List<StoryItem> stories = [];
-                    for (StoryImageEntity storyItem in story.stories!) {
-                      stories.add(StoryItem(
-                          url: storyItem.url!,
-                          viewers: storyItem.viewers,
-                          type: StoryItemTypeExtension.fromString(
-                              storyItem.type!)));
-                    }
-                    return ListTile(
-                      onTap: () {
-                        _showStoryImageViewBottomModalSheet(
-                            story: story, stories: stories);
-                      },
-                      leading: SizedBox(
-                        width: 55,
-                        height: 55,
-                        child: CustomPaint(
-                          painter: StoryDottedBordersWidget(
-                              isMe: false,
-                              numberOfStories: story.stories!.length,
-                              spaceLength: 4,
-                              images: story.stories,
-                              uid: widget.currentUser.uid),
-                          child: Container(
-                            margin: const EdgeInsets.all(3),
-                            width: 55,
-                            height: 55,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(30),
-                              child: UserPhoto(imageUrl: story.imageUrl),
+            horizontalSpace(7.w),
+            Padding(
+              padding: const EdgeInsets.only(top: 12.0),
+              child: Container(
+                height: 80.h,
+                width: 70.w,
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: storys.length,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      final story = storys[index];
+                      List<StoryItem> stories = [];
+                      for (StoryImageEntity storyItem in story.stories!) {
+                        stories.add(StoryItem(
+                            url: storyItem.url!,
+                            viewers: storyItem.viewers,
+                            type: StoryItemTypeExtension.fromString(
+                                storyItem.type!)));
+                      }
+                      return Container(
+                        height: 80.h,
+                        width: 65.w,
+                        child: GestureDetector(
+                          onTap: () {
+                            _showStoryImageViewBottomModalSheet(
+                                story: story, stories: stories);
+                          },
+                            child:Container(
+                              width: 80,
+                              height: 55,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CustomPaint(
+                                    painter: StoryDottedBordersWidget(
+                                        isMe: false,
+                                        numberOfStories: story.stories!.length,
+                                        spaceLength: 4,
+                                        images: story.stories,
+                                        uid: widget.currentUser.uid),
+                                    child: Container(
+                                      margin: const EdgeInsets.all(3),
+                                      width: 55,
+                                      height: 55,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(30),
+                                        child: UserPhoto(imageUrl: story.imageUrl),
+                                      ),
+                                    ),
+                                  ),
+                                  verticalSpace(7.h),
+                                  Text("${story.username}",style: Theme.of(context).textTheme.titleSmall,)
+                                ],
+                              ),
                             ),
-                          ),
                         ),
-                      ),
-                      //subtitle:  Text("${story.username}"),
-                      //titleAlignment: ListTileTitleAlignment.bottom,
-                    );
-                  }),
+                      );
+                      // return ListTile(
+                      //   onTap: () {
+                      //     _showStoryImageViewBottomModalSheet(
+                      //         story: story, stories: stories);
+                      //   },
+                      //   leading: SizedBox(
+                      //     width: 55,
+                      //     height: 55,
+                      //     child: CustomPaint(
+                      //       painter: StoryDottedBordersWidget(
+                      //           isMe: false,
+                      //           numberOfStories: story.stories!.length,
+                      //           spaceLength: 4,
+                      //           images: story.stories,
+                      //           uid: widget.currentUser.uid),
+                      //       child: Container(
+                      //         margin: const EdgeInsets.all(3),
+                      //         width: 55,
+                      //         height: 55,
+                      //         child: ClipRRect(
+                      //           borderRadius: BorderRadius.circular(30),
+                      //           child: UserPhoto(imageUrl: story.imageUrl),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
+                      //   //subtitle:  Text("${story.username}"),
+                      //   //titleAlignment: ListTileTitleAlignment.bottom,
+                      // );
+                    }),
+              ),
             )
           ],
         ),
@@ -329,7 +376,7 @@ class _StoryPageState extends State<StoryPage> {
                 context,
                 MaterialPageRoute(
                     builder: (_) => HomePage(
-                          userEntity: widget.currentUser,
+                      currentUser: widget.currentUser,
                           //index: 1,
                         )));
           });
@@ -351,7 +398,7 @@ class _StoryPageState extends State<StoryPage> {
                 context,
                 MaterialPageRoute(
                     builder: (_) => HomePage(
-                          userEntity: widget.currentUser,
+                      currentUser: widget.currentUser,
                           //index: 1,
                         )));
           });

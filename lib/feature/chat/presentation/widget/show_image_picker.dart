@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:instagram_clean/core/utils/colors.dart';
 import 'package:instagram_clean/core/widgets/userPhoto.dart';
 
 showImagePickedBottomModalSheet(BuildContext context, {File? file, VoidCallback? onTap, String? recipientName}) {
@@ -60,7 +61,7 @@ showImagePickedBottomModalSheet(BuildContext context, {File? file, VoidCallback?
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        color: Colors.white,
+                        color: AppColors.buttonColor,
                       ),
                       child: Text("$recipientName"),
                     ),
@@ -71,7 +72,7 @@ showImagePickedBottomModalSheet(BuildContext context, {File? file, VoidCallback?
                         height: 50,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25),
-                            color: Colors.grey),
+                            color: AppColors.buttonColor),
                         child: const Center(
                           child: Icon(
                             Icons.send_outlined,

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +8,7 @@ import 'package:instagram_clean/core/utils/spacing.dart';
 import 'package:instagram_clean/core/widgets/userPhoto.dart';
 import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
 import 'package:instagram_clean/feature/user/domain/usecase/getSingleUser_usecase.dart';
+import 'package:instagram_clean/generated/locale_keys.dart';
 
 class FollowersPage extends StatelessWidget {
   final UserEntity user;
@@ -17,7 +19,7 @@ class FollowersPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        title: Text("Followers"),
+        title: Text("${LocaleKeys.profile_followers.tr()}"),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),

@@ -1,12 +1,15 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:instagram_clean/core/utils/constant.dart';
-import 'package:instagram_clean/feature/post/presentation/widgets/upload_post_widget.dart';
+import 'package:instagram_clean/feature/post/presentation/screens/create_post_page.dart';
 import 'package:instagram_clean/feature/real/presentation/screens/add_real_page.dart';
+import 'package:instagram_clean/feature/user/domain/entitys/user_entity.dart';
+import 'package:instagram_clean/generated/locale_keys.dart';
 
 class AddPage extends StatefulWidget {
-  const AddPage({super.key});
+  final UserEntity currentUser;
+  const AddPage({super.key, required this.currentUser});
 
   @override
   State<AddPage> createState() => _AddScreenState();
@@ -50,8 +53,8 @@ class _AddScreenState extends State<AddPage> {
               controller: pageController,
               onPageChanged: onPageChanged,
               children: [
-                UploadPostWidget(userEntity: Constant.userEntity,),
-                AddReelsPage(),
+                CreatePostPage(currentUser: widget.currentUser),
+                AddReelsPage(currentUser: widget.currentUser),
               ],
             ),
             AnimatedPositioned(
@@ -73,7 +76,7 @@ class _AddScreenState extends State<AddPage> {
                         navigationTapped(0);
                       },
                       child: Text(
-                        'Post',
+                        '${LocaleKeys.home_post.tr()}',
                         style: TextStyle(
                           fontSize: 15.sp,
                           fontWeight: FontWeight.w500,
@@ -87,7 +90,7 @@ class _AddScreenState extends State<AddPage> {
                         navigationTapped(1);
                       },
                       child: Text(
-                        'Reels',
+                        '${LocaleKeys.home_real.tr()}',
                         style: TextStyle(
                           fontSize: 15.sp,
                           fontWeight: FontWeight.w500,

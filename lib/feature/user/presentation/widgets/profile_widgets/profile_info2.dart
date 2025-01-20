@@ -41,16 +41,6 @@ class ProfileInfo2 extends StatelessWidget {
                       },),
                   ),
                 ),
-                // horizontalSpace(12.w),
-                // SizedBox(
-                //   width: 165.w,
-                //   height: 30.h,
-                //   child: InstagramButton(
-                //     text: '${LocaleKeys.profile_follow.tr()}',
-                //     onPressed: () {
-                //
-                //     },),
-                // )
               ],
             ),
 

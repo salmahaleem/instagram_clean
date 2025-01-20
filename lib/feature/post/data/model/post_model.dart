@@ -63,7 +63,7 @@ class PostModel extends PostEntity {
     );
   }
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toDocument() => {
     "createAt": createAt,
     "creatorUid": creatorUid,
     "description": description,
