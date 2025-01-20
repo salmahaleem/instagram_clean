@@ -1,6 +1,17 @@
 # instagram_clean
 
-A new Flutter project.
+Instagram App 
+feature on this app
+login and signup
+profile
+edit
+follow and un follow
+search
+posts
+reals
+comment and replay
+story
+chat
 
 ## Getting Started
 
